@@ -4,8 +4,8 @@ import { mountQuiz } from '../components/quiz.js'
 
 registerPage('programmieren', async (app) => {
   const [cards, questions] = await Promise.all([
-    fetch('./data/programmieren/flashcards.json').then(r => r.json()),
-    fetch('./data/programmieren/quiz.json').then(r => r.json())
+    fetch(import.meta.env.BASE_URL + 'data/programmieren/flashcards.json').then(r => r.json()),
+    fetch(import.meta.env.BASE_URL + 'data/programmieren/quiz.json').then(r => r.json())
   ])
 
   const codeExamples = [

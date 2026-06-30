@@ -3,15 +3,15 @@ import { getProgress, setTodos } from '../progress.js'
 
 registerPage('dashboard', async (app) => {
   const [klrCards, klrQuiz, klrEx, itCards, itQuiz, matheCards, matheEx, progCards, progQuiz] = await Promise.all([
-    fetch('./data/klr-fibu/flashcards.json').then(r => r.json()),
-    fetch('./data/klr-fibu/quiz.json').then(r => r.json()),
-    fetch('./data/klr-fibu/exercises.json').then(r => r.json()),
-    fetch('./data/it/flashcards.json').then(r => r.json()),
-    fetch('./data/it/quiz.json').then(r => r.json()),
-    fetch('./data/mathe/flashcards.json').then(r => r.json()),
-    fetch('./data/mathe/exercises.json').then(r => r.json()),
-    fetch('./data/programmieren/flashcards.json').then(r => r.json()),
-    fetch('./data/programmieren/quiz.json').then(r => r.json())
+    fetch(import.meta.env.BASE_URL + 'data/klr-fibu/flashcards.json').then(r => r.json()),
+    fetch(import.meta.env.BASE_URL + 'data/klr-fibu/quiz.json').then(r => r.json()),
+    fetch(import.meta.env.BASE_URL + 'data/klr-fibu/exercises.json').then(r => r.json()),
+    fetch(import.meta.env.BASE_URL + 'data/it/flashcards.json').then(r => r.json()),
+    fetch(import.meta.env.BASE_URL + 'data/it/quiz.json').then(r => r.json()),
+    fetch(import.meta.env.BASE_URL + 'data/mathe/flashcards.json').then(r => r.json()),
+    fetch(import.meta.env.BASE_URL + 'data/mathe/exercises.json').then(r => r.json()),
+    fetch(import.meta.env.BASE_URL + 'data/programmieren/flashcards.json').then(r => r.json()),
+    fetch(import.meta.env.BASE_URL + 'data/programmieren/quiz.json').then(r => r.json())
   ])
 
   const { flashcards, quiz_scores, exercises, todos } = getProgress()

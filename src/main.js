@@ -22,16 +22,15 @@ async function route() {
   }
 }
 
-import('./pages/dashboard.js')
-import('./pages/klr-fibu.js')
-import('./pages/it.js')
-import('./pages/mathe.js')
-import('./pages/programmieren.js')
-
 window.addEventListener('hashchange', route)
-window.addEventListener('DOMContentLoaded', () => {
-  setTimeout(route, 0)
-})
+
+Promise.all([
+  import('./pages/dashboard.js'),
+  import('./pages/klr-fibu.js'),
+  import('./pages/it.js'),
+  import('./pages/mathe.js'),
+  import('./pages/programmieren.js'),
+]).then(route)
 
 themeToggle.addEventListener('click', () => {
   document.documentElement.classList.toggle('dark')

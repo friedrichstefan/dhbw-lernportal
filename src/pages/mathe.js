@@ -4,8 +4,8 @@ import { mountCalculator } from '../components/calculator.js'
 
 registerPage('mathe', async (app) => {
   const [cards, exercises] = await Promise.all([
-    fetch('./data/mathe/flashcards.json').then(r => r.json()),
-    fetch('./data/mathe/exercises.json').then(r => r.json())
+    fetch(import.meta.env.BASE_URL + 'data/mathe/flashcards.json').then(r => r.json()),
+    fetch(import.meta.env.BASE_URL + 'data/mathe/exercises.json').then(r => r.json())
   ])
 
   app.innerHTML = `

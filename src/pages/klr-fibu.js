@@ -5,9 +5,9 @@ import { mountCalculator } from '../components/calculator.js'
 
 registerPage('klr-fibu', async (app) => {
   const [cards, questions, exercises] = await Promise.all([
-    fetch('./data/klr-fibu/flashcards.json').then(r => r.json()),
-    fetch('./data/klr-fibu/quiz.json').then(r => r.json()),
-    fetch('./data/klr-fibu/exercises.json').then(r => r.json())
+    fetch(import.meta.env.BASE_URL + 'data/klr-fibu/flashcards.json').then(r => r.json()),
+    fetch(import.meta.env.BASE_URL + 'data/klr-fibu/quiz.json').then(r => r.json()),
+    fetch(import.meta.env.BASE_URL + 'data/klr-fibu/exercises.json').then(r => r.json())
   ])
 
   app.innerHTML = `

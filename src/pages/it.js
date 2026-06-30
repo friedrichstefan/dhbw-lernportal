@@ -4,8 +4,8 @@ import { mountQuiz } from '../components/quiz.js'
 
 registerPage('it', async (app) => {
   const [cards, questions] = await Promise.all([
-    fetch('./data/it/flashcards.json').then(r => r.json()),
-    fetch('./data/it/quiz.json').then(r => r.json())
+    fetch(import.meta.env.BASE_URL + 'data/it/flashcards.json').then(r => r.json()),
+    fetch(import.meta.env.BASE_URL + 'data/it/quiz.json').then(r => r.json())
   ])
 
   app.innerHTML = `
