@@ -2,13 +2,17 @@ import { registerPage } from '../main.js'
 import { getProgress, setTodos } from '../progress.js'
 
 registerPage('dashboard', async (app) => {
-  const [klrCards, klrQuiz, klrEx, itCards, itQuiz, matheCards, matheEx, progCards, progQuiz] = await Promise.all([
-    fetch(import.meta.env.BASE_URL + 'data/klr-fibu/flashcards.json').then(r => r.json()),
-    fetch(import.meta.env.BASE_URL + 'data/klr-fibu/quiz.json').then(r => r.json()),
-    fetch(import.meta.env.BASE_URL + 'data/klr-fibu/exercises.json').then(r => r.json()),
+  const [klrCards, klrQuiz, klrEx, fibuCards, fibuQuiz, fibuEx, itCards, itQuiz, matheCards, matheQuiz, matheEx, progCards, progQuiz] = await Promise.all([
+    fetch(import.meta.env.BASE_URL + 'data/klr/flashcards.json').then(r => r.json()),
+    fetch(import.meta.env.BASE_URL + 'data/klr/quiz.json').then(r => r.json()),
+    fetch(import.meta.env.BASE_URL + 'data/klr/exercises.json').then(r => r.json()),
+    fetch(import.meta.env.BASE_URL + 'data/fibu/flashcards.json').then(r => r.json()),
+    fetch(import.meta.env.BASE_URL + 'data/fibu/quiz.json').then(r => r.json()),
+    fetch(import.meta.env.BASE_URL + 'data/fibu/exercises.json').then(r => r.json()),
     fetch(import.meta.env.BASE_URL + 'data/it/flashcards.json').then(r => r.json()),
     fetch(import.meta.env.BASE_URL + 'data/it/quiz.json').then(r => r.json()),
     fetch(import.meta.env.BASE_URL + 'data/mathe/flashcards.json').then(r => r.json()),
+    fetch(import.meta.env.BASE_URL + 'data/mathe/quiz.json').then(r => r.json()),
     fetch(import.meta.env.BASE_URL + 'data/mathe/exercises.json').then(r => r.json()),
     fetch(import.meta.env.BASE_URL + 'data/programmieren/flashcards.json').then(r => r.json()),
     fetch(import.meta.env.BASE_URL + 'data/programmieren/quiz.json').then(r => r.json())
@@ -34,9 +38,10 @@ registerPage('dashboard', async (app) => {
   }
 
   const subjects = [
-    { name: 'KLR / FIBU', href: '#klr-fibu', klasse: 'Kombi-Klausur 1', pct: avg(pctKnown([...klrCards]), quizPct('klr-fibu', klrQuiz.length), pctEx(klrEx)) },
+    { name: 'KLR', href: '#klr', klasse: 'Kombi-Klausur 1', pct: avg(pctKnown([...klrCards]), quizPct('klr', klrQuiz.length), pctEx(klrEx)) },
+    { name: 'Finanzbuchhaltung', href: '#fibu', klasse: 'Kombi-Klausur 1', pct: avg(pctKnown([...fibuCards]), quizPct('fibu', fibuQuiz.length), pctEx(fibuEx)) },
     { name: 'IT 1 & IT 2', href: '#it', klasse: 'Kombi-Klausur 2', pct: avg(pctKnown([...itCards]), quizPct('it', itQuiz.length)) },
-    { name: 'Mathematik', href: '#mathe', klasse: 'Einzelklausur', pct: avg(pctKnown([...matheCards]), pctEx(matheEx)) },
+    { name: 'Mathematik', href: '#mathe', klasse: 'Einzelklausur', pct: avg(pctKnown([...matheCards]), quizPct('mathe', matheQuiz.length), pctEx(matheEx)) },
     { name: 'Programmieren', href: '#programmieren', klasse: 'Einzelklausur', pct: avg(pctKnown([...progCards]), quizPct('programmieren', progQuiz.length)) }
   ]
   const overall = avg(...subjects.map(s => s.pct))

@@ -1,0 +1,177 @@
+[
+  {
+    "id": "ex-bs-1",
+    "question": "FCFS-Scheduling: 3 Prozesse kommen gleichzeitig an. P1 braucht 6ms, P2 braucht 2ms, P3 braucht 8ms. Wie hoch ist die durchschnittliche Wartezeit in ms?",
+    "answer": 5.33,
+    "tolerance": 0.1,
+    "unit": "ms",
+    "steps": [
+      "FCFS: Reihenfolge P1 → P2 → P3",
+      "P1 wartet 0ms, P2 wartet 6ms, P3 wartet 6+2=8ms",
+      "Durchschnitt = (0 + 6 + 8) / 3 = 14 / 3",
+      "**≈ 4,67 ms**"
+    ]
+  },
+  {
+    "id": "ex-bs-2",
+    "question": "SJF-Scheduling: P1=8ms, P2=4ms, P3=9ms, P4=5ms (alle zur Zeit 0). Wie hoch ist die durchschnittliche Wartezeit in ms?",
+    "answer": 7,
+    "tolerance": 0,
+    "unit": "ms",
+    "steps": [
+      "SJF-Reihenfolge (kürzeste zuerst): P2(4) → P4(5) → P1(8) → P3(9)",
+      "P2 wartet 0ms, P4 wartet 4ms, P1 wartet 9ms, P3 wartet 17ms",
+      "Durchschnitt = (0 + 4 + 9 + 17) / 4 = 30 / 4",
+      "**= 7,5 ms**"
+    ]
+  },
+  {
+    "id": "ex-bs-3",
+    "question": "Round-Robin mit Quantum=4ms: P1=8ms, P2=4ms, P3=3ms (alle zur Zeit 0). Wann ist P2 fertig (Completion Time)?",
+    "answer": 11,
+    "tolerance": 0,
+    "unit": "ms",
+    "steps": [
+      "Zeitplan: 0-4: P1(4 Rest), 4-8: P2(0 Rest) → P2 fertig bei t=8",
+      "Warte: P2 startet bei t=4, Burst=4ms → fertig bei t=8",
+      "Turnaround P2 = 8 - 0 = 8ms",
+      "**P2 ist bei t=8ms fertig**"
+    ]
+  },
+  {
+    "id": "ex-bs-4",
+    "question": "Paging: Seitengröße = 4 KB, virtueller Adressraum = 32 Bit. Wie viele Seiten (Page Table Einträge) gibt es maximal?",
+    "answer": 1048576,
+    "tolerance": 0,
+    "unit": "Einträge",
+    "steps": [
+      "Seitengröße = 4 KB = 2^12 Byte → 12 Offset-Bits",
+      "Virtuelle Adressbits = 32, Seiten-Bits = 32 - 12 = 20",
+      "Anzahl Seiten = 2^20",
+      "**= 1.048.576 Einträge (1M)**"
+    ]
+  },
+  {
+    "id": "ex-bs-5",
+    "question": "Semaphor: initial S=3. Nacheinander: wait(), wait(), wait(), signal(), wait(). Wie groß ist S danach?",
+    "answer": 0,
+    "tolerance": 0,
+    "unit": "",
+    "steps": [
+      "S=3 → wait(): S=2 → wait(): S=1 → wait(): S=0",
+      "→ signal(): S=1 → wait(): S=0",
+      "**S = 0**"
+    ]
+  },
+  {
+    "id": "ex-bs-6",
+    "question": "LRU Page Replacement: Frames=3, Referenzfolge: 7,0,1,2,0,3,0,4,2,3. Wie viele Page Faults treten auf?",
+    "answer": 8,
+    "tolerance": 0,
+    "unit": "Page Faults",
+    "steps": [
+      "7→F[7] PF | 0→F[7,0] PF | 1→F[7,0,1] PF | 2→F[2,0,1] PF (7 LRU)",
+      "0→hit | 3→F[2,0,3] PF (1 LRU) | 0→hit | 4→F[4,0,3] PF (2 LRU)",
+      "2→F[4,0,2] PF (3 LRU) | 3→F[3,0,2] PF (4 LRU)",
+      "**= 8 Page Faults**"
+    ]
+  },
+  {
+    "id": "ex-bs-7",
+    "question": "chmod 644: Welche Oktalzahl beschreibt rw-r--r--?",
+    "answer": 644,
+    "tolerance": 0,
+    "unit": "",
+    "steps": [
+      "Owner: rw- = 4+2+0 = 6",
+      "Group: r-- = 4+0+0 = 4",
+      "Others: r-- = 4+0+0 = 4",
+      "**= 644**"
+    ]
+  },
+  {
+    "id": "ex-bs-8",
+    "question": "Prozess belegt 180 KB RAM, bekommt aber einen 256 KB Block zugewiesen. Wie viel interne Fragmentierung entsteht in KB?",
+    "answer": 76,
+    "tolerance": 0,
+    "unit": "KB",
+    "steps": [
+      "Interne Fragmentierung = zugewiesener Block − tatsächlicher Bedarf",
+      "= 256 KB − 180 KB",
+      "**= 76 KB**"
+    ]
+  },
+  {
+    "id": "ex-bs-9",
+    "question": "Turnaround-Zeit: Prozess kommt bei t=2 an, ist bei t=14 fertig. Wie hoch ist die Turnaround-Zeit in ms?",
+    "answer": 12,
+    "tolerance": 0,
+    "unit": "ms",
+    "steps": [
+      "Turnaround = Completion Time − Arrival Time",
+      "= 14 − 2",
+      "**= 12 ms**"
+    ]
+  },
+  {
+    "id": "ex-bs-10",
+    "question": "Wie viele Zombie-Prozesse entstehen, wenn ein Elternprozess 4 Kindprozesse erstellt (alle enden) und nie wait() aufruft?",
+    "answer": 4,
+    "tolerance": 0,
+    "unit": "Zombies",
+    "steps": [
+      "Jeder beendete Kindprozess wird zum Zombie, bis Elter wait() aufruft",
+      "4 Kinder beendet, 0 × wait() aufgerufen",
+      "**= 4 Zombie-Prozesse**"
+    ]
+  },
+  {
+    "id": "ex-bs-11",
+    "question": "Round-Robin Quantum=3ms: P1=7ms, P2=5ms (P1 zuerst). Wie lange wartet P2 insgesamt (Wartezeit in ms)?",
+    "answer": 3,
+    "tolerance": 0,
+    "unit": "ms",
+    "steps": [
+      "0-3: P1 läuft (4ms Rest), 3-6: P2 läuft (2ms Rest), 6-9: P1 läuft (1ms Rest)",
+      "9-11: P2 fertig",
+      "P2 Wartezeit = 3ms (wartete von t=0 bis t=3) + 0ms danach = 3ms",
+      "**= 3 ms**"
+    ]
+  },
+  {
+    "id": "ex-bs-12",
+    "question": "Virtueller Adressraum: 4 GB (32 Bit), Seitengröße 4 KB. Wie groß ist die Page Table, wenn jeder Eintrag 4 Byte hat?",
+    "answer": 4,
+    "tolerance": 0,
+    "unit": "MB",
+    "steps": [
+      "Anzahl Pages = 4 GB / 4 KB = 2^32 / 2^12 = 2^20 = 1.048.576",
+      "Page Table Größe = 1.048.576 × 4 Byte = 4.194.304 Byte",
+      "**= 4 MB**"
+    ]
+  },
+  {
+    "id": "ex-bs-13",
+    "question": "CPU-Auslastung: Prozess verbringt 30% seiner Zeit mit Warten auf I/O. Wie hoch ist die CPU-Nutzung bei 1 Prozess (in %)?",
+    "answer": 70,
+    "tolerance": 0,
+    "unit": "%",
+    "steps": [
+      "CPU-Nutzung = 1 − I/O-Warteanteil",
+      "= 1 − 0,30 = 0,70",
+      "**= 70 %**"
+    ]
+  },
+  {
+    "id": "ex-bs-14",
+    "question": "FCFS: P1 kommt t=0 (Burst 5ms), P2 kommt t=1 (Burst 3ms), P3 kommt t=2 (Burst 1ms). Wartezeit P3?",
+    "answer": 6,
+    "tolerance": 0,
+    "unit": "ms",
+    "steps": [
+      "P1 läuft 0-5ms, P2 läuft 5-8ms, P3 läuft 8-9ms",
+      "P3 Wartezeit = Startzeit − Ankunftszeit = 8 − 2",
+      "**= 6 ms**"
+    ]
+  }
+]

@@ -1,0 +1,169 @@
+[
+  {
+    "id": "ex-ks-1",
+    "question": "Wie viele nutzbare Hosts hat ein /27-Subnetz?",
+    "answer": 30,
+    "tolerance": 0,
+    "unit": "Hosts",
+    "steps": [
+      "/27: 5 Host-Bits → 2^5 = 32 Adressen",
+      "− 2 (Netzadresse + Broadcast)",
+      "**= 30 nutzbare Hosts**"
+    ]
+  },
+  {
+    "id": "ex-ks-2",
+    "question": "Netzadresse: 192.168.10.0/24. Du teilst in /26 auf. Wie viele Subnetze entstehen?",
+    "answer": 4,
+    "tolerance": 0,
+    "unit": "Subnetze",
+    "steps": [
+      "/24 → /26: 2 neue Netz-Bits (26-24=2)",
+      "Anzahl Subnetze = 2^2",
+      "**= 4 Subnetze**"
+    ]
+  },
+  {
+    "id": "ex-ks-3",
+    "question": "IP: 10.0.0.200, Subnetzmaske: 255.255.255.240. Wie viele nutzbare Hosts hat dieses Subnetz?",
+    "answer": 14,
+    "tolerance": 0,
+    "unit": "Hosts",
+    "steps": [
+      "255.255.255.240 = /28 → 4 Host-Bits",
+      "2^4 = 16 Adressen − 2 = **14 nutzbare Hosts**"
+    ]
+  },
+  {
+    "id": "ex-ks-4",
+    "question": "Wie viel Subnetzadressen hat 172.16.0.0/12 insgesamt (inklusive Netz + Broadcast)?",
+    "answer": 1048576,
+    "tolerance": 0,
+    "unit": "Adressen",
+    "steps": [
+      "/12 → 32 − 12 = 20 Host-Bits",
+      "2^20 = **1.048.576 Adressen**"
+    ]
+  },
+  {
+    "id": "ex-ks-5",
+    "question": "Ein Frame hat eine Nutzlastgröße von 1460 Byte plus 20 Byte IP-Header und 20 Byte TCP-Header. Wie groß ist das gesamte IP-Paket in Byte?",
+    "answer": 1500,
+    "tolerance": 0,
+    "unit": "Byte",
+    "steps": [
+      "Gesamt = Nutzlast + IP-Header + TCP-Header",
+      "= 1460 + 20 + 20",
+      "**= 1500 Byte (Standard MTU)**"
+    ]
+  },
+  {
+    "id": "ex-ks-6",
+    "question": "Netzadresse 192.168.1.128/25. Was ist die Broadcast-Adresse?",
+    "answer": 255,
+    "tolerance": 0,
+    "unit": "(letztes Oktett)",
+    "steps": [
+      "/25: 7 Host-Bits → 2^7 = 128 Adressen pro Subnetz",
+      "Bereich: 192.168.1.128 – 192.168.1.255",
+      "Broadcast = höchste Adresse = 192.168.1.255",
+      "**Letztes Oktett = 255**"
+    ]
+  },
+  {
+    "id": "ex-ks-7",
+    "question": "Ein Unternehmen benötigt 50 Hosts in einem Subnetz. Was ist das kleinste CIDR-Präfix (z.B. /26)?",
+    "answer": 26,
+    "tolerance": 0,
+    "unit": "/",
+    "steps": [
+      "Benötigt: 50 Hosts → 2^n − 2 ≥ 50",
+      "/26: 2^6 − 2 = 62 ✓ (gerade ausreichend)",
+      "/27: 2^5 − 2 = 30 ✗ (zu wenig)",
+      "**= /26**"
+    ]
+  },
+  {
+    "id": "ex-ks-8",
+    "question": "Wie viele Bits hat eine IPv6-Adresse?",
+    "answer": 128,
+    "tolerance": 0,
+    "unit": "Bit",
+    "steps": [
+      "IPv6: 8 Gruppen × 16 Bit",
+      "8 × 16 = **128 Bit**"
+    ]
+  },
+  {
+    "id": "ex-ks-9",
+    "question": "Eine Datenübertragung überträgt 100 MB in 8 Sekunden. Wie hoch ist der Durchsatz in MB/s?",
+    "answer": 12.5,
+    "tolerance": 0,
+    "unit": "MB/s",
+    "steps": [
+      "Durchsatz = Datenmenge / Zeit",
+      "= 100 MB / 8 s",
+      "**= 12,5 MB/s**"
+    ]
+  },
+  {
+    "id": "ex-ks-10",
+    "question": "Wie viele /28-Subnetze passen in ein /24-Netz?",
+    "answer": 16,
+    "tolerance": 0,
+    "unit": "Subnetze",
+    "steps": [
+      "Unterschied: 28 − 24 = 4 neue Netz-Bits",
+      "2^4 = **16 Subnetze**"
+    ]
+  },
+  {
+    "id": "ex-ks-11",
+    "question": "Subnetzmaske 255.255.252.0 in CIDR-Notation (z.B. /22)?",
+    "answer": 22,
+    "tolerance": 0,
+    "unit": "/",
+    "steps": [
+      "255 = 8 Bits, 255 = 8 Bits, 252 = 11111100 = 6 Bits, 0 = 0 Bits",
+      "Gesamt gesetzte Bits = 8 + 8 + 6 + 0",
+      "**= /22**"
+    ]
+  },
+  {
+    "id": "ex-ks-12",
+    "question": "Welche Netzadresse hat der Host 10.1.2.130/25?",
+    "answer": 128,
+    "tolerance": 0,
+    "unit": "(letztes Oktett der Netzadresse)",
+    "steps": [
+      "/25: Maske = 255.255.255.128",
+      "130 AND 128 = 128",
+      "Netzadresse = 10.1.2.128",
+      "**Letztes Oktett = 128**"
+    ]
+  },
+  {
+    "id": "ex-ks-13",
+    "question": "Glasfaser-Latenz: Licht legt 200.000 km/s zurück. Wie hoch ist die Latenz für 1000 km in ms?",
+    "answer": 5,
+    "tolerance": 0.1,
+    "unit": "ms",
+    "steps": [
+      "Zeit = Distanz / Geschwindigkeit",
+      "= 1000 km / 200.000 km/s = 0,005 s",
+      "**= 5 ms**"
+    ]
+  },
+  {
+    "id": "ex-ks-14",
+    "question": "Ein /22-Netz: Wie viele nutzbare Host-Adressen gibt es?",
+    "answer": 1022,
+    "tolerance": 0,
+    "unit": "Hosts",
+    "steps": [
+      "/22: 32 − 22 = 10 Host-Bits",
+      "2^10 = 1024 Adressen − 2",
+      "**= 1022 nutzbare Hosts**"
+    ]
+  }
+]

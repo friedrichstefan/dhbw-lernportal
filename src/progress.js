@@ -1,15 +1,20 @@
-const KEY = 'dhbw_lernportal_v1'
+import { getSession } from './auth.js'
+
+function userKey() {
+  const session = getSession()
+  return session ? `dhbw_progress_${session.username}` : 'dhbw_lernportal_v1'
+}
 
 function load() {
   try {
-    return JSON.parse(localStorage.getItem(KEY)) || {}
+    return JSON.parse(localStorage.getItem(userKey())) || {}
   } catch {
     return {}
   }
 }
 
 function save(data) {
-  localStorage.setItem(KEY, JSON.stringify(data))
+  localStorage.setItem(userKey(), JSON.stringify(data))
 }
 
 export function getProgress() {
