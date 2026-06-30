@@ -1,0 +1,5 @@
+[
+  { "id": "it-q001", "question": "Auf welcher OSI-Schicht arbeitet TCP?", "options": ["Schicht 3 (Netz)", "Schicht 4 (Transport)", "Schicht 5 (Sitzung)", "Schicht 7 (Anwendung)"], "correct": 1, "explanation": "TCP ist ein Transport-Layer-Protokoll (Schicht 4). Es stellt zuverlässige, verbindungsorientierte Kommunikation bereit." },
+  { "id": "it-q002", "question": "Was passiert beim 3-Wege-Handshake (TCP)?", "options": ["SYN → SYN-ACK → ACK", "ACK → SYN → FIN", "SYN → ACK → SYN", "HELLO → OK → DONE"], "correct": 0, "explanation": "Beim TCP 3-Way-Handshake: Client sendet SYN, Server antwortet SYN-ACK, Client bestätigt mit ACK." },
+  { "id": "it-q003", "question": "Was verwaltet ein Betriebssystem-Scheduler?", "options": ["Festplattenpartitionen", "Prozessorzuteilung für Prozesse", "IP-Adressen", "Netzwerkpakete"], "correct": 1, "explanation": "Der Scheduler entscheidet, welcher Prozess wann CPU-Zeit bekommt (z.B. Round-Robin, FCFS, Priority Scheduling)." }
+]

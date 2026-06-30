@@ -1,0 +1,6 @@
+[
+  { "id": "klr-q001", "question": "Welche Kosten sind unabhängig von der Produktionsmenge?", "options": ["Variable Kosten", "Grenzkosten", "Fixe Kosten", "Stückkosten"], "correct": 2, "explanation": "Fixe Kosten (z.B. Miete) fallen unabhängig davon an, wie viel produziert wird." },
+  { "id": "klr-q002", "question": "Der Deckungsbeitrag pro Stück berechnet sich als:", "options": ["Preis − Fixkosten", "Preis − variable Stückkosten", "Gesamterlös − Gesamtkosten", "Fixkosten ÷ Menge"], "correct": 1, "explanation": "DB/Stück = Verkaufspreis − variable Stückkosten. Er zeigt, wie viel zur Deckung der Fixkosten beiträgt." },
+  { "id": "fibu-q001", "question": "Auf welcher Seite werden Aktiva in der Bilanz gezeigt?", "options": ["Passivseite (Haben)", "Aktivseite (Soll)", "Gewinn- und Verlustrechnung", "Eigenkapitalkonto"], "correct": 1, "explanation": "Aktiva = Mittelverwendung (linke Seite der Bilanz). Passiva = Mittelherkunft (rechte Seite)." },
+  { "id": "fibu-q002", "question": "Was bucht man bei einem Kauf auf Ziel (Lieferantenkredit)?", "options": ["Kasse an Verbindlichkeiten", "Aufwand an Kasse", "Aufwand an Verbindlichkeiten a. LL", "Forderungen an Ertrag"], "correct": 2, "explanation": "Kauf auf Ziel: Wareneingang (Aufwand) im Soll, Verbindlichkeiten aus Lieferungen und Leistungen im Haben." }
+]

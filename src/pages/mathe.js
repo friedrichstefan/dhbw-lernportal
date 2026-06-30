@@ -1,0 +1,32 @@
+import { registerPage } from '../main.js'
+import { mountFlashcards } from '../components/flashcard.js'
+import { mountCalculator } from '../components/calculator.js'
+
+registerPage('mathe', async (app) => {
+  const [cards, exercises] = await Promise.all([
+    fetch('./data/mathe/flashcards.json').then(r => r.json()),
+    fetch('./data/mathe/exercises.json').then(r => r.json())
+  ])
+
+  app.innerHTML = `
+    <div class="page-container">
+      <h1 class="page-title">Mathematik</h1>
+      <p class="text-secondary" style="margin-bottom:var(--space-xl)">Einzelklausur · Logik, Algebra, Analysis</p>
+      <div class="sub-tabs">
+        <button class="sub-tab active" data-tab="flashcards">Karteikarten</button>
+        <button class="sub-tab" data-tab="rechnen">Rechenaufgaben</button>
+      </div>
+      <div id="tab-content"></div>
+    </div>`
+
+  const tabs = app.querySelectorAll('.sub-tab')
+  const content = app.querySelector('#tab-content')
+  function activate(name) {
+    tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === name))
+    content.innerHTML = ''
+    if (name === 'flashcards') mountFlashcards(content, cards)
+    if (name === 'rechnen') mountCalculator(content, exercises)
+  }
+  tabs.forEach(t => { t.onclick = () => activate(t.dataset.tab) })
+  activate('flashcards')
+})

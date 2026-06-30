@@ -1,0 +1,10 @@
+[
+  { "id": "klr-001", "front": "Was ist der Unterschied zwischen Kosten und Ausgaben?", "back": "Kosten = wertmäßiger Verbrauch von Gütern/Dienstleistungen zur Leistungserstellung. Ausgaben = Abfluss von Zahlungsmitteln (zeitlich verschieden).", "tags": ["Grundbegriffe"], "latex": false },
+  { "id": "klr-002", "front": "Definiere den Begriff 'Grenzkosten'.", "back": "Grenzkosten = Kostenzuwachs bei Produktion einer zusätzlichen Einheit. Formal: $GK = \\frac{\\Delta K}{\\Delta x}$", "tags": ["Kostentheorie"], "latex": true },
+  { "id": "klr-003", "front": "Was sind fixe Kosten?", "back": "Fixe Kosten entstehen unabhängig von der Ausbringungsmenge (z.B. Miete, Abschreibungen). Sie verändern sich kurzfristig nicht.", "tags": ["Kostenarten"], "latex": false },
+  { "id": "klr-004", "front": "Was sind variable Kosten?", "back": "Variable Kosten steigen oder sinken mit der Produktionsmenge (z.B. Materialkosten, Fertigungslöhne).", "tags": ["Kostenarten"], "latex": false },
+  { "id": "klr-005", "front": "Wie berechnet sich der Deckungsbeitrag?", "back": "$$DB = Erlös - variable\\ Kosten = p \\cdot x - k_v \\cdot x$$", "tags": ["Deckungsbeitragsrechnung"], "latex": true },
+  { "id": "fibu-001", "front": "Grundprinzip der doppelten Buchführung?", "back": "Jeder Geschäftsvorfall wird auf mindestens zwei Konten gebucht: Soll (links) und Haben (rechts). Soll = Haben.", "tags": ["Grundlagen"], "latex": false },
+  { "id": "fibu-002", "front": "Was ist das Eigenkapitalkonto?", "back": "Passivkonto. Erhöhung im Haben, Minderung im Soll. Anfangsbestand + Erträge − Aufwendungen = Endbestand.", "tags": ["Konten"], "latex": false },
+  { "id": "fibu-003", "front": "Unterschied Aufwand vs. Ausgabe?", "back": "Aufwand = erfolgswirksamer Werteverzehr in der Periode. Ausgabe = Abfluss von Zahlungsmitteln. Zeitlich können beide auseinanderfallen.", "tags": ["Grundbegriffe"], "latex": false }
+]

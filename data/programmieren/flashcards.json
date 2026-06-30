@@ -1,0 +1,6 @@
+[
+  { "id": "prog-001", "front": "Was ist der Unterschied zwischen Stack und Heap?", "back": "Stack: automatisch verwalteter LIFO-Speicher für lokale Variablen und Rücksprungadressen. Heap: manuell/GC-verwalteter Speicher für dynamische Objekte (new/malloc).", "tags": ["Speicher"], "latex": false },
+  { "id": "prog-002", "front": "Was ist Polymorphismus in OOP?", "back": "Objekte verschiedener Klassen können über eine gemeinsame Schnittstelle angesprochen werden. Gleicher Methodenaufruf → unterschiedliches Verhalten je nach Laufzeittyp.", "tags": ["OOP"], "latex": false },
+  { "id": "prog-003", "front": "Was ist die Zeitkomplexität von Quicksort (durchschnittlich)?", "back": "$$O(n \\log n)$$ im Durchschnitt, $O(n^2)$ im schlechtesten Fall (bereits sortierte Liste ohne Pivot-Optimierung).", "tags": ["Algorithmen"], "latex": true },
+  { "id": "prog-004", "front": "Was ist eine rekursive Funktion?", "back": "Eine Funktion, die sich selbst aufruft. Muss eine Basisfall-Bedingung haben, um Endlosrekursion zu vermeiden. Beispiel: Fakultät n! = n × (n-1)!", "tags": ["Konzepte"], "latex": false }
+]

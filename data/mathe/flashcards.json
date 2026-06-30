@@ -1,0 +1,7 @@
+[
+  { "id": "mathe-001", "front": "Wie lautet die Lösungsformel für quadratische Gleichungen?", "back": "$$x_{1,2} = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$", "tags": ["Algebra"], "latex": true },
+  { "id": "mathe-002", "front": "Was ist die Ableitung von $f(x) = x^n$?", "back": "$$f'(x) = n \\cdot x^{n-1}$$", "tags": ["Analysis"], "latex": true },
+  { "id": "mathe-003", "front": "Wie berechnet man die Determinante einer 2×2 Matrix?", "back": "$$\\det\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix} = ad - bc$$", "tags": ["Lineare Algebra"], "latex": true },
+  { "id": "mathe-004", "front": "Was ist $\\log_a(x \\cdot y)$?", "back": "$$\\log_a(x \\cdot y) = \\log_a(x) + \\log_a(y)$$", "tags": ["Logarithmen"], "latex": true },
+  { "id": "mathe-005", "front": "Binomischer Lehrsatz: $(a+b)^2 = ?$", "back": "$$(a+b)^2 = a^2 + 2ab + b^2$$", "tags": ["Algebra"], "latex": true }
+]

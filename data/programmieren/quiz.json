@@ -1,0 +1,5 @@
+[
+  { "id": "prog-q001", "question": "Was gibt `2 ** 10` in Python aus?", "options": ["20", "210", "1024", "100"], "correct": 2, "explanation": "** ist der Potenz-Operator in Python. 2^10 = 1024." },
+  { "id": "prog-q002", "question": "Welches Schlüsselwort beendet eine Schleife in Python vorzeitig?", "options": ["exit", "stop", "break", "return"], "correct": 2, "explanation": "`break` beendet die innerste Schleife sofort. `return` verlässt die Funktion, `continue` überspringt die aktuelle Iteration." },
+  { "id": "prog-q003", "question": "Was ist die Ausgabe von `len([1, 2, 3, 4])`?", "options": ["3", "4", "5", "0"], "correct": 1, "explanation": "`len()` gibt die Anzahl der Elemente zurück. Die Liste hat 4 Elemente." }
+]

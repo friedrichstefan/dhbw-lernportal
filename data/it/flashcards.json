@@ -1,0 +1,8 @@
+[
+  { "id": "it-001", "front": "Welche 7 Schichten hat das OSI-Modell (von unten)?", "back": "1. Bitübertragung (Physical)\n2. Sicherung (Data Link)\n3. Netz (Network)\n4. Transport\n5. Sitzung (Session)\n6. Darstellung (Presentation)\n7. Anwendung (Application)", "tags": ["OSI", "Netzwerke"], "latex": false },
+  { "id": "it-002", "front": "Was ist der Unterschied zwischen TCP und UDP?", "back": "TCP: verbindungsorientiert, zuverlässig, Fehlerkontrolle, Reihenfolge garantiert. UDP: verbindungslos, kein Handshake, schneller aber unzuverlässig.", "tags": ["Protokolle"], "latex": false },
+  { "id": "it-003", "front": "Was ist ein Prozess im Betriebssystem?", "back": "Ein Prozess ist ein laufendes Programm mit eigenem Adressraum, Ressourcen und Zustand (New, Ready, Running, Waiting, Terminated).", "tags": ["Betriebssysteme"], "latex": false },
+  { "id": "it-004", "front": "Was ist Paging?", "back": "Paging teilt den virtuellen Adressraum eines Prozesses in gleich große Seiten (Pages) und den physischen Speicher in Rahmen (Frames) gleicher Größe. Ermöglicht nicht-zusammenhängenden physischen Speicher.", "tags": ["Speicherverwaltung"], "latex": false },
+  { "id": "it-005", "front": "Was ist ein Semaphor?", "back": "Ein Semaphor ist eine Synchronisierungsprimitive (Zählvariable). P-Operation (wait): dekrementiert; V-Operation (signal): inkrementiert. Verhindert Race Conditions bei Shared Resources.", "tags": ["Synchronisation"], "latex": false },
+  { "id": "it-006", "front": "Was bedeutet CIDR-Notation /24?", "back": "/24 = Subnetzmaske 255.255.255.0. Die ersten 24 Bits sind Netzanteil, die letzten 8 Bits sind Hostanteil → 254 nutzbare Hosts.", "tags": ["IP-Adressen"], "latex": false }
+]
