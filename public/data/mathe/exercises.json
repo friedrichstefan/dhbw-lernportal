@@ -1,29 +1,175 @@
 [
   {
-    "id": "mathe-ex001",
-    "question": "Löse: $3x + 7 = 22$",
-    "answer": 5,
-    "tolerance": 0,
-    "steps": ["$$3x + 7 = 22$$", "$$3x = 15$$", "$$x = \\frac{15}{3} = 5$$"],
-    "tags": ["Algebra"]
+    "id":"ex-mathe-1",
+    "question":"Beweise vollständige Induktion: Summe 1+2+...+n = n(n+1)/2. Berechne den Wert für n=5.",
+    "answer":15,
+    "tolerance":0,
+    "unit":"",
+    "steps":[
+      "Formel: $\\sum_{k=1}^{n} k = \\frac{n(n+1)}{2}$",
+      "Für n=5: $\\frac{5 \\cdot 6}{2} = 15$",
+      "**IA (n=1):** $\\frac{1 \\cdot 2}{2} = 1$ ✓",
+      "**IS:** $(\\sum_{i=1}^{k} i) + (k+1) \\stackrel{IV}{=} \\frac{k(k+1)}{2} + (k+1) = \\frac{(k+1)(k+2)}{2}$ ✓",
+      "**Ergebnis: 15**"
+    ]
   },
   {
-    "id": "mathe-ex002",
-    "question": "Berechne die Ableitung von $f(x) = 3x^4 - 2x^2 + 5$ an der Stelle $x = 1$.",
-    "answer": 8,
-    "tolerance": 0,
-    "steps": [
-      "$$f'(x) = 12x^3 - 4x$$",
-      "$$f'(1) = 12 \\cdot 1^3 - 4 \\cdot 1 = 12 - 4 = 8$$"
-    ],
-    "tags": ["Analysis"]
+    "id":"ex-mathe-2",
+    "question":"Löse: $x^2 - 5x + 6 = 0$. Berechne die größere der beiden Lösungen.",
+    "answer":3,
+    "tolerance":0,
+    "unit":"",
+    "steps":[
+      "a=1, b=-5, c=6",
+      "Diskriminante: $D = 25 - 24 = 1$",
+      "$x_{1,2} = \\frac{5 \\pm 1}{2}$",
+      "$x_1 = 3$, $x_2 = 2$",
+      "**Größere Lösung: 3**"
+    ]
   },
   {
-    "id": "mathe-ex003",
-    "question": "Berechne: $\\det\\begin{pmatrix} 3 & 2 \\\\ 1 & 4 \\end{pmatrix}$",
-    "answer": 10,
-    "tolerance": 0,
-    "steps": ["$$\\det = 3 \\cdot 4 - 2 \\cdot 1 = 12 - 2 = 10$$"],
-    "tags": ["Lineare Algebra"]
+    "id":"ex-mathe-3",
+    "question":"Vereinfache $(a+b)^2 - (a-b)^2$. Berechne den Wert für a=3, b=2.",
+    "answer":24,
+    "tolerance":0,
+    "unit":"",
+    "steps":[
+      "$(a+b)^2 = a^2+2ab+b^2$",
+      "$(a-b)^2 = a^2-2ab+b^2$",
+      "Differenz: $4ab$",
+      "Für a=3, b=2: $4 \\cdot 3 \\cdot 2 = 24$",
+      "**Ergebnis: 24**"
+    ]
+  },
+  {
+    "id":"ex-mathe-4",
+    "question":"Berechne $\\sum_{k=0}^{4} 2^k$ (geometrische Summe, q=2, n=4).",
+    "answer":31,
+    "tolerance":0,
+    "unit":"",
+    "steps":[
+      "Formel: $\\frac{q^{n+1}-1}{q-1} = \\frac{2^5-1}{1} = 31$",
+      "Probe: 1+2+4+8+16 = 31 ✓",
+      "**Ergebnis: 31**"
+    ]
+  },
+  {
+    "id":"ex-mathe-5",
+    "question":"Berechne $\\log_2(128)$.",
+    "answer":7,
+    "tolerance":0,
+    "unit":"",
+    "steps":[
+      "$2^x = 128 = 2^7$",
+      "$x = 7$",
+      "**Ergebnis: 7**"
+    ]
+  },
+  {
+    "id":"ex-mathe-6",
+    "question":"Löse: $2^{x+1} = 32$. Berechne x.",
+    "answer":4,
+    "tolerance":0,
+    "unit":"",
+    "steps":[
+      "$32 = 2^5$",
+      "$2^{x+1} = 2^5 \\Rightarrow x+1 = 5 \\Rightarrow x=4$",
+      "**Ergebnis: x = 4**"
+    ]
+  },
+  {
+    "id":"ex-mathe-7",
+    "question":"Berechne $\\binom{6}{2}$.",
+    "answer":15,
+    "tolerance":0,
+    "unit":"",
+    "steps":[
+      "$\\binom{6}{2} = \\frac{6!}{2! \\cdot 4!} = \\frac{6 \\cdot 5}{2} = 15$",
+      "**Ergebnis: 15**"
+    ]
+  },
+  {
+    "id":"ex-mathe-8",
+    "question":"Berechne $|A \\cup B|$ für A={1,2,3,4,5} und B={3,4,5,6,7}.",
+    "answer":7,
+    "tolerance":0,
+    "unit":"Elemente",
+    "steps":[
+      "$|A \\cup B| = |A| + |B| - |A \\cap B| = 5 + 5 - 3 = 7$",
+      "A ∪ B = {1,2,3,4,5,6,7}",
+      "**Ergebnis: 7**"
+    ]
+  },
+  {
+    "id":"ex-mathe-9",
+    "question":"Berechne $5! - 3!$.",
+    "answer":114,
+    "tolerance":0,
+    "unit":"",
+    "steps":[
+      "$5! = 120$, $3! = 6$",
+      "$120 - 6 = 114$",
+      "**Ergebnis: 114**"
+    ]
+  },
+  {
+    "id":"ex-mathe-10",
+    "question":"Berechne |A × B| für A={a,b,c} und B={1,2}.",
+    "answer":6,
+    "tolerance":0,
+    "unit":"Paare",
+    "steps":[
+      "$|A \\times B| = |A| \\cdot |B| = 3 \\cdot 2 = 6$",
+      "A×B = {(a,1),(a,2),(b,1),(b,2),(c,1),(c,2)}",
+      "**Ergebnis: 6 Paare**"
+    ]
+  },
+  {
+    "id":"ex-mathe-11",
+    "question":"Löse das LGS: 2x + y = 7 und x - y = 2. Berechne x.",
+    "answer":3,
+    "tolerance":0,
+    "unit":"",
+    "steps":[
+      "Addition: (2x+y) + (x-y) = 7+2 → 3x = 9 → x = 3",
+      "y = x-2 = 1",
+      "**x = 3, y = 1**"
+    ]
+  },
+  {
+    "id":"ex-mathe-12",
+    "question":"Berechne Summe der ersten 100 natürlichen Zahlen: 1+2+...+100.",
+    "answer":5050,
+    "tolerance":0,
+    "unit":"",
+    "steps":[
+      "Gauß-Formel: $\\frac{n(n+1)}{2} = \\frac{100 \\cdot 101}{2} = 5050$",
+      "**Ergebnis: 5050**"
+    ]
+  },
+  {
+    "id":"ex-mathe-13",
+    "question":"Berechne $\\binom{5}{0} + \\binom{5}{1} + \\binom{5}{2} + \\binom{5}{3} + \\binom{5}{4} + \\binom{5}{5}$.",
+    "answer":32,
+    "tolerance":0,
+    "unit":"",
+    "steps":[
+      "Binomischer Lehrsatz: $(1+1)^5 = \\sum_{k=0}^{5} \\binom{5}{k} = 2^5 = 32$",
+      "Einzeln: 1+5+10+10+5+1 = 32",
+      "**Ergebnis: 32**"
+    ]
+  },
+  {
+    "id":"ex-mathe-14",
+    "question":"Löse: $|x - 3| = 5$. Berechne die größere der beiden Lösungen.",
+    "answer":8,
+    "tolerance":0,
+    "unit":"",
+    "steps":[
+      "$|x-3| = 5$ liefert zwei Fälle:",
+      "Fall 1: $x-3 = 5 \\Rightarrow x = 8$",
+      "Fall 2: $x-3 = -5 \\Rightarrow x = -2$",
+      "**Größere Lösung: 8**"
+    ]
   }
 ]
