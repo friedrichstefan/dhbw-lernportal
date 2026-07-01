@@ -1,5 +1,5 @@
 import { registerPage } from '../main.js'
-import { getSession, updateProfile, changePassword, deleteAccount, logout } from '../auth.js'
+import { getCurrentUser, getSession, updateProfile, changePassword, deleteAccount, logout } from '../auth.js'
 
 const AVATAR_COLORS = [
   { label: 'Blau', value: '#0064e0' },
@@ -12,13 +12,14 @@ const AVATAR_COLORS = [
   { label: 'Pink', value: '#f0284a' },
 ]
 
-registerPage('profile', (app) => {
-  const session = getSession()
-  if (!session) {
-    window.location.hash = 'login'
-    return
-  }
+registerPage('profile', async (app) => {
+  const firebaseUser = getCurrentUser()
+  if (!firebaseUser) { window.location.hash = 'login'; return }
 
+  const session = await getSession()
+  if (!session) { window.location.hash = 'login'; return }
+
+  const isEmailProvider = firebaseUser.providerData.some(p => p.providerId === 'password')
   let selectedColor = session.avatarColor
   let profileMsg = ''
   let pwMsg = ''
@@ -36,7 +37,7 @@ registerPage('profile', (app) => {
           <div class="avatar-big" style="background:${selectedColor}">${initials(session.displayName)}</div>
           <div>
             <p style="font-size:20px;font-weight:700;color:var(--color-ink-deep)">${session.displayName}</p>
-            <p class="text-secondary">@${session.username}</p>
+            <p class="text-secondary">${session.email}</p>
           </div>
         </div>
 
@@ -61,6 +62,7 @@ registerPage('profile', (app) => {
           </form>
         </div>
 
+        ${isEmailProvider ? `
         <div class="card" style="margin-bottom:var(--space-lg)">
           <h2 class="section-title" style="font-size:18px;margin-bottom:var(--space-lg)">Passwort ändern</h2>
           <form id="pw-form">
@@ -80,6 +82,7 @@ registerPage('profile', (app) => {
             <button type="submit" class="btn btn-primary btn-sm" style="margin-top:var(--space-md)">Passwort ändern</button>
           </form>
         </div>
+        ` : ''}
 
         <div class="card" style="margin-bottom:var(--space-xxl)">
           <h2 class="section-title" style="font-size:18px;margin-bottom:var(--space-sm)">Abmelden</h2>
@@ -97,16 +100,13 @@ registerPage('profile', (app) => {
       </div>`
 
     app.querySelectorAll('.color-swatch').forEach(btn => {
-      btn.onclick = () => {
-        selectedColor = btn.dataset.color
-        render()
-      }
+      btn.onclick = () => { selectedColor = btn.dataset.color; render() }
     })
 
-    document.getElementById('profile-form').onsubmit = (e) => {
+    document.getElementById('profile-form').onsubmit = async (e) => {
       e.preventDefault()
       const displayName = document.getElementById('pf-displayname').value
-      const result = updateProfile(session.username, displayName, selectedColor)
+      const result = await updateProfile(displayName, selectedColor)
       if (result.ok) {
         session.displayName = displayName.trim()
         session.avatarColor = selectedColor
@@ -118,28 +118,34 @@ registerPage('profile', (app) => {
       render()
     }
 
-    document.getElementById('pw-form').onsubmit = async (e) => {
-      e.preventDefault()
-      const oldPw = document.getElementById('pw-old').value
-      const newPw = document.getElementById('pw-new').value
-      const newPw2 = document.getElementById('pw-new2').value
-      if (newPw !== newPw2) { pwMsg = 'Passwörter stimmen nicht überein.'; render(); return }
-      const result = await changePassword(session.username, oldPw, newPw)
-      pwMsg = result.ok ? '✓ Passwort geändert.' : result.error
-      render()
+    if (isEmailProvider) {
+      document.getElementById('pw-form').onsubmit = async (e) => {
+        e.preventDefault()
+        const oldPw = document.getElementById('pw-old').value
+        const newPw = document.getElementById('pw-new').value
+        const newPw2 = document.getElementById('pw-new2').value
+        if (newPw !== newPw2) { pwMsg = 'Passwörter stimmen nicht überein.'; render(); return }
+        const result = await changePassword(oldPw, newPw)
+        pwMsg = result.ok ? '✓ Passwort geändert.' : result.error
+        render()
+      }
     }
 
-    document.getElementById('btn-logout').onclick = () => {
-      logout()
+    document.getElementById('btn-logout').onclick = async () => {
+      await logout()
       window.dispatchEvent(new Event('auth-change'))
       window.location.hash = 'login'
     }
 
-    document.getElementById('btn-delete').onclick = () => {
-      if (confirm(`Account "${session.username}" wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.`)) {
-        deleteAccount(session.username)
-        window.dispatchEvent(new Event('auth-change'))
-        window.location.hash = 'login'
+    document.getElementById('btn-delete').onclick = async () => {
+      if (confirm('Account wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.')) {
+        const result = await deleteAccount()
+        if (result.ok) {
+          window.dispatchEvent(new Event('auth-change'))
+          window.location.hash = 'login'
+        } else {
+          alert(result.error)
+        }
       }
     }
   }
