@@ -1,4 +1,4 @@
-import { getSession, logout } from './auth.js'
+import { onAuthChange, getCurrentUser, getSession, logout } from './auth.js'
 
 const app = document.getElementById('app')
 const nav = document.getElementById('main-nav')
@@ -16,20 +16,20 @@ function initials(name) {
   return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2)
 }
 
-function renderNav() {
-  const session = getSession()
-
+async function renderNav() {
+  const user = getCurrentUser()
   let avatarHtml = ''
-  if (session) {
-    avatarHtml = `
-      <a href="#profile" class="nav-avatar" style="background:${session.avatarColor}" title="Profil: ${session.displayName}">
-        ${initials(session.displayName)}
-      </a>`
+  if (user) {
+    const session = await getSession()
+    if (session) {
+      avatarHtml = `
+        <a href="#profile" class="nav-avatar" style="background:${session.avatarColor}" title="Profil: ${session.displayName}">
+          ${initials(session.displayName)}
+        </a>`
+    }
   }
-
   const existingAvatar = document.getElementById('nav-avatar-slot')
   if (existingAvatar) existingAvatar.remove()
-
   const slot = document.createElement('div')
   slot.id = 'nav-avatar-slot'
   slot.innerHTML = avatarHtml
@@ -38,22 +38,22 @@ function renderNav() {
 
 async function route() {
   const hash = location.hash.slice(1) || 'dashboard'
-  const session = getSession()
+  const user = getCurrentUser()
 
-  if (PROTECTED.includes(hash) && !session) {
+  if (PROTECTED.includes(hash) && !user) {
     window.location.hash = 'login'
-    return
+    return route()
   }
-  if (hash === 'login' && session) {
+  if (hash === 'login' && user) {
     window.location.hash = 'dashboard'
-    return
+    return route()
   }
 
   nav.querySelectorAll('.pill-tab').forEach(tab => {
     tab.classList.toggle('active', tab.dataset.page === hash)
   })
 
-  renderNav()
+  await renderNav()
 
   const render = pages[hash]
   if (render) {
@@ -65,10 +65,6 @@ async function route() {
 }
 
 window.addEventListener('hashchange', route)
-window.addEventListener('auth-change', () => {
-  renderNav()
-  route()
-})
 
 Promise.all([
   import('./pages/login.js'),
@@ -79,7 +75,13 @@ Promise.all([
   import('./pages/mathe.js'),
   import('./pages/programmieren.js'),
   import('./pages/profile.js'),
-]).then(route)
+]).then(() => {
+  onAuthChange(() => {
+    renderNav()
+    route()
+  })
+  route()
+})
 
 themeToggle.addEventListener('click', () => {
   document.documentElement.classList.toggle('dark')
