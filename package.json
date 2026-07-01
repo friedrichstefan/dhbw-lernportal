@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "firebase": "^12.15.0",
     "katex": "^0.16.11"
   },
   "devDependencies": {
