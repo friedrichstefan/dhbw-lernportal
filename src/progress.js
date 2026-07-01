@@ -1,69 +1,86 @@
-import { getSession } from './auth.js'
+import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore'
+import { db } from './firebase.js'
+import { getCurrentUser } from './auth.js'
 
-function userKey() {
-  const session = getSession()
-  return session ? `dhbw_progress_${session.username}` : 'dhbw_lernportal_v1'
+function progressRef(fachId) {
+  const user = getCurrentUser()
+  if (!user) throw new Error('Nicht angemeldet')
+  return doc(db, 'users', user.uid, 'progress', fachId)
 }
 
-function load() {
+async function loadFach(fachId) {
   try {
-    return JSON.parse(localStorage.getItem(userKey())) || {}
+    const snap = await getDoc(progressRef(fachId))
+    return snap.exists() ? snap.data() : {}
   } catch {
     return {}
   }
 }
 
-function save(data) {
-  localStorage.setItem(userKey(), JSON.stringify(data))
-}
-
-export function getProgress() {
-  const d = load()
-  return {
-    flashcards: d.flashcards || {},
-    quiz_scores: d.quiz_scores || {},
-    exercises: d.exercises || {},
-    todos: d.todos || []
+async function saveFach(fachId, data) {
+  try {
+    await setDoc(progressRef(fachId), { ...data, lastSeen: serverTimestamp() }, { merge: true })
+  } catch (e) {
+    console.error('Progress save failed:', e)
   }
 }
 
-export function setFlashcard(id, status) {
-  const d = load()
-  if (!d.flashcards) d.flashcards = {}
-  d.flashcards[id] = status
-  save(d)
+export async function getProgress() {
+  const user = getCurrentUser()
+  if (!user) return { flashcards: {}, quiz_scores: {}, exercises: {}, todos: [] }
+  try {
+    const [fc, qs, ex, td] = await Promise.all([
+      loadFach('flashcards'),
+      loadFach('quiz_scores'),
+      loadFach('exercises'),
+      loadFach('todos')
+    ])
+    return {
+      flashcards: fc.data || {},
+      quiz_scores: qs.data || {},
+      exercises: ex.data || {},
+      todos: td.list || []
+    }
+  } catch {
+    return { flashcards: {}, quiz_scores: {}, exercises: {}, todos: [] }
+  }
 }
 
-export function setQuizScore(subject, last, max) {
-  const d = load()
-  if (!d.quiz_scores) d.quiz_scores = {}
-  d.quiz_scores[subject] = { last, max, date: new Date().toISOString().slice(0, 10) }
-  save(d)
+export async function setFlashcard(id, status) {
+  const current = await loadFach('flashcards')
+  const data = current.data || {}
+  data[id] = status
+  await saveFach('flashcards', { data })
 }
 
-export function setExercise(id, status) {
-  const d = load()
-  if (!d.exercises) d.exercises = {}
-  d.exercises[id] = status
-  save(d)
+export async function setQuizScore(subject, last, max) {
+  const current = await loadFach('quiz_scores')
+  const data = current.data || {}
+  data[subject] = { last, max, date: new Date().toISOString().slice(0, 10) }
+  await saveFach('quiz_scores', { data })
 }
 
-export function setTodos(todos) {
-  const d = load()
-  d.todos = todos
-  save(d)
+export async function setExercise(id, status) {
+  const current = await loadFach('exercises')
+  const data = current.data || {}
+  data[id] = status
+  await saveFach('exercises', { data })
 }
 
-export function calcFlashcardProgress(cards, subject) {
-  const { flashcards } = getProgress()
+export async function setTodos(todos) {
+  await saveFach('todos', { list: todos })
+}
+
+export async function calcFlashcardProgress(cards, subject) {
+  const { flashcards } = await getProgress()
   const ids = cards.filter(c => c.id.startsWith(subject)).map(c => c.id)
   if (!ids.length) return 0
   const known = ids.filter(id => flashcards[id] === 'known').length
   return Math.round((known / ids.length) * 100)
 }
 
-export function calcExerciseProgress(exercises, subject) {
-  const { exercises: ex } = getProgress()
+export async function calcExerciseProgress(exercises, subject) {
+  const { exercises: ex } = await getProgress()
   const ids = exercises.filter(e => e.id.startsWith(subject)).map(e => e.id)
   if (!ids.length) return 0
   const correct = ids.filter(id => ex[id] === 'correct').length
