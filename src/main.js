@@ -46,7 +46,7 @@ export function registerPage(name, renderFn) {
   pages[name] = renderFn
 }
 
-const PROTECTED = ['dashboard', 'klr', 'fibu', 'it', 'mathe', 'programmieren', 'profile']
+const PROTECTED = ['dashboard', 'klr', 'fibu', 'it', 'mathe', 'programmieren', 'profile', 'sap']
 
 function initials(name) {
   if (!name) return '?'
@@ -152,6 +152,9 @@ async function renderNav() {
 
   const session = user ? await getSession() : null
   applyTheme(session)
+  document.querySelectorAll('.sap-nav-link').forEach(el => {
+    el.style.display = session?.isSapUser ? '' : 'none'
+  })
   const guest = !user && isGuest()
 
   const userInfo = document.getElementById('nav-user-info')
@@ -213,6 +216,10 @@ async function route() {
     window.location.hash = 'login'
     return route()
   }
+  if (hash === 'sap' && (!user || !(await getSession())?.isSapUser)) {
+    window.location.hash = 'dashboard'
+    return route()
+  }
   if (hash === 'login' && (user || isGuest())) {
     window.location.hash = 'dashboard'
     return route()
@@ -248,6 +255,7 @@ Promise.all([
   import('./pages/mathe.js'),
   import('./pages/programmieren.js'),
   import('./pages/profile.js'),
+  import('./pages/sap.js'),       // ← neu
 ]).then(async () => {
   await waitForAuthReady()
 
