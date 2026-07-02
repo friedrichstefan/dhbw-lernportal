@@ -2,6 +2,7 @@ import { registerPage } from '../main.js'
 import { getProgress, setTodos } from '../progress.js'
 import { isGuest } from '../guest.js'
 import { escapeHtml } from '../escape.js'
+import { getSession } from '../auth.js'
 
 registerPage('dashboard', async (app) => {
   const [klrCards, klrQuiz, klrEx, fibuCards, fibuQuiz, fibuEx, itCards, itQuiz, matheCards, matheQuiz, matheEx, progCards, progQuiz] = await Promise.all([
@@ -51,7 +52,7 @@ registerPage('dashboard', async (app) => {
   app.innerHTML = `
     <div class="page-container">
       <h1 class="page-title">Dashboard</h1>
-      ${isGuest() ? `<div class="guest-banner"><span>Du bist als Gast angemeldet. Dein Fortschritt wird nur lokal gespeichert.</span><a href="#login">Konto erstellen</a></div>` : ''}
+      ${isGuest() ? `<div class="guest-banner"><span>Du bist als Gast angemeldet. Dein Fortschritt wird nur lokal gespeichert.</span><button class="btn btn-primary btn-sm" id="guest-register-btn">Konto erstellen</button></div>` : ''}
 
       <div class="card" style="margin-bottom:var(--space-xl)">
         <div style="display:flex;align-items:center;gap:var(--space-xl);flex-wrap:wrap;">
@@ -86,6 +87,17 @@ registerPage('dashboard', async (app) => {
     </div>`
 
   mountTodos(document.getElementById('todo-container'), todos)
+
+  const session = await getSession()
+  if (session?.isSapUser) showSapWelcomeToast()
+
+  const registerBtn = document.getElementById('guest-register-btn')
+  if (registerBtn) {
+    registerBtn.addEventListener('click', () => {
+      window.location.hash = ''
+      window.location.hash = 'login'
+    })
+  }
 })
 
 function mountTodos(container, initialTodos) {
@@ -135,4 +147,14 @@ function mountTodos(container, initialTodos) {
   }
 
   render()
+}
+
+function showSapWelcomeToast() {
+  if (localStorage.getItem('sap_welcomed') === '1') return
+  localStorage.setItem('sap_welcomed', '1')
+  const toast = document.createElement('div')
+  toast.className = 'sap-toast'
+  toast.textContent = '👋 Willkommen! Dein exklusiver SAP-Bereich ist jetzt verfügbar.'
+  document.body.appendChild(toast)
+  setTimeout(() => toast.remove(), 4000)
 }
