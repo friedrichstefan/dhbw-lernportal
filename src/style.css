@@ -867,6 +867,20 @@ body.theme-minimalist {
   --color-hairline-soft: #e0e0e0;
 }
 
+/* ── Dark Mode Kompatibilität mit SAP/Minimalist ────── */
+html.dark body.theme-sap.theme-sap-full {
+  --color-ink-deep: #a8c4e0;
+  --color-canvas: #0f1923;
+  --color-surface-soft: #1a2535;
+}
+
+html.dark body.theme-minimalist {
+  --color-canvas: #0f1923;
+  --color-surface-soft: #1a2535;
+  --color-ink-deep: #f0f4f8;
+  --color-hairline-soft: #2a3a4a;
+}
+
 /* ── SAP Badge ──────────────────────────────────────── */
 .sap-badge {
   display: inline-flex;

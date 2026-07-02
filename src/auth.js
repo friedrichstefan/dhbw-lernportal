@@ -1,6 +1,7 @@
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  signInWithPopup,
   signInWithRedirect,
   getRedirectResult,
   GoogleAuthProvider,
@@ -108,21 +109,42 @@ export async function register(email, password, displayName) {
 
 export async function loginWithGoogle() {
   const provider = new GoogleAuthProvider()
-  await signInWithRedirect(auth, provider)
+  try {
+    const cred = await signInWithPopup(auth, provider)
+    await ensureUserDoc(cred.user, { provider: 'google' })
+    return { ok: true }
+  } catch (e) {
+    if (e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request') return { ok: false }
+    return { error: 'Anmeldung fehlgeschlagen: ' + e.message }
+  }
 }
 
 export async function loginWithApple() {
   const provider = new OAuthProvider('apple.com')
   provider.addScope('email')
   provider.addScope('name')
-  await signInWithRedirect(auth, provider)
+  try {
+    const cred = await signInWithPopup(auth, provider)
+    await ensureUserDoc(cred.user, { provider: 'apple' })
+    return { ok: true }
+  } catch (e) {
+    if (e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request') return { ok: false }
+    return { error: 'Anmeldung fehlgeschlagen: ' + e.message }
+  }
 }
 
 export async function loginWithMicrosoft() {
   const provider = new OAuthProvider('microsoft.com')
   provider.addScope('email')
   provider.addScope('profile')
-  await signInWithRedirect(auth, provider)
+  try {
+    const cred = await signInWithPopup(auth, provider)
+    await ensureUserDoc(cred.user, { provider: 'microsoft' })
+    return { ok: true }
+  } catch (e) {
+    if (e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request') return { ok: false }
+    return { error: 'Anmeldung fehlgeschlagen: ' + e.message }
+  }
 }
 
 export async function handleRedirectResult() {
@@ -224,6 +246,10 @@ export async function updateTheme(theme, sapIntensity) {
   if (!VALID_INTENSITIES.includes(sapIntensity)) return { error: 'Ungültige Intensität.' }
   const user = auth.currentUser
   if (!user) return { error: 'Nicht angemeldet.' }
+  if (theme === 'sap') {
+    const snap = await getDoc(doc(db, 'users', user.uid))
+    if (!snap.exists() || !snap.data().isSapUser) return { error: 'Theme nicht verfügbar.' }
+  }
   try {
     await updateDoc(doc(db, 'users', user.uid), { theme, sapIntensity })
     return { ok: true }

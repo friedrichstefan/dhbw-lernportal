@@ -89,7 +89,7 @@ registerPage('dashboard', async (app) => {
   mountTodos(document.getElementById('todo-container'), todos)
 
   const session = await getSession()
-  if (session?.isSapUser) showSapWelcomeToast()
+  if (session?.isSapUser) showSapWelcomeToast(session)
 
   const registerBtn = document.getElementById('guest-register-btn')
   if (registerBtn) {
@@ -149,9 +149,9 @@ function mountTodos(container, initialTodos) {
   render()
 }
 
-function showSapWelcomeToast() {
-  if (localStorage.getItem('sap_welcomed') === '1') return
-  localStorage.setItem('sap_welcomed', '1')
+function showSapWelcomeToast(session) {
+  if (localStorage.getItem('sap_welcomed_' + session.uid) === '1') return
+  localStorage.setItem('sap_welcomed_' + session.uid, '1')
   const toast = document.createElement('div')
   toast.className = 'sap-toast'
   toast.textContent = '👋 Willkommen! Dein exklusiver SAP-Bereich ist jetzt verfügbar.'
