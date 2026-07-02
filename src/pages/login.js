@@ -10,8 +10,8 @@ registerPage('login', (app) => {
       <div class="auth-overlay">
         <div class="auth-card">
           <div class="auth-logo">
-            <span class="auth-logo-text">DHBW Lernportal</span>
-            <span class="auth-logo-sub">2. Semester</span>
+            <span class="auth-logo-text">learn.portal</span>
+            <span class="auth-logo-sub">2. Semester · DHBW</span>
           </div>
 
           <div class="sub-tabs" style="justify-content:center;margin-bottom:var(--space-xl)">
