@@ -837,3 +837,74 @@ html.dark .avatar-popup-link.danger:hover { background: rgba(228,30,63,0.1); }
     gap: var(--space-md);
   }
 }
+
+/* ── SAP Theme ─────────────────────────────────────── */
+body.theme-sap {
+  --color-sap-gold: #F0AB00;
+  --color-sap-blue: #003366;
+}
+
+body.theme-sap.theme-sap-full {
+  --color-primary: #F0AB00;
+  --color-primary-deep: #d99a00;
+  --color-ink-deep: #003366;
+}
+
+body.theme-sap.theme-sap-subtle {
+  --color-primary: #F0AB00;
+  --color-primary-deep: #d99a00;
+}
+
+/* Badge-only: keine Farbänderung, nur Badge sichtbar */
+
+/* ── Minimalist Theme ───────────────────────────────── */
+body.theme-minimalist {
+  --color-primary: #555555;
+  --color-primary-deep: #333333;
+  --color-canvas: #ffffff;
+  --color-surface-soft: #f8f8f8;
+  --color-ink-deep: #111111;
+  --color-hairline-soft: #e0e0e0;
+}
+
+/* ── SAP Badge ──────────────────────────────────────── */
+.sap-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #003366;
+  color: #F0AB00;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.5px;
+}
+
+/* ── SAP Logo im Header (nur theme-sap-full) ────────── */
+body.theme-sap.theme-sap-full .topnav-brand::before {
+  content: 'SAP ';
+  color: #F0AB00;
+}
+
+/* ── Toast ──────────────────────────────────────────── */
+.sap-toast {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #003366;
+  color: #F0AB00;
+  padding: 12px 24px;
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  font-weight: 700;
+  z-index: 9999;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  animation: sap-toast-in 0.3s ease;
+}
+
+@keyframes sap-toast-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
