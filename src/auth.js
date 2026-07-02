@@ -24,11 +24,15 @@ async function ensureUserDoc(firebaseUser, extra = {}) {
   const snap = await getDoc(ref)
   if (!snap.exists()) {
     const colorIndex = Math.floor(Math.random() * AVATAR_COLORS.length)
+    const isSap = (firebaseUser.email || '').endsWith('@sap.com')
     await setDoc(ref, {
       displayName: firebaseUser.displayName || extra.displayName || 'Nutzer',
       avatarColor: AVATAR_COLORS[colorIndex],
       createdAt: serverTimestamp(),
-      provider: extra.provider || 'email'
+      provider: extra.provider || 'email',
+      isSapUser: isSap,
+      theme: isSap ? 'sap' : 'default',
+      sapIntensity: isSap ? 'full' : 'badge',
     })
   }
   return (await getDoc(ref)).data()
@@ -57,7 +61,15 @@ export async function getSession() {
   const snap = await getDoc(doc(db, 'users', user.uid))
   if (!snap.exists()) return null
   const data = snap.data()
-  return { uid: user.uid, email: user.email, displayName: data.displayName, avatarColor: data.avatarColor }
+  return {
+    uid: user.uid,
+    email: user.email,
+    displayName: data.displayName,
+    avatarColor: data.avatarColor,
+    isSapUser: data.isSapUser ?? false,
+    theme: data.theme ?? 'default',
+    sapIntensity: data.sapIntensity ?? 'badge',
+  }
 }
 
 export async function login(email, password) {
@@ -99,11 +111,18 @@ export async function loginWithApple() {
   await signInWithRedirect(auth, provider)
 }
 
+export async function loginWithMicrosoft() {
+  const provider = new OAuthProvider('microsoft.com')
+  provider.addScope('email')
+  provider.addScope('profile')
+  await signInWithRedirect(auth, provider)
+}
+
 export async function handleRedirectResult() {
   try {
     const cred = await getRedirectResult(auth)
     if (!cred) return { ok: false }
-    const provider = cred.providerId === 'apple.com' ? 'apple' : 'google'
+    const provider = cred.providerId === 'apple.com' ? 'apple' : cred.providerId === 'microsoft.com' ? 'microsoft' : 'google'
     await ensureUserDoc(cred.user, { provider })
     return { ok: true }
   } catch (e) {
@@ -157,7 +176,7 @@ export async function deleteAccount(password = null) {
       await reauthenticateWithCredential(user, cred)
     } else {
       // Google or Apple: re-auth via redirect, then delete on return
-      const provider = providerId === 'apple.com' ? new OAuthProvider('apple.com') : new GoogleAuthProvider()
+      const provider = providerId === 'apple.com' ? new OAuthProvider('apple.com') : providerId === 'microsoft.com' ? new OAuthProvider('microsoft.com') : new GoogleAuthProvider()
       localStorage.setItem('dhbw_pending_delete', '1')
       await reauthenticateWithRedirect(user, provider)
       return { ok: false } // redirect happens, never reaches here
@@ -187,5 +206,16 @@ export async function finishDeleteAfterRedirect() {
   } catch (e) {
     localStorage.removeItem('dhbw_pending_delete')
     return { error: 'Account konnte nicht gelöscht werden: ' + e.message }
+  }
+}
+
+export async function updateTheme(theme, sapIntensity) {
+  const user = auth.currentUser
+  if (!user) return { error: 'Nicht angemeldet.' }
+  try {
+    await updateDoc(doc(db, 'users', user.uid), { theme, sapIntensity })
+    return { ok: true }
+  } catch (e) {
+    return { error: 'Theme konnte nicht gespeichert werden: ' + e.message }
   }
 }
