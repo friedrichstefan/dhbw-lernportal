@@ -1,5 +1,5 @@
 import { registerPage } from '../main.js'
-import { getCurrentUser, getSession, updateProfile, changePassword, deleteAccount, logout } from '../auth.js'
+import { getCurrentUser, getSession, updateProfile, changePassword, deleteAccount, logout, updateTheme } from '../auth.js'
 import { escapeHtml } from '../escape.js'
 
 const AVATAR_COLORS = [
@@ -24,6 +24,9 @@ registerPage('profile', async (app) => {
   let selectedColor = session.avatarColor
   let profileMsg = ''
   let pwMsg = ''
+  let selectedTheme = session.theme ?? 'default'
+  let selectedSapIntensity = session.sapIntensity ?? 'badge'
+  let themeMsg = ''
 
   function initials(name) {
     return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2)
@@ -85,6 +88,38 @@ registerPage('profile', async (app) => {
         </div>
         ` : ''}
 
+        <div class="card" style="margin-bottom:var(--space-lg)">
+          <h2 class="section-title" style="font-size:18px;margin-bottom:var(--space-lg)">Erscheinungsbild</h2>
+          <form id="theme-form">
+            <div class="form-field">
+              <label class="form-label">Theme</label>
+              <div style="display:flex;flex-direction:column;gap:var(--space-sm)">
+                ${['default', 'minimalist', ...(session.isSapUser ? ['sap'] : [])].map(t => `
+                  <label style="display:flex;align-items:center;gap:var(--space-md);cursor:pointer;padding:var(--space-md);border-radius:var(--radius-lg);border:1px solid ${selectedTheme === t ? 'var(--color-primary)' : 'var(--color-hairline-soft)'}">
+                    <input type="radio" name="theme" value="${t}" ${selectedTheme === t ? 'checked' : ''} style="accent-color:var(--color-primary)" />
+                    <span style="font-weight:${selectedTheme === t ? '700' : '400'}">${t === 'default' ? 'Standard' : t === 'sap' ? 'SAP' : 'Minimalist'}</span>
+                  </label>
+                `).join('')}
+              </div>
+            </div>
+            ${session.isSapUser && selectedTheme === 'sap' ? `
+            <div class="form-field" style="margin-top:var(--space-lg)">
+              <label class="form-label">SAP-Intensität</label>
+              <div style="display:flex;flex-direction:column;gap:var(--space-sm)">
+                ${[['badge', 'Badge (nur Label)'], ['subtle', 'Subtil (Akzentfarbe)'], ['full', 'Vollständig (SAP-Branding)']].map(([val, label]) => `
+                  <label style="display:flex;align-items:center;gap:var(--space-md);cursor:pointer;padding:var(--space-md);border-radius:var(--radius-lg);border:1px solid ${selectedSapIntensity === val ? 'var(--color-primary)' : 'var(--color-hairline-soft)'}">
+                    <input type="radio" name="sapIntensity" value="${val}" ${selectedSapIntensity === val ? 'checked' : ''} style="accent-color:var(--color-primary)" />
+                    <span style="font-weight:${selectedSapIntensity === val ? '700' : '400'}">${label}</span>
+                  </label>
+                `).join('')}
+              </div>
+            </div>
+            ` : ''}
+            ${themeMsg ? `<p class="auth-msg ${themeMsg.startsWith('✓') ? 'auth-msg-ok' : 'auth-error'}">${escapeHtml(themeMsg)}</p>` : ''}
+            <button type="submit" class="btn btn-primary btn-sm" style="margin-top:var(--space-md)">Theme speichern</button>
+          </form>
+        </div>
+
         <div class="card" style="margin-bottom:var(--space-xxl)">
           <h2 class="section-title" style="font-size:18px;margin-bottom:var(--space-sm)">Abmelden</h2>
           <p class="text-secondary" style="margin-bottom:var(--space-lg)">Du wirst zur Login-Seite weitergeleitet.</p>
@@ -103,6 +138,29 @@ registerPage('profile', async (app) => {
     app.querySelectorAll('.color-swatch').forEach(btn => {
       btn.onclick = () => { selectedColor = btn.dataset.color; render() }
     })
+
+    const themeForm = document.getElementById('theme-form')
+    if (themeForm) {
+      themeForm.querySelectorAll('input[name="theme"]').forEach(radio => {
+        radio.onchange = () => { selectedTheme = radio.value; render() }
+      })
+      themeForm.querySelectorAll('input[name="sapIntensity"]').forEach(radio => {
+        radio.onchange = () => { selectedSapIntensity = radio.value; render() }
+      })
+      themeForm.onsubmit = async (e) => {
+        e.preventDefault()
+        const result = await updateTheme(selectedTheme, selectedSapIntensity)
+        if (result.ok) {
+          session.theme = selectedTheme
+          session.sapIntensity = selectedSapIntensity
+          themeMsg = '✓ Theme gespeichert.'
+          window.dispatchEvent(new Event('auth-change'))
+        } else {
+          themeMsg = result.error
+        }
+        render()
+      }
+    }
 
     const displayNameInput = document.getElementById('pf-displayname')
     if (displayNameInput) displayNameInput.value = session.displayName || ''
