@@ -1,7 +1,7 @@
 import { setFlashcard, getProgress } from '../progress.js'
 
-export function mountFlashcards(container, cards) {
-  const { flashcards: saved } = getProgress()
+export async function mountFlashcards(container, cards) {
+  const { flashcards: saved } = await getProgress()
 
   let queue = [...cards.filter(c => saved[c.id] !== 'known')]
   if (!queue.length) queue = [...cards]

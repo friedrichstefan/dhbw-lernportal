@@ -1,8 +1,7 @@
-import { setExercise, getProgress } from '../progress.js'
+import { setExercise } from '../progress.js'
 
 export function mountCalculator(container, exercises) {
   let idx = 0
-  const { exercises: saved } = getProgress()
 
   function render() {
     if (idx >= exercises.length) {
@@ -35,7 +34,14 @@ export function mountCalculator(container, exercises) {
     renderKatex(ex.question, document.getElementById('calc-q'))
 
     document.getElementById('calc-submit').onclick = () => checkAnswer(ex)
-    document.getElementById('calc-show-steps').onclick = () => showSteps(ex)
+    const showBtn = document.getElementById('calc-show-steps')
+    let stepsVisible = false
+    showBtn.onclick = () => {
+      stepsVisible = !stepsVisible
+      showBtn.textContent = stepsVisible ? 'Lösungsweg verbergen' : 'Lösungsweg anzeigen'
+      if (stepsVisible) showSteps(ex)
+      else document.getElementById('calc-steps-container').innerHTML = ''
+    }
     document.getElementById('calc-ans').addEventListener('keydown', e => {
       if (e.key === 'Enter') checkAnswer(ex)
     })
@@ -46,7 +52,9 @@ export function mountCalculator(container, exercises) {
 
   function checkAnswer(ex) {
     const input = document.getElementById('calc-ans')
-    const val = parseFloat(input.value)
+    // Deutsches Zahlenformat normalisieren: Punkte als Tausendertrennzeichen entfernen, Komma → Punkt
+    const normalized = input.value.trim().replace(/\./g, '').replace(',', '.')
+    const val = parseFloat(normalized)
     const resultDiv = document.getElementById('calc-result')
     const nextBtn = document.getElementById('calc-next')
     if (isNaN(val)) { resultDiv.innerHTML = `<p style="color:var(--color-critical)">Bitte eine Zahl eingeben.</p>`; return }
@@ -77,6 +85,7 @@ export function mountCalculator(container, exercises) {
     el.innerHTML = text
       .replace(/\$\$(.+?)\$\$/gs, (_, expr) => katex.renderToString(expr, { displayMode: true, throwOnError: false }))
       .replace(/\$(.+?)\$/g, (_, expr) => katex.renderToString(expr, { throwOnError: false }))
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
   }
 
   render()

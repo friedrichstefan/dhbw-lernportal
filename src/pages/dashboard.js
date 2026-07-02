@@ -1,5 +1,7 @@
 import { registerPage } from '../main.js'
 import { getProgress, setTodos } from '../progress.js'
+import { isGuest } from '../guest.js'
+import { escapeHtml } from '../escape.js'
 
 registerPage('dashboard', async (app) => {
   const [klrCards, klrQuiz, klrEx, fibuCards, fibuQuiz, fibuEx, itCards, itQuiz, matheCards, matheQuiz, matheEx, progCards, progQuiz] = await Promise.all([
@@ -18,7 +20,7 @@ registerPage('dashboard', async (app) => {
     fetch(import.meta.env.BASE_URL + 'data/programmieren/quiz.json').then(r => r.json())
   ])
 
-  const { flashcards, quiz_scores, exercises, todos } = getProgress()
+  const { flashcards, quiz_scores, exercises, todos } = await getProgress()
 
   function pctKnown(cards) {
     if (!cards.length) return 0
@@ -49,12 +51,13 @@ registerPage('dashboard', async (app) => {
   app.innerHTML = `
     <div class="page-container">
       <h1 class="page-title">Dashboard</h1>
+      ${isGuest() ? `<div class="guest-banner"><span>Du bist als Gast angemeldet. Dein Fortschritt wird nur lokal gespeichert.</span><a href="#login">Konto erstellen</a></div>` : ''}
 
       <div class="card" style="margin-bottom:var(--space-xl)">
         <div style="display:flex;align-items:center;gap:var(--space-xl);flex-wrap:wrap;">
           <div>
             <p class="text-secondary" style="margin-bottom:4px;">Gesamtfortschritt 2. Semester</p>
-            <p style="font-size:48px;font-weight:500;color:var(--color-primary);line-height:1.17;">${overall}%</p>
+            <p class="dashboard-overall-pct">${overall}%</p>
           </div>
           <div style="flex:1;min-width:200px;">
             <div class="progress-bar" style="height:12px;">
@@ -94,7 +97,7 @@ function mountTodos(container, initialTodos) {
         ${todos.map((t, i) => `
           <div class="todo-item ${t.done ? 'done' : ''}" data-i="${i}">
             <input type="checkbox" ${t.done ? 'checked' : ''} data-idx="${i}" />
-            <span style="flex:1">${t.text}</span>
+            <span style="flex:1">${escapeHtml(t.text)}</span>
             <button class="btn btn-sm" style="background:transparent;color:var(--color-critical);border:none;cursor:pointer;" data-del="${i}">✕</button>
           </div>`).join('')}
       </div>

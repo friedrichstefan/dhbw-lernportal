@@ -11,6 +11,7 @@
   <header class="topnav">
     <div class="topnav-inner">
       <span class="topnav-brand">DHBW Lernportal</span>
+      <span id="nav-user-info" class="topnav-user-info"></span>
       <nav class="pill-tabs" id="main-nav">
         <a href="#dashboard" class="pill-tab" data-page="dashboard">Dashboard</a>
         <a href="#klr" class="pill-tab" data-page="klr">KLR</a>
@@ -19,10 +20,30 @@
         <a href="#mathe" class="pill-tab" data-page="mathe">Mathematik</a>
         <a href="#programmieren" class="pill-tab" data-page="programmieren">Programmieren</a>
       </nav>
+      <div id="nav-avatar-slot" style="display:flex;align-items:center;"></div>
       <button class="icon-btn" id="theme-toggle" title="Dark Mode umschalten">🌙</button>
+      <button class="icon-btn hamburger-btn" id="hamburger-btn" aria-label="Menü öffnen" aria-expanded="false">☰</button>
     </div>
   </header>
-  <main id="app"></main>
+
+  <!-- Mobile nav drawer -->
+  <div class="mobile-nav-overlay" id="mobile-nav-overlay" aria-hidden="true">
+    <div class="mobile-nav-drawer" id="mobile-nav-drawer">
+      <div class="mobile-nav-header">
+        <span class="topnav-brand">DHBW Lernportal</span>
+        <button class="icon-btn" id="mobile-nav-close" aria-label="Menü schließen">✕</button>
+      </div>
+      <nav class="mobile-nav-links" id="mobile-nav-links">
+        <a href="#dashboard" class="mobile-nav-link" data-page="dashboard">Dashboard</a>
+        <a href="#klr" class="mobile-nav-link" data-page="klr">KLR</a>
+        <a href="#fibu" class="mobile-nav-link" data-page="fibu">Finanzbuchhaltung</a>
+        <a href="#it" class="mobile-nav-link" data-page="it">IT 1 &amp; 2</a>
+        <a href="#mathe" class="mobile-nav-link" data-page="mathe">Mathematik</a>
+        <a href="#programmieren" class="mobile-nav-link" data-page="programmieren">Programmieren</a>
+      </nav>
+    </div>
+  </div>
+  <main id="app"><div class="page-container" style="display:flex;align-items:center;justify-content:center;min-height:40vh"><span class="text-secondary">Wird geladen…</span></div></main>
   <script type="module" src="/src/main.js"></script>
 </body>
 </html>

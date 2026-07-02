@@ -1,5 +1,6 @@
 import { registerPage } from '../main.js'
 import { getCurrentUser, getSession, updateProfile, changePassword, deleteAccount, logout } from '../auth.js'
+import { escapeHtml } from '../escape.js'
 
 const AVATAR_COLORS = [
   { label: 'Blau', value: '#0064e0' },
@@ -33,11 +34,11 @@ registerPage('profile', async (app) => {
       <div class="page-container" style="max-width:640px">
         <h1 class="page-title">Profil</h1>
 
-        <div class="card" style="display:flex;align-items:center;gap:var(--space-xl);margin-bottom:var(--space-xxl)">
-          <div class="avatar-big" style="background:${selectedColor}">${initials(session.displayName)}</div>
+        <div class="card profile-hero" style="margin-bottom:var(--space-xxl)">
+          <div class="avatar-big" style="background:${escapeHtml(selectedColor)}">${escapeHtml(initials(session.displayName))}</div>
           <div>
-            <p style="font-size:20px;font-weight:700;color:var(--color-ink-deep)">${session.displayName}</p>
-            <p class="text-secondary">${session.email}</p>
+            <p style="font-size:20px;font-weight:700;color:var(--color-ink-deep)">${escapeHtml(session.displayName)}</p>
+            <p class="text-secondary">${escapeHtml(session.email)}</p>
           </div>
         </div>
 
@@ -46,7 +47,7 @@ registerPage('profile', async (app) => {
           <form id="profile-form">
             <div class="form-field">
               <label class="form-label">Anzeigename</label>
-              <input class="form-input" id="pf-displayname" type="text" value="${session.displayName}" maxlength="40" />
+              <input class="form-input" id="pf-displayname" type="text" maxlength="40" />
             </div>
             <div class="form-field">
               <label class="form-label">Avatar-Farbe</label>
@@ -57,7 +58,7 @@ registerPage('profile', async (app) => {
                 `).join('')}
               </div>
             </div>
-            ${profileMsg ? `<p class="auth-msg ${profileMsg.startsWith('✓') ? 'auth-msg-ok' : 'auth-error'}">${profileMsg}</p>` : ''}
+            ${profileMsg ? `<p class="auth-msg ${profileMsg.startsWith('✓') ? 'auth-msg-ok' : 'auth-error'}">${escapeHtml(profileMsg)}</p>` : ''}
             <button type="submit" class="btn btn-primary btn-sm" style="margin-top:var(--space-md)">Speichern</button>
           </form>
         </div>
@@ -78,7 +79,7 @@ registerPage('profile', async (app) => {
               <label class="form-label">Neues Passwort bestätigen</label>
               <input class="form-input" id="pw-new2" type="password" autocomplete="new-password" placeholder="••••••" />
             </div>
-            ${pwMsg ? `<p class="auth-msg ${pwMsg.startsWith('✓') ? 'auth-msg-ok' : 'auth-error'}">${pwMsg}</p>` : ''}
+            ${pwMsg ? `<p class="auth-msg ${pwMsg.startsWith('✓') ? 'auth-msg-ok' : 'auth-error'}">${escapeHtml(pwMsg)}</p>` : ''}
             <button type="submit" class="btn btn-primary btn-sm" style="margin-top:var(--space-md)">Passwort ändern</button>
           </form>
         </div>
@@ -102,6 +103,9 @@ registerPage('profile', async (app) => {
     app.querySelectorAll('.color-swatch').forEach(btn => {
       btn.onclick = () => { selectedColor = btn.dataset.color; render() }
     })
+
+    const displayNameInput = document.getElementById('pf-displayname')
+    if (displayNameInput) displayNameInput.value = session.displayName || ''
 
     document.getElementById('profile-form').onsubmit = async (e) => {
       e.preventDefault()
@@ -138,14 +142,21 @@ registerPage('profile', async (app) => {
     }
 
     document.getElementById('btn-delete').onclick = async () => {
-      if (confirm('Account wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.')) {
-        const result = await deleteAccount()
+      if (!confirm('Account wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.')) return
+
+      if (isEmailProvider) {
+        const password = prompt('Gib dein Passwort ein, um den Account zu löschen:')
+        if (!password) return
+        const result = await deleteAccount(password)
         if (result.ok) {
           window.dispatchEvent(new Event('auth-change'))
           window.location.hash = 'login'
         } else {
           alert(result.error)
         }
+      } else {
+        // Google/Apple: redirect-based re-auth, deletion happens on return
+        await deleteAccount()
       }
     }
   }

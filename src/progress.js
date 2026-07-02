@@ -1,6 +1,9 @@
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore'
 import { db } from './firebase.js'
 import { getCurrentUser } from './auth.js'
+import { isGuest } from './guest.js'
+
+const GUEST_KEY = 'dhbw_guest_progress'
 
 function progressDocRef() {
   const user = getCurrentUser()
@@ -9,6 +12,9 @@ function progressDocRef() {
 }
 
 async function loadAll() {
+  if (isGuest()) {
+    try { return JSON.parse(localStorage.getItem(GUEST_KEY) || '{}') } catch { return {} }
+  }
   try {
     const snap = await getDoc(progressDocRef())
     return snap.exists() ? snap.data() : {}
@@ -18,6 +24,10 @@ async function loadAll() {
 }
 
 async function saveAll(data) {
+  if (isGuest()) {
+    localStorage.setItem(GUEST_KEY, JSON.stringify(data))
+    return
+  }
   try {
     await setDoc(progressDocRef(), { ...data, lastSeen: serverTimestamp() }, { merge: true })
   } catch (e) {
@@ -27,7 +37,7 @@ async function saveAll(data) {
 
 export async function getProgress() {
   const user = getCurrentUser()
-  if (!user) return { flashcards: {}, quiz_scores: {}, exercises: {}, todos: [] }
+  if (!user && !isGuest()) return { flashcards: {}, quiz_scores: {}, exercises: {}, todos: [] }
   const d = await loadAll()
   return {
     flashcards: d.flashcards || {},

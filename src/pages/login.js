@@ -1,5 +1,6 @@
 import { registerPage } from '../main.js'
 import { login, register, loginWithGoogle, loginWithApple } from '../auth.js'
+import { activateGuest, clearGuest } from '../guest.js'
 
 registerPage('login', (app) => {
   let mode = 'login'
@@ -30,9 +31,9 @@ registerPage('login', (app) => {
           </div>
 
           <div style="display:flex;align-items:center;gap:var(--space-md);margin-bottom:var(--space-xl)">
-            <div style="flex:1;height:1px;background:var(--color-border)"></div>
+            <div style="flex:1;height:1px;background:var(--color-hairline-soft)"></div>
             <span class="text-secondary" style="font-size:13px">oder mit E-Mail</span>
-            <div style="flex:1;height:1px;background:var(--color-border)"></div>
+            <div style="flex:1;height:1px;background:var(--color-hairline-soft)"></div>
           </div>
 
           ${mode === 'login' ? `
@@ -71,31 +72,27 @@ registerPage('login', (app) => {
             </form>
           `}
 
-          <p class="auth-footer-note" style="margin-top:var(--space-lg)">Deine Daten werden sicher in der Cloud gespeichert.</p>
+          <div style="display:flex;align-items:center;gap:var(--space-md);margin-top:var(--space-xl)">
+            <div style="flex:1;height:1px;background:var(--color-hairline-soft)"></div>
+            <span class="text-secondary" style="font-size:13px">oder</span>
+            <div style="flex:1;height:1px;background:var(--color-hairline-soft)"></div>
+          </div>
+          <button id="btn-guest" class="btn btn-secondary" style="width:100%;margin-top:var(--space-lg)">Als Gast fortfahren</button>
+          <p class="auth-footer-note" style="margin-top:var(--space-md)">Gast-Fortschritt wird nur lokal gespeichert.</p>
         </div>
       </div>`
 
     document.getElementById('tab-login').onclick = () => { mode = 'login'; render() }
     document.getElementById('tab-register').onclick = () => { mode = 'register'; render() }
 
-    document.getElementById('btn-google').onclick = async () => {
-      const result = await loginWithGoogle()
-      if (result.ok) {
-        window.location.hash = 'dashboard'
-        window.dispatchEvent(new Event('auth-change'))
-      } else if (result.error) {
-        showError(result.error)
-      }
-    }
+    document.getElementById('btn-google').onclick = () => loginWithGoogle()
 
-    document.getElementById('btn-apple').onclick = async () => {
-      const result = await loginWithApple()
-      if (result.ok) {
-        window.location.hash = 'dashboard'
-        window.dispatchEvent(new Event('auth-change'))
-      } else if (result.error) {
-        showError(result.error)
-      }
+    document.getElementById('btn-apple').onclick = () => loginWithApple()
+
+    document.getElementById('btn-guest').onclick = () => {
+      activateGuest()
+      window.location.hash = 'dashboard'
+      window.dispatchEvent(new Event('auth-change'))
     }
 
     document.getElementById('auth-form').onsubmit = async (e) => {
@@ -123,6 +120,7 @@ registerPage('login', (app) => {
         showError(result.error)
         btn.disabled = false
       } else {
+        clearGuest()
         window.location.hash = 'dashboard'
         window.dispatchEvent(new Event('auth-change'))
       }

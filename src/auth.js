@@ -1,23 +1,23 @@
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   GoogleAuthProvider,
   OAuthProvider,
   signOut,
   updateProfile as fbUpdateProfile,
   updatePassword,
   reauthenticateWithCredential,
+  reauthenticateWithRedirect,
   EmailAuthProvider,
   deleteUser,
-  onAuthStateChanged,
-  browserLocalPersistence,
-  setPersistence
+  onAuthStateChanged
 } from 'firebase/auth'
 import { doc, setDoc, getDoc, updateDoc, deleteDoc, serverTimestamp } from 'firebase/firestore'
 import { auth, db } from './firebase.js'
 
-const AVATAR_COLORS = ['#0064e0', '#31a24c', '#e41e3f', '#f7b928', '#a121ce', '#1876f2', '#f0284a', '#00a884']
+const AVATAR_COLORS = ['#0064e0', '#31a24c', '#e41e3f', '#f7b928', '#a121ce', '#1876f2', '#f0784a', '#00a884']
 
 async function ensureUserDoc(firebaseUser, extra = {}) {
   const ref = doc(db, 'users', firebaseUser.uid)
@@ -32,6 +32,15 @@ async function ensureUserDoc(firebaseUser, extra = {}) {
     })
   }
   return (await getDoc(ref)).data()
+}
+
+export function waitForAuthReady() {
+  return new Promise(resolve => {
+    const unsub = onAuthStateChanged(auth, () => {
+      unsub()
+      resolve()
+    })
+  })
 }
 
 export function onAuthChange(callback) {
@@ -53,7 +62,6 @@ export async function getSession() {
 
 export async function login(email, password) {
   try {
-    await setPersistence(auth, browserLocalPersistence)
     await signInWithEmailAndPassword(auth, email, password)
     return { ok: true }
   } catch (e) {
@@ -69,7 +77,6 @@ export async function register(email, password, displayName) {
   if (!password || password.length < 6) return { error: 'Passwort muss mindestens 6 Zeichen haben.' }
   if (!displayName || !displayName.trim()) return { error: 'Anzeigename darf nicht leer sein.' }
   try {
-    await setPersistence(auth, browserLocalPersistence)
     const cred = await createUserWithEmailAndPassword(auth, email, password)
     await fbUpdateProfile(cred.user, { displayName: displayName.trim() })
     await ensureUserDoc(cred.user, { displayName: displayName.trim(), provider: 'email' })
@@ -81,30 +88,26 @@ export async function register(email, password, displayName) {
 }
 
 export async function loginWithGoogle() {
-  try {
-    await setPersistence(auth, browserLocalPersistence)
-    const provider = new GoogleAuthProvider()
-    const cred = await signInWithPopup(auth, provider)
-    await ensureUserDoc(cred.user, { provider: 'google' })
-    return { ok: true }
-  } catch (e) {
-    if (e.code === 'auth/popup-closed-by-user') return { error: null }
-    return { error: 'Google-Anmeldung fehlgeschlagen: ' + e.message }
-  }
+  const provider = new GoogleAuthProvider()
+  await signInWithRedirect(auth, provider)
 }
 
 export async function loginWithApple() {
+  const provider = new OAuthProvider('apple.com')
+  provider.addScope('email')
+  provider.addScope('name')
+  await signInWithRedirect(auth, provider)
+}
+
+export async function handleRedirectResult() {
   try {
-    await setPersistence(auth, browserLocalPersistence)
-    const provider = new OAuthProvider('apple.com')
-    provider.addScope('email')
-    provider.addScope('name')
-    const cred = await signInWithPopup(auth, provider)
-    await ensureUserDoc(cred.user, { provider: 'apple' })
+    const cred = await getRedirectResult(auth)
+    if (!cred) return { ok: false }
+    const provider = cred.providerId === 'apple.com' ? 'apple' : 'google'
+    await ensureUserDoc(cred.user, { provider })
     return { ok: true }
   } catch (e) {
-    if (e.code === 'auth/popup-closed-by-user') return { error: null }
-    return { error: 'Apple-Anmeldung fehlgeschlagen: ' + e.message }
+    return { error: 'Anmeldung fehlgeschlagen: ' + e.message }
   }
 }
 
@@ -140,15 +143,49 @@ export async function updateProfile(displayName, avatarColor) {
   }
 }
 
-export async function deleteAccount() {
+export async function deleteAccount(password = null) {
   const user = auth.currentUser
   if (!user) return { error: 'Nicht angemeldet.' }
+
+  const providerId = user.providerData?.[0]?.providerId ?? 'password'
+
   try {
+    // Re-authenticate before deleting
+    if (providerId === 'password') {
+      if (!password) return { needsPassword: true }
+      const cred = EmailAuthProvider.credential(user.email, password)
+      await reauthenticateWithCredential(user, cred)
+    } else {
+      // Google or Apple: re-auth via redirect, then delete on return
+      const provider = providerId === 'apple.com' ? new OAuthProvider('apple.com') : new GoogleAuthProvider()
+      localStorage.setItem('dhbw_pending_delete', '1')
+      await reauthenticateWithRedirect(user, provider)
+      return { ok: false } // redirect happens, never reaches here
+    }
+
     await deleteDoc(doc(db, 'users', user.uid))
     await deleteUser(user)
     return { ok: true }
   } catch (e) {
-    if (e.code === 'auth/requires-recent-login') return { error: 'Bitte melde dich neu an und versuche es nochmal.' }
+    if (e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential') return { error: 'Passwort falsch.' }
+    if (e.code === 'auth/requires-recent-login') return { needsPassword: providerId === 'password' }
+    return { error: 'Account konnte nicht gelöscht werden: ' + e.message }
+  }
+}
+
+export async function finishDeleteAfterRedirect() {
+  if (!localStorage.getItem('dhbw_pending_delete')) return { ok: false }
+  try {
+    const cred = await getRedirectResult(auth)
+    if (!cred) { localStorage.removeItem('dhbw_pending_delete'); return { ok: false } }
+    localStorage.removeItem('dhbw_pending_delete')
+    const user = auth.currentUser
+    if (!user) return { error: 'Nicht angemeldet.' }
+    await deleteDoc(doc(db, 'users', user.uid))
+    await deleteUser(user)
+    return { ok: true }
+  } catch (e) {
+    localStorage.removeItem('dhbw_pending_delete')
     return { error: 'Account konnte nicht gelöscht werden: ' + e.message }
   }
 }
