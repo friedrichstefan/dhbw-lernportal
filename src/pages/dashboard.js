@@ -3,22 +3,23 @@ import { getProgress, setTodos } from '../progress.js'
 import { isGuest } from '../guest.js'
 import { escapeHtml } from '../escape.js'
 import { getSession } from '../auth.js'
+import { fetchJson } from '../data.js'
 
 registerPage('dashboard', async (app) => {
   const [klrCards, klrQuiz, klrEx, fibuCards, fibuQuiz, fibuEx, itCards, itQuiz, matheCards, matheQuiz, matheEx, progCards, progQuiz] = await Promise.all([
-    fetch(import.meta.env.BASE_URL + 'data/klr/flashcards.json').then(r => r.json()),
-    fetch(import.meta.env.BASE_URL + 'data/klr/quiz.json').then(r => r.json()),
-    fetch(import.meta.env.BASE_URL + 'data/klr/exercises.json').then(r => r.json()),
-    fetch(import.meta.env.BASE_URL + 'data/fibu/flashcards.json').then(r => r.json()),
-    fetch(import.meta.env.BASE_URL + 'data/fibu/quiz.json').then(r => r.json()),
-    fetch(import.meta.env.BASE_URL + 'data/fibu/exercises.json').then(r => r.json()),
-    fetch(import.meta.env.BASE_URL + 'data/it/flashcards.json').then(r => r.json()),
-    fetch(import.meta.env.BASE_URL + 'data/it/quiz.json').then(r => r.json()),
-    fetch(import.meta.env.BASE_URL + 'data/mathe/flashcards.json').then(r => r.json()),
-    fetch(import.meta.env.BASE_URL + 'data/mathe/quiz.json').then(r => r.json()),
-    fetch(import.meta.env.BASE_URL + 'data/mathe/exercises.json').then(r => r.json()),
-    fetch(import.meta.env.BASE_URL + 'data/programmieren/flashcards.json').then(r => r.json()),
-    fetch(import.meta.env.BASE_URL + 'data/programmieren/quiz.json').then(r => r.json())
+    fetchJson('data/klr/flashcards.json'),
+    fetchJson('data/klr/quiz.json'),
+    fetchJson('data/klr/exercises.json'),
+    fetchJson('data/fibu/flashcards.json'),
+    fetchJson('data/fibu/quiz.json'),
+    fetchJson('data/fibu/exercises.json'),
+    fetchJson('data/it1/flashcards.json'),
+    fetchJson('data/it1/quiz.json'),
+    fetchJson('data/mathe/flashcards.json'),
+    fetchJson('data/mathe/quiz.json'),
+    fetchJson('data/mathe/exercises.json'),
+    fetchJson('data/programmieren/flashcards.json'),
+    fetchJson('data/programmieren/quiz.json'),
   ])
 
   const { flashcards, quiz_scores, exercises, todos } = await getProgress()
@@ -84,7 +85,15 @@ registerPage('dashboard', async (app) => {
 
       <h2 class="section-title">To-Do Liste</h2>
       <div id="todo-container"></div>
-    </div>`
+    </div>
+    <footer class="site-footer">
+      <span>© 2026 learn.portal</span>
+      <div class="site-footer-links">
+        <a href="#datenschutz">Datenschutz</a>
+        <span class="site-footer-sep">·</span>
+        <a href="#impressum">Impressum</a>
+      </div>
+    </footer>`
 
   mountTodos(document.getElementById('todo-container'), todos)
 
