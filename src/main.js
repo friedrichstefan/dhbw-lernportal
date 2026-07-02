@@ -9,6 +9,18 @@ const hamburgerBtn = document.getElementById('hamburger-btn')
 const mobileNavOverlay = document.getElementById('mobile-nav-overlay')
 const mobileNavClose = document.getElementById('mobile-nav-close')
 
+function applyTheme(session) {
+  const body = document.body
+  body.classList.remove('theme-sap', 'theme-sap-badge', 'theme-sap-subtle', 'theme-sap-full', 'theme-minimalist')
+  if (!session) return
+  const { theme, sapIntensity } = session
+  if (theme === 'sap') {
+    body.classList.add('theme-sap', `theme-sap-${sapIntensity ?? 'badge'}`)
+  } else if (theme === 'minimalist') {
+    body.classList.add('theme-minimalist')
+  }
+}
+
 function openMobileNav() {
   closePopup()
   mobileNavOverlay.classList.add('open')
@@ -139,6 +151,7 @@ async function renderNav() {
   closePopup()
 
   const session = user ? await getSession() : null
+  applyTheme(session)
   const guest = !user && isGuest()
 
   const userInfo = document.getElementById('nav-user-info')
@@ -159,7 +172,7 @@ async function renderNav() {
       </button>`
   } else if (guest) {
     avatarHtml = `
-      <button id="nav-avatar-btn" class="nav-avatar" style="background:var(--color-ink-faint)" title="Gast">G</button>`
+      <button id="nav-avatar-btn" class="nav-avatar" style="background:#6b7280" title="Gast">G</button>`
   }
   const existingAvatar = document.getElementById('nav-avatar-slot')
   if (existingAvatar) existingAvatar.remove()
@@ -200,7 +213,7 @@ async function route() {
     window.location.hash = 'login'
     return route()
   }
-  if (hash === 'login' && user) {
+  if (hash === 'login' && (user || isGuest())) {
     window.location.hash = 'dashboard'
     return route()
   }
@@ -250,6 +263,7 @@ Promise.all([
   }
 
   await handleRedirectResult()
+  await waitForAuthReady()
   onAuthChange(() => {
     renderNav()
     route()
