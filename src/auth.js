@@ -34,6 +34,13 @@ async function ensureUserDoc(firebaseUser, extra = {}) {
       theme: isSap ? 'sap' : 'default',
       sapIntensity: isSap ? 'full' : 'badge',
     })
+  } else if (snap.data().isSapUser === undefined) {
+    const isSap = (firebaseUser.email || '').endsWith('@sap.com')
+    await updateDoc(ref, {
+      isSapUser: isSap,
+      theme: isSap ? 'sap' : 'default',
+      sapIntensity: isSap ? 'full' : 'badge',
+    })
   }
   return (await getDoc(ref)).data()
 }
@@ -209,7 +216,12 @@ export async function finishDeleteAfterRedirect() {
   }
 }
 
+const VALID_THEMES = ['default', 'sap', 'minimalist']
+const VALID_INTENSITIES = ['badge', 'subtle', 'full']
+
 export async function updateTheme(theme, sapIntensity) {
+  if (!VALID_THEMES.includes(theme)) return { error: 'Ungültiges Theme.' }
+  if (!VALID_INTENSITIES.includes(sapIntensity)) return { error: 'Ungültige Intensität.' }
   const user = auth.currentUser
   if (!user) return { error: 'Nicht angemeldet.' }
   try {
