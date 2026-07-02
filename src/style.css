@@ -881,6 +881,14 @@ body.theme-minimalist {
   letter-spacing: 0.5px;
 }
 
+/* Badge im Nav nur sichtbar wenn SAP-Theme aktiv */
+#nav-sap-badge {
+  display: none;
+}
+body.theme-sap #nav-sap-badge {
+  display: inline-flex;
+}
+
 /* ── SAP Logo im Header (nur theme-sap-full) ────────── */
 body.theme-sap.theme-sap-full .topnav-brand::before {
   content: 'SAP ';

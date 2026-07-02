@@ -169,10 +169,14 @@ async function renderNav() {
   let avatarHtml = ''
   if (session) {
     const label = session.displayName || session.email
+    const sapBadge = session.isSapUser
+      ? `<span class="sap-badge" id="nav-sap-badge">SAP Intern</span>`
+      : ''
     avatarHtml = `
-      <button id="nav-avatar-btn" class="nav-avatar" style="background:${escapeHtml(session.avatarColor)}" title="${escapeHtml('Profil: ' + label)}">
-        ${escapeHtml(initials(label))}
-      </button>`
+    ${sapBadge}
+    <button id="nav-avatar-btn" class="nav-avatar" style="background:${escapeHtml(session.avatarColor)}" title="${escapeHtml('Profil: ' + label)}">
+      ${escapeHtml(initials(label))}
+    </button>`
   } else if (guest) {
     avatarHtml = `
       <button id="nav-avatar-btn" class="nav-avatar" style="background:#6b7280" title="Gast">G</button>`
