@@ -2,15 +2,12 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signInWithPopup,
-  signInWithRedirect,
-  getRedirectResult,
-  GoogleAuthProvider,
   OAuthProvider,
   signOut,
   updateProfile as fbUpdateProfile,
   updatePassword,
   reauthenticateWithCredential,
-  reauthenticateWithRedirect,
+  reauthenticateWithPopup,
   EmailAuthProvider,
   deleteUser,
   onAuthStateChanged
@@ -48,9 +45,9 @@ async function ensureUserDoc(firebaseUser, extra = {}) {
 
 export function waitForAuthReady() {
   return new Promise(resolve => {
-    const unsub = onAuthStateChanged(auth, () => {
+    const unsub = onAuthStateChanged(auth, (user) => {
       unsub()
-      resolve()
+      resolve(user)
     })
   })
 }
@@ -108,15 +105,7 @@ export async function register(email, password, displayName) {
 }
 
 export async function loginWithGoogle() {
-  const provider = new GoogleAuthProvider()
-  try {
-    const cred = await signInWithPopup(auth, provider)
-    await ensureUserDoc(cred.user, { provider: 'google' })
-    return { ok: true }
-  } catch (e) {
-    if (e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request') return { ok: false }
-    return { error: 'Anmeldung fehlgeschlagen: ' + e.message }
-  }
+  return { error: 'Google Login nicht verfügbar.' }
 }
 
 export async function loginWithApple() {
@@ -129,7 +118,7 @@ export async function loginWithApple() {
     return { ok: true }
   } catch (e) {
     if (e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request') return { ok: false }
-    return { error: 'Anmeldung fehlgeschlagen: ' + e.message }
+    return { error: 'Apple-Anmeldung fehlgeschlagen: ' + e.message }
   }
 }
 
@@ -143,20 +132,12 @@ export async function loginWithMicrosoft() {
     return { ok: true }
   } catch (e) {
     if (e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request') return { ok: false }
-    return { error: 'Anmeldung fehlgeschlagen: ' + e.message }
+    return { error: 'Microsoft-Anmeldung fehlgeschlagen: ' + e.message }
   }
 }
 
 export async function handleRedirectResult() {
-  try {
-    const cred = await getRedirectResult(auth)
-    if (!cred) return { ok: false }
-    const provider = cred.providerId === 'apple.com' ? 'apple' : cred.providerId === 'microsoft.com' ? 'microsoft' : 'google'
-    await ensureUserDoc(cred.user, { provider })
-    return { ok: true }
-  } catch (e) {
-    return { error: 'Anmeldung fehlgeschlagen: ' + e.message }
-  }
+  return { ok: false }
 }
 
 export function logout() {
@@ -198,17 +179,16 @@ export async function deleteAccount(password = null) {
   const providerId = user.providerData?.[0]?.providerId ?? 'password'
 
   try {
-    // Re-authenticate before deleting
     if (providerId === 'password') {
       if (!password) return { needsPassword: true }
       const cred = EmailAuthProvider.credential(user.email, password)
       await reauthenticateWithCredential(user, cred)
     } else {
-      // Google or Apple: re-auth via redirect, then delete on return
-      const provider = providerId === 'apple.com' ? new OAuthProvider('apple.com') : providerId === 'microsoft.com' ? new OAuthProvider('microsoft.com') : new GoogleAuthProvider()
-      localStorage.setItem('dhbw_pending_delete', '1')
-      await reauthenticateWithRedirect(user, provider)
-      return { ok: false } // redirect happens, never reaches here
+      const provider =
+        providerId === 'apple.com' ? new OAuthProvider('apple.com') :
+        providerId === 'microsoft.com' ? new OAuthProvider('microsoft.com') :
+        new OAuthProvider('google.com')
+      await reauthenticateWithPopup(user, provider)
     }
 
     await deleteDoc(doc(db, 'users', user.uid))
@@ -217,25 +197,13 @@ export async function deleteAccount(password = null) {
   } catch (e) {
     if (e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential') return { error: 'Passwort falsch.' }
     if (e.code === 'auth/requires-recent-login') return { needsPassword: providerId === 'password' }
+    if (e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request') return { ok: false }
     return { error: 'Account konnte nicht gelöscht werden: ' + e.message }
   }
 }
 
 export async function finishDeleteAfterRedirect() {
-  if (!localStorage.getItem('dhbw_pending_delete')) return { ok: false }
-  try {
-    const cred = await getRedirectResult(auth)
-    if (!cred) { localStorage.removeItem('dhbw_pending_delete'); return { ok: false } }
-    localStorage.removeItem('dhbw_pending_delete')
-    const user = auth.currentUser
-    if (!user) return { error: 'Nicht angemeldet.' }
-    await deleteDoc(doc(db, 'users', user.uid))
-    await deleteUser(user)
-    return { ok: true }
-  } catch (e) {
-    localStorage.removeItem('dhbw_pending_delete')
-    return { error: 'Account konnte nicht gelöscht werden: ' + e.message }
-  }
+  return { ok: false }
 }
 
 const VALID_THEMES = ['default', 'sap', 'minimalist']

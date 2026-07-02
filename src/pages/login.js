@@ -1,5 +1,5 @@
 import { registerPage } from '../main.js'
-import { login, register, loginWithGoogle, loginWithApple } from '../auth.js'
+import { login, register, loginWithGoogle, loginWithApple, loginWithMicrosoft } from '../auth.js'
 import { activateGuest, clearGuest } from '../guest.js'
 
 registerPage('login', (app) => {
@@ -27,6 +27,10 @@ registerPage('login', (app) => {
             <button id="btn-apple" class="btn btn-secondary" style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px">
               <svg width="18" height="18" viewBox="0 0 814 1000" fill="currentColor"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-37.3-152.2-96.7C81 453 80 435.2 80 388.8c0-148.6 99.5-227.7 197.4-227.7 70.4 0 112.9 46.3 157.2 46.3 42.8 0 92.4-49.3 171.9-49.3zm-5.8-298.8c37 0 84.4-24 113.3-55.4 26.2-28.8 45.1-70.9 45.1-113.1 0-5.9-.5-11.8-1.6-16.8-43.3 1.6-95 28.8-126.3 62.2-24.8 27-48.2 68.9-48.2 111.7 0 6.1.6 12.2 1.1 14.2 2.7.4 5.4.6 8.2.6z"/></svg>
               Mit Apple anmelden
+            </button>
+            <button id="btn-microsoft" class="btn btn-secondary" style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px">
+              <svg width="18" height="18" viewBox="0 0 23 23"><path fill="#f3f3f3" d="M0 0h23v23H0z"/><path fill="#f35325" d="M1 1h10v10H1z"/><path fill="#81bc06" d="M12 1h10v10H12z"/><path fill="#05a6f0" d="M1 12h10v10H1z"/><path fill="#ffba08" d="M12 12h10v10H12z"/></svg>
+              Mit Microsoft anmelden
             </button>
           </div>
 
@@ -85,9 +89,30 @@ registerPage('login', (app) => {
     document.getElementById('tab-login').onclick = () => { mode = 'login'; render() }
     document.getElementById('tab-register').onclick = () => { mode = 'register'; render() }
 
-    document.getElementById('btn-google').onclick = () => loginWithGoogle()
+    const oauthHandlers = {
+      'btn-google': loginWithGoogle,
+      'btn-apple':  loginWithApple,
+      'btn-microsoft': loginWithMicrosoft,
+    }
 
-    document.getElementById('btn-apple').onclick = () => loginWithApple()
+    for (const [id, fn] of Object.entries(oauthHandlers)) {
+      document.getElementById(id).onclick = async (e) => {
+        const btn = e.currentTarget
+        btn.disabled = true
+        const origText = btn.textContent
+        btn.textContent = 'Anmelden…'
+        clearError()
+        const result = await fn()
+        if (result?.ok) {
+          window.location.hash = 'dashboard'
+          window.dispatchEvent(new Event('auth-change'))
+        } else {
+          btn.disabled = false
+          btn.textContent = origText
+          if (result?.error) showError(result.error)
+        }
+      }
+    }
 
     document.getElementById('btn-guest').onclick = () => {
       activateGuest()
@@ -99,10 +124,11 @@ registerPage('login', (app) => {
       e.preventDefault()
       const btn = e.target.querySelector('button[type="submit"]')
       btn.disabled = true
+      clearError()
 
-      let result
       const email = document.getElementById('f-email').value
       const password = document.getElementById('f-password').value
+      let result
 
       if (mode === 'login') {
         result = await login(email, password)
@@ -116,20 +142,27 @@ registerPage('login', (app) => {
         }
       }
 
-      if (result.error) {
+      if (result?.error) {
         showError(result.error)
         btn.disabled = false
-      } else {
+      } else if (result?.ok) {
         clearGuest()
         window.location.hash = 'dashboard'
         window.dispatchEvent(new Event('auth-change'))
+      } else {
+        showError('Unbekannter Fehler. Bitte erneut versuchen.')
+        btn.disabled = false
       }
     }
 
     function showError(msg) {
       const el = document.getElementById('auth-error')
       if (el) { el.textContent = msg; el.style.display = 'block' }
-      else { alert(msg) }
+    }
+
+    function clearError() {
+      const el = document.getElementById('auth-error')
+      if (el) { el.textContent = ''; el.style.display = 'none' }
     }
   }
 

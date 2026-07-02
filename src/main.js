@@ -1,4 +1,4 @@
-import { onAuthChange, getCurrentUser, getSession, logout, handleRedirectResult, waitForAuthReady, finishDeleteAfterRedirect } from './auth.js'
+import { onAuthChange, getCurrentUser, getSession, logout, waitForAuthReady, finishDeleteAfterRedirect } from './auth.js'
 import { isGuest, clearGuest } from './guest.js'
 import { escapeHtml } from './escape.js'
 
@@ -8,6 +8,19 @@ const themeToggle = document.getElementById('theme-toggle')
 const hamburgerBtn = document.getElementById('hamburger-btn')
 const mobileNavOverlay = document.getElementById('mobile-nav-overlay')
 const mobileNavClose = document.getElementById('mobile-nav-close')
+
+function showToast(msg, isError = false) {
+  const toast = document.createElement('div')
+  toast.className = 'sap-toast'
+  if (isError) toast.style.cssText = 'background:#e41e3f;color:#fff'
+  toast.textContent = msg
+  document.body.appendChild(toast)
+  setTimeout(() => toast.remove(), 5000)
+}
+
+window.addEventListener('progress-save-error', () => {
+  showToast('Fortschritt konnte nicht gespeichert werden. Prüfe deine Internetverbindung.', true)
+})
 
 function applyTheme(session) {
   const body = document.body
@@ -41,9 +54,14 @@ mobileNavOverlay.addEventListener('click', (e) => {
 })
 
 const pages = {}
+let pageCleanup = null
 
 export function registerPage(name, renderFn) {
   pages[name] = renderFn
+}
+
+export function setPageCleanup(fn) {
+  pageCleanup = fn
 }
 
 const PROTECTED = ['dashboard', 'klr', 'fibu', 'it', 'mathe', 'programmieren', 'profile', 'sap']
@@ -240,6 +258,7 @@ async function route() {
 
   const render = pages[hash]
   if (render) {
+    if (pageCleanup) { pageCleanup(); pageCleanup = null }
     app.innerHTML = ''
     await render(app)
   } else {
@@ -248,7 +267,7 @@ async function route() {
 }
 
 window.addEventListener('hashchange', route)
-window.addEventListener('auth-change', renderNav)
+window.addEventListener('auth-change', () => { renderNav(); route() })
 
 Promise.all([
   import('./pages/login.js'),
@@ -261,26 +280,24 @@ Promise.all([
   import('./pages/profile.js'),
   import('./pages/sap.js'),       // ← neu
 ]).then(async () => {
-  await waitForAuthReady()
-
   // Handle pending account deletion after OAuth redirect
   const deleteResult = await finishDeleteAfterRedirect()
   if (deleteResult.ok) {
     window.location.hash = 'login'
+    await waitForAuthReady()
+    onAuthChange(() => { renderNav(); route() })
     route()
     return
   }
   if (deleteResult.error) {
-    alert('Account-Löschung fehlgeschlagen: ' + deleteResult.error)
+    showToast('Account-Löschung fehlgeschlagen: ' + deleteResult.error, true)
   }
 
-  await handleRedirectResult()
-  await waitForAuthReady()
-  onAuthChange(() => {
-    renderNav()
-    route()
-  })
-  route()
+  const user = await waitForAuthReady()
+
+  // Only register onAuthChange AFTER initial route, so it doesn't fire mid-boot
+  await route()
+  onAuthChange(() => { renderNav(); route() })
 })
 
 themeToggle.addEventListener('click', () => {

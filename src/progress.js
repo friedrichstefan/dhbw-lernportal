@@ -26,12 +26,15 @@ async function loadAll() {
 async function saveAll(data) {
   if (isGuest()) {
     localStorage.setItem(GUEST_KEY, JSON.stringify(data))
+    window.dispatchEvent(new CustomEvent('progress-updated'))
     return
   }
   try {
     await setDoc(progressDocRef(), { ...data, lastSeen: serverTimestamp() }, { merge: true })
+    window.dispatchEvent(new CustomEvent('progress-updated'))
   } catch (e) {
     console.error('Progress save failed:', e)
+    window.dispatchEvent(new CustomEvent('progress-save-error', { detail: e }))
   }
 }
 
@@ -43,7 +46,7 @@ export async function getProgress() {
     flashcards: d.flashcards || {},
     quiz_scores: d.quiz_scores || {},
     exercises: d.exercises || {},
-    todos: d.todos || []
+    todos: Array.isArray(d.todos) ? d.todos : []
   }
 }
 

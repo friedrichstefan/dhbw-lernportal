@@ -8,7 +8,7 @@ export async function mountFlashcards(container, cards) {
   let current = 0
   let flipped = false
 
-  function render() {
+  async function render() {
     if (!queue.length) {
       container.innerHTML = `
         <div class="page-container" style="text-align:center;padding-top:40px;">
@@ -25,7 +25,8 @@ export async function mountFlashcards(container, cards) {
     }
 
     const card = queue[current]
-    const known = Object.values(getProgress().flashcards).filter(v => v === 'known').length
+    const { flashcards: savedNow } = await getProgress()
+    const known = Object.values(savedNow ?? {}).filter(v => v === 'known').length
     const total = cards.length
     const pct = Math.round((known / total) * 100)
 
