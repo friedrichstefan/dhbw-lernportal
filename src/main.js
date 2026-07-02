@@ -64,6 +64,74 @@ export function setPageCleanup(fn) {
   pageCleanup = fn
 }
 
+function skeletonFor(hash) {
+  const progressCard = `
+    <div class="skeleton-card" style="margin-bottom:var(--space-xl)">
+      <div class="skeleton skeleton-text" style="width:55%;margin-bottom:var(--space-md)"></div>
+      <div style="display:flex;align-items:center;gap:var(--space-xl);margin-bottom:var(--space-md)">
+        <div class="skeleton" style="height:32px;width:60px;border-radius:var(--radius-md)"></div>
+        <div class="skeleton skeleton-progress-bar" style="flex:1"></div>
+      </div>
+      <div style="display:flex;gap:var(--space-xl);flex-wrap:wrap">
+        <div class="skeleton skeleton-text" style="width:120px"></div>
+        <div class="skeleton skeleton-text" style="width:120px"></div>
+        <div class="skeleton skeleton-text" style="width:120px"></div>
+      </div>
+    </div>`
+
+  const subjectPage = (title) => `
+    <div class="page-container">
+      <div class="skeleton skeleton-title"></div>
+      ${progressCard}
+      <div class="skeleton skeleton-text" style="width:60%;margin-bottom:var(--space-xl)"></div>
+      <div class="skeleton-tabs">
+        <div class="skeleton skeleton-tab"></div>
+        <div class="skeleton skeleton-tab"></div>
+        <div class="skeleton skeleton-tab"></div>
+        <div class="skeleton skeleton-tab"></div>
+      </div>
+      <div class="skeleton skeleton-fc"></div>
+    </div>`
+
+  if (hash === 'dashboard') return `
+    <div class="page-container">
+      <div class="skeleton skeleton-title"></div>
+      <div class="skeleton-card" style="margin-bottom:var(--space-xl)">
+        <div style="display:flex;align-items:center;gap:var(--space-xl);flex-wrap:wrap">
+          <div class="skeleton" style="height:48px;width:80px;border-radius:var(--radius-md)"></div>
+          <div class="skeleton skeleton-progress-bar" style="flex:1;min-width:200px"></div>
+        </div>
+      </div>
+      <div class="card-grid">
+        ${Array(5).fill(`
+          <div class="skeleton-card">
+            <div class="skeleton skeleton-text" style="width:50%;margin-bottom:var(--space-md)"></div>
+            <div class="skeleton skeleton-text" style="width:80%;margin-bottom:var(--space-md)"></div>
+            <div class="skeleton skeleton-progress-bar"></div>
+          </div>`).join('')}
+      </div>
+    </div>`
+
+  if (hash === 'it') return `
+    <div class="page-container">
+      <div class="skeleton skeleton-title"></div>
+      ${progressCard}
+      <div style="display:flex;gap:8px;margin-bottom:var(--space-xl)">
+        <div class="skeleton" style="flex:1;height:52px;border-radius:var(--radius-md)"></div>
+        <div class="skeleton" style="flex:1;height:52px;border-radius:var(--radius-md)"></div>
+        <div class="skeleton" style="flex:1;height:52px;border-radius:var(--radius-md)"></div>
+      </div>
+      <div class="skeleton-tabs">
+        <div class="skeleton skeleton-tab"></div>
+        <div class="skeleton skeleton-tab"></div>
+        <div class="skeleton skeleton-tab"></div>
+      </div>
+      <div class="skeleton skeleton-fc"></div>
+    </div>`
+
+  return subjectPage(hash)
+}
+
 const PROTECTED = ['dashboard', 'klr', 'fibu', 'it', 'mathe', 'programmieren', 'profile', 'sap']
 
 function initials(name) {
@@ -259,8 +327,13 @@ async function route() {
   const render = pages[hash]
   if (render) {
     if (pageCleanup) { pageCleanup(); pageCleanup = null }
-    app.innerHTML = ''
-    await render(app)
+    app.innerHTML = skeletonFor(hash)
+    try {
+      await render(app)
+    } catch (e) {
+      console.error('Page render error:', e)
+      app.innerHTML = `<div class="page-container"><p class="text-secondary">Seite konnte nicht geladen werden.</p></div>`
+    }
   } else {
     app.innerHTML = `<div class="page-container"><p class="text-secondary">Seite nicht gefunden.</p></div>`
   }
@@ -278,7 +351,9 @@ Promise.all([
   import('./pages/mathe.js'),
   import('./pages/programmieren.js'),
   import('./pages/profile.js'),
-  import('./pages/sap.js'),       // ← neu
+  import('./pages/sap.js'),
+  import('./pages/datenschutz.js'),
+  import('./pages/impressum.js'),
 ]).then(async () => {
   // Handle pending account deletion after OAuth redirect
   const deleteResult = await finishDeleteAfterRedirect()
