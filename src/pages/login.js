@@ -84,7 +84,15 @@ registerPage('login', (app) => {
           <button id="btn-guest" class="btn btn-secondary" style="width:100%;margin-top:var(--space-lg)">Als Gast fortfahren</button>
           <p class="auth-footer-note" style="margin-top:var(--space-md)">Gast-Fortschritt wird nur lokal gespeichert.</p>
         </div>
-      </div>`
+      </div>
+      <footer class="site-footer">
+        <span>© 2026 learn.portal</span>
+        <div class="site-footer-links">
+          <a href="#datenschutz">Datenschutz</a>
+          <span class="site-footer-sep">·</span>
+          <a href="#impressum">Impressum</a>
+        </div>
+      </footer>`
 
     document.getElementById('tab-login').onclick = () => { mode = 'login'; render() }
     document.getElementById('tab-register').onclick = () => { mode = 'register'; render() }
