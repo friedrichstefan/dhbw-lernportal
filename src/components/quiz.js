@@ -1,6 +1,10 @@
 import { setQuizScore } from '../progress.js'
 
 export function mountQuiz(container, questions, subject) {
+  if (!questions?.length) {
+    container.innerHTML = '<p class="text-secondary" style="padding:var(--space-xl)">Keine Quiz-Fragen verfügbar.</p>'
+    return
+  }
   let idx = 0
   let score = 0
   let answered = false
@@ -17,7 +21,7 @@ export function mountQuiz(container, questions, subject) {
         <p class="text-secondary" style="margin-bottom:12px;">Frage ${idx + 1} / ${questions.length}</p>
         <p class="quiz-question">${renderInlineLatex(q.question)}</p>
         <div class="quiz-options">
-          ${q.options.map((opt, i) => `
+          ${(q.options ?? []).map((opt, i) => `
             <button class="quiz-option" data-idx="${i}">${renderInlineLatex(opt)}</button>
           `).join('')}
         </div>
@@ -78,7 +82,8 @@ export function mountQuiz(container, questions, subject) {
   }
 
   function renderInlineLatex(text) {
-    return text.replace(/\$(.+?)\$/g, (_, expr) => {
+    if (!text) return ''
+    return String(text).replace(/\$(.+?)\$/g, (_, expr) => {
       try {
         return window.katex?.renderToString(expr, { throwOnError: false }) ?? `$${expr}$`
       } catch { return `$${expr}$` }

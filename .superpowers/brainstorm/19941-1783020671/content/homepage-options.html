@@ -1,0 +1,131 @@
+<h2>Welches Homepage-Layout gefällt dir am besten?</h2>
+<p class="subtitle">Aktuelle Seite ist ein simples Dashboard mit Fortschrittsbalken und Todo-Liste. Welche Richtung soll die neue Hauptseite nehmen?</p>
+
+<div class="cards">
+
+  <!-- Option A: Hero + Subject Cards -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f1f4f7;padding:16px;font-family:system-ui,sans-serif;">
+      <div style="background:#0a1317;color:#fff;padding:6px 12px;font-size:10px;font-weight:700;border-radius:2px;margin-bottom:8px;display:inline-block;">learn.portal</div>
+      <div style="background:linear-gradient(135deg,#0064e0 0%,#0457cb 100%);border-radius:12px;padding:16px 20px;color:#fff;margin-bottom:10px;">
+        <div style="font-size:10px;opacity:.7;margin-bottom:4px;letter-spacing:1px;text-transform:uppercase;">2. Semester DHBW</div>
+        <div style="font-size:18px;font-weight:600;line-height:1.2;margin-bottom:6px;">Bereit für die<br>Klausurphase?</div>
+        <div style="background:rgba(255,255,255,0.2);border-radius:100px;padding:4px 12px;font-size:10px;font-weight:700;display:inline-block;">Fortschritt: 42%</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+        <div style="background:#fff;border:1px solid #dee3e9;border-radius:8px;padding:8px;">
+          <div style="font-size:9px;color:#5d6c7b;">Kombi-Klausur 1</div>
+          <div style="font-size:11px;font-weight:700;margin:2px 0;">KLR</div>
+          <div style="height:4px;background:#dee3e9;border-radius:100px;"><div style="width:65%;height:100%;background:#0064e0;border-radius:100px;"></div></div>
+        </div>
+        <div style="background:#fff;border:1px solid #dee3e9;border-radius:8px;padding:8px;">
+          <div style="font-size:9px;color:#5d6c7b;">Kombi-Klausur 1</div>
+          <div style="font-size:11px;font-weight:700;margin:2px 0;">FiBu</div>
+          <div style="height:4px;background:#dee3e9;border-radius:100px;"><div style="width:30%;height:100%;background:#0064e0;border-radius:100px;"></div></div>
+        </div>
+        <div style="background:#fff;border:1px solid #dee3e9;border-radius:8px;padding:8px;">
+          <div style="font-size:9px;color:#5d6c7b;">Einzelklausur</div>
+          <div style="font-size:11px;font-weight:700;margin:2px 0;">Mathe</div>
+          <div style="height:4px;background:#dee3e9;border-radius:100px;"><div style="width:50%;height:100%;background:#0064e0;border-radius:100px;"></div></div>
+        </div>
+        <div style="background:#fff;border:1px solid #dee3e9;border-radius:8px;padding:8px;">
+          <div style="font-size:9px;color:#5d6c7b;">Kombi-Klausur 2</div>
+          <div style="font-size:11px;font-weight:700;margin:2px 0;">IT</div>
+          <div style="height:4px;background:#dee3e9;border-radius:100px;"><div style="width:80%;height:100%;background:#0064e0;border-radius:100px;"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Hero + Fächerkarten</h3>
+      <p>Großes Hero-Banner oben mit Gesamtfortschritt, darunter kompakte Fächerkarten. Modern, motivierend, übersichtlich.</p>
+    </div>
+  </div>
+
+  <!-- Option B: Stats-Dashboard -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f1f4f7;padding:16px;font-family:system-ui,sans-serif;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <div style="font-size:10px;font-weight:700;color:#0a1317;">learn.portal</div>
+        <div style="font-size:9px;color:#5d6c7b;">Hallo, Max</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px;">
+        <div style="background:#fff;border-radius:8px;padding:8px;text-align:center;border:1px solid #dee3e9;">
+          <div style="font-size:18px;font-weight:700;color:#0064e0;">42%</div>
+          <div style="font-size:9px;color:#5d6c7b;">Gesamt</div>
+        </div>
+        <div style="background:#fff;border-radius:8px;padding:8px;text-align:center;border:1px solid #dee3e9;">
+          <div style="font-size:18px;font-weight:700;color:#31a24c;">47</div>
+          <div style="font-size:9px;color:#5d6c7b;">Cards gelernt</div>
+        </div>
+        <div style="background:#fff;border-radius:8px;padding:8px;text-align:center;border:1px solid #dee3e9;">
+          <div style="font-size:18px;font-weight:700;color:#f7b928;">3</div>
+          <div style="font-size:9px;color:#5d6c7b;">Todos offen</div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #dee3e9;border-radius:8px;padding:10px;margin-bottom:6px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+          <div style="font-size:10px;font-weight:700;">KLR</div><div style="font-size:10px;color:#0064e0;">65%</div>
+        </div>
+        <div style="height:5px;background:#dee3e9;border-radius:100px;"><div style="width:65%;height:100%;background:#0064e0;border-radius:100px;"></div></div>
+      </div>
+      <div style="background:#fff;border:1px solid #dee3e9;border-radius:8px;padding:10px;margin-bottom:6px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+          <div style="font-size:10px;font-weight:700;">Mathe</div><div style="font-size:10px;color:#0064e0;">50%</div>
+        </div>
+        <div style="height:5px;background:#dee3e9;border-radius:100px;"><div style="width:50%;height:100%;background:#0064e0;border-radius:100px;"></div></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Stats-Dashboard</h3>
+      <p>Kennzahlen-Widgets oben (Gesamtprozent, gelernte Cards, offene Todos), dann Fächer als Liste mit Balken. Datenreich, übersichtlich.</p>
+    </div>
+  </div>
+
+  <!-- Option C: Klausur-Countdown + Fächer -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f1f4f7;padding:16px;font-family:system-ui,sans-serif;">
+      <div style="background:#0a1317;color:#fff;border-radius:12px;padding:12px 16px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div style="font-size:9px;opacity:.5;text-transform:uppercase;letter-spacing:1px;">Kombi-Klausur 1</div>
+          <div style="font-size:13px;font-weight:700;">in 14 Tagen</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:9px;opacity:.5;text-transform:uppercase;letter-spacing:1px;">Kombi-Klausur 2</div>
+          <div style="font-size:13px;font-weight:700;">in 21 Tagen</div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #dee3e9;border-radius:10px;overflow:hidden;margin-bottom:6px;">
+        <div style="display:flex;align-items:center;padding:8px 10px;border-bottom:1px solid #dee3e9;">
+          <div style="flex:1;">
+            <div style="font-size:9px;color:#5d6c7b;">KLR</div>
+            <div style="height:4px;background:#dee3e9;border-radius:100px;margin-top:3px;"><div style="width:65%;height:100%;background:#0064e0;border-radius:100px;"></div></div>
+          </div>
+          <div style="font-size:10px;font-weight:700;color:#0064e0;margin-left:8px;">65%</div>
+        </div>
+        <div style="display:flex;align-items:center;padding:8px 10px;border-bottom:1px solid #dee3e9;">
+          <div style="flex:1;">
+            <div style="font-size:9px;color:#5d6c7b;">FiBu</div>
+            <div style="height:4px;background:#dee3e9;border-radius:100px;margin-top:3px;"><div style="width:30%;height:100%;background:#0064e0;border-radius:100px;"></div></div>
+          </div>
+          <div style="font-size:10px;font-weight:700;color:#0064e0;margin-left:8px;">30%</div>
+        </div>
+        <div style="display:flex;align-items:center;padding:8px 10px;">
+          <div style="flex:1;">
+            <div style="font-size:9px;color:#5d6c7b;">Mathe</div>
+            <div style="height:4px;background:#dee3e9;border-radius:100px;margin-top:3px;"><div style="width:50%;height:100%;background:#0064e0;border-radius:100px;"></div></div>
+          </div>
+          <div style="font-size:10px;font-weight:700;color:#0064e0;margin-left:8px;">50%</div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #dee3e9;border-radius:8px;padding:8px;">
+        <div style="font-size:9px;color:#5d6c7b;margin-bottom:4px;">Nächste Todo</div>
+        <div style="font-size:10px;display:flex;align-items:center;gap:6px;"><span style="color:#0064e0;">□</span> KLR Übungsaufgabe 3 lösen</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Countdown + Klausurzeitenplan</h3>
+      <p>Klausur-Countdown als prominentes Banner, darunter Fächer gruppiert nach Klausur. Stressmotivierend, zielorientiert.</p>
+    </div>
+  </div>
+
+</div>

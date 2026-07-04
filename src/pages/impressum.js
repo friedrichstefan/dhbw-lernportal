@@ -8,17 +8,18 @@ registerPage('impressum', (app) => {
       <div class="card" style="margin-bottom:var(--space-xl)">
         <h2 style="font-size:1.1rem;margin-bottom:var(--space-md)">Angaben gemäß § 5 TMG</h2>
         <p class="text-secondary" style="line-height:1.9">
-          <strong>[Dein Name]</strong><br>
-          [Straße Hausnummer]<br>
-          [PLZ] [Stadt]<br>
-          Deutschland
+          <strong>Stefan Friedrich</strong><br>
+          Seckenheimer Landstraße 4A<br>
+          Neuostheim<br>
+          68163 Mannheim<br>
+          Germany
         </p>
       </div>
 
       <div class="card" style="margin-bottom:var(--space-xl)">
         <h2 style="font-size:1.1rem;margin-bottom:var(--space-md)">Kontakt</h2>
         <p class="text-secondary" style="line-height:1.9">
-          E-Mail: <a href="mailto:[deine@email.de]">[deine@email.de]</a>
+          E-Mail: <a href="mailto:delta.corelabs@gmail.com">delta.corelabs@gmail.com</a>
         </p>
       </div>
 

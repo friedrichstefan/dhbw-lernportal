@@ -1,0 +1,52 @@
+[
+  {
+    "id": "it1-ex-1",
+    "title": "Eigenschaften eines Algorithmus",
+    "question": "Nenne und erkläre die 4 wesentlichen Eigenschaften, die ein Algorithmus erfüllen muss.",
+    "solution": "<ol style='padding-left:20px;line-height:1.8;color:var(--color-text-secondary)'><li><strong>Finitheit:</strong> Das Verfahren ist in einem endlichen Text eindeutig beschreibbar.</li><li><strong>Ausführbarkeit:</strong> Jeder Schritt des Verfahrens muss tatsächlich ausführbar sein.</li><li><strong>Dynamische Finitheit:</strong> Das Verfahren darf zu jedem Zeitpunkt nur endlich viel Speicherplatz benötigen.</li><li><strong>Terminierung:</strong> Das Verfahren darf nur endlich viele Schritte benötigen.</li></ol><p style='margin-top:8px;color:var(--color-text-secondary)'>Praktisch kommen hinzu: Determiniertheit (gleiche Eingabe → gleiche Ausgabe) und Determinismus (nächster Schritt immer eindeutig).</p>"
+  },
+  {
+    "id": "it1-ex-2",
+    "title": "Komplexitätsklassen zuordnen",
+    "question": "Ordne die Komplexitätsklasse den folgenden Algorithmen zu:",
+    "task": "<ol style='padding-left:20px;line-height:1.8;color:var(--color-text-secondary)'><li>Binäre Suche in einer sortierten Liste</li><li>Bubblesort</li><li>Direkter Zugriff auf ein Array-Element per Index</li><li>Mergesort</li><li>Travelling Salesman (brute force)</li></ol>",
+    "solution": "<ol style='padding-left:20px;line-height:1.8;color:var(--color-text-secondary)'><li>O(log n) – logarithmisch</li><li>O(n²) – quadratisch</li><li>O(1) – konstant</li><li>O(n log n) – überlinear</li><li>O(n!) – faktoriell</li></ol>"
+  },
+  {
+    "id": "it1-ex-3",
+    "title": "Stack vs. Queue",
+    "question": "Erkläre den Unterschied zwischen Stack und Queue anhand des Zugriffsprinzips und gib je zwei Anwendungsbeispiele an.",
+    "solution": "<p style='color:var(--color-text-secondary);line-height:1.6'><strong>Stack (LIFO – Last In, First Out):</strong> Das zuletzt eingefügte Element wird als erstes entnommen.<br>Beispiele: Funktionsaufruf-Stack beim Compiler, Undo-Funktion in Programmen.</p><p style='color:var(--color-text-secondary);line-height:1.6;margin-top:8px'><strong>Queue (FIFO – First In, First Out):</strong> Das zuerst eingefügte Element wird als erstes entnommen.<br>Beispiele: Druckerwarteschlange, Nachrichtenpuffer in der Kommunikation.</p>"
+  },
+  {
+    "id": "it1-ex-4",
+    "title": "Einfach vs. doppelt verkettete Liste",
+    "question": "Vergleiche einfach und doppelt verkettete Listen: Struktur, Vorteile, Nachteile.",
+    "solution": "<p style='color:var(--color-text-secondary);line-height:1.6'><strong>Einfach verkettet:</strong> Jeder Knoten hat Nutzdaten + Zeiger auf Nachfolger. Nullzeiger am Ende.<br>Vorteil: weniger Speicher. Nachteil: nur vorwärts traversierbar.</p><p style='color:var(--color-text-secondary);line-height:1.6;margin-top:8px'><strong>Doppelt verkettet:</strong> Jeder Knoten hat Nutzdaten + Zeiger auf Nachfolger UND Vorgänger.<br>Vorteil: vorwärts und rückwärts traversierbar, effizienteres Löschen. Nachteil: mehr Speicher.</p>"
+  },
+  {
+    "id": "it1-ex-5",
+    "title": "Dualsystem Umrechnung",
+    "question": "Rechne die folgenden Zahlen um:",
+    "task": "<ol style='padding-left:20px;line-height:1.8;color:var(--color-text-secondary)'><li>42 (dezimal) → binär</li><li>1101 0110 (binär) → dezimal</li><li>255 (dezimal) → hexadezimal</li></ol>",
+    "solution": "<ol style='padding-left:20px;line-height:1.8;color:var(--color-text-secondary)'><li>42 = 32+8+2 = <strong>101010₂</strong></li><li>1·128 + 1·64 + 0·32 + 1·16 + 0·8 + 1·4 + 1·2 + 0·1 = <strong>214</strong></li><li>255 = 15·16 + 15 = <strong>FF₁₆</strong></li></ol>"
+  },
+  {
+    "id": "it1-ex-6",
+    "title": "Abstrakter Datentyp",
+    "question": "Was ist ein abstrakter Datentyp (ADT)? Erkläre das Konzept und gib ein Beispiel.",
+    "solution": "<p style='color:var(--color-text-secondary);line-height:1.6'>Ein ADT besteht aus einem Wertebereich (Menge von Objekten) und darauf definierten Operationen (Schnittstelle).</p><p style='color:var(--color-text-secondary);line-height:1.6;margin-top:8px'>Der ADT beschreibt <em>was</em> die Operationen tun (Semantik), aber noch nicht <em>wie</em> (Implementierung). Daten sind nach außen gekapselt.</p><p style='color:var(--color-text-secondary);line-height:1.6;margin-top:8px'><strong>Beispiel Stack-ADT:</strong> Wertebereich: Folge von Elementen. Operationen: push(x), pop(), peek(), isEmpty().</p>"
+  },
+  {
+    "id": "it1-ex-7",
+    "title": "XML Struktur",
+    "question": "Erstelle ein wohlgeformtes XML-Dokument für eine Bibliothek mit 2 Büchern (Titel, Autor, Jahr).",
+    "solution": "<pre style='color:var(--color-text-secondary);font-size:0.85rem;line-height:1.7;background:var(--surface);padding:12px;border-radius:6px;overflow-x:auto'>&lt;?xml version=\"1.0\" encoding=\"UTF-8\"?&gt;\n&lt;bibliothek&gt;\n  &lt;buch id=\"1\"&gt;\n    &lt;titel&gt;Grundkurs Informatik&lt;/titel&gt;\n    &lt;autor&gt;Ernst, Schmidt&lt;/autor&gt;\n    &lt;jahr&gt;2020&lt;/jahr&gt;\n  &lt;/buch&gt;\n  &lt;buch id=\"2\"&gt;\n    &lt;titel&gt;Algorithmen und Datenstrukturen&lt;/titel&gt;\n    &lt;autor&gt;Cormen&lt;/autor&gt;\n    &lt;jahr&gt;2022&lt;/jahr&gt;\n  &lt;/buch&gt;\n&lt;/bibliothek&gt;</pre>"
+  },
+  {
+    "id": "it1-ex-8",
+    "title": "EVA-Prinzip",
+    "question": "Erkläre das EVA-Prinzip und gib drei Beispiele aus dem Alltag an.",
+    "solution": "<p style='color:var(--color-text-secondary);line-height:1.6'><strong>EVA = Eingabe – Verarbeitung – Ausgabe:</strong> Jeder Computer verarbeitet Eingabedaten nach einem Algorithmus und erzeugt Ausgaben.</p><ol style='padding-left:20px;line-height:1.8;color:var(--color-text-secondary);margin-top:8px'><li>Taschenrechner: Eingabe Zahlen → Berechnung → Ergebnis anzeigen</li><li>Suchmaschine: Suchbegriff → Indexsuche → Trefferliste</li><li>Bankomat: PIN + Betrag → Authentifizierung + Buchung → Geldausgabe</li></ol>"
+  }
+]

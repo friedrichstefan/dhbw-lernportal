@@ -1,0 +1,69 @@
+[
+  {
+    "id": "mathe-tex-1",
+    "title": "Wahrheitstafel erstellen",
+    "question": "Erstelle die vollständige Wahrheitstafel für die Formel (A ∧ B) → ¬C.",
+    "solution": "<table style='width:100%;border-collapse:collapse;color:var(--color-text-secondary);font-size:0.85rem;margin-top:6px'><tr><th style='border:1px solid var(--border);padding:5px 8px;background:var(--surface-2,var(--surface))'>A</th><th style='border:1px solid var(--border);padding:5px 8px;background:var(--surface-2,var(--surface))'>B</th><th style='border:1px solid var(--border);padding:5px 8px;background:var(--surface-2,var(--surface))'>C</th><th style='border:1px solid var(--border);padding:5px 8px;background:var(--surface-2,var(--surface))'>A∧B</th><th style='border:1px solid var(--border);padding:5px 8px;background:var(--surface-2,var(--surface))'>¬C</th><th style='border:1px solid var(--border);padding:5px 8px;background:var(--surface-2,var(--surface))'>(A∧B)→¬C</th></tr><tr><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>W</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>W</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>W</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>W</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>F</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center;color:var(--color-error,#ef4444)'>F</td></tr><tr><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>W</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>W</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>F</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>W</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>W</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>W</td></tr><tr><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>W</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>F</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>W</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>F</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>F</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>W</td></tr><tr><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>W</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>F</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>F</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>F</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>W</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>W</td></tr><tr><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>F</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>W</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>W</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>F</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>F</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>W</td></tr><tr><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>F</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>W</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>F</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>F</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>W</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>W</td></tr><tr><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>F</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>F</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>W</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>F</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>F</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>W</td></tr><tr><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>F</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>F</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>F</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>F</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>W</td><td style='border:1px solid var(--border);padding:5px 8px;text-align:center'>W</td></tr></table><p style='color:var(--color-text-secondary);margin-top:8px;font-size:0.85rem'>Die Formel ist <strong>nicht</strong> erfüllbar in allen Zeilen (F in Zeile 1), also keine Tautologie.</p>"
+  },
+  {
+    "id": "mathe-tex-2",
+    "title": "De Morgan anwenden",
+    "question": "Vereinfache die folgenden Ausdrücke mit den De Morgan'schen Gesetzen:",
+    "task": "<ol style='padding-left:20px;line-height:1.8;color:var(--color-text-secondary)'><li>¬(A ∧ B)</li><li>¬(A ∨ B)</li><li>¬(A ∧ B ∧ C)</li><li>¬(¬A ∨ B)</li></ol>",
+    "solution": "<ol style='padding-left:20px;line-height:1.8;color:var(--color-text-secondary)'><li>¬A ∨ ¬B &nbsp;(De Morgan 1)</li><li>¬A ∧ ¬B &nbsp;(De Morgan 2)</li><li>¬A ∨ ¬B ∨ ¬C &nbsp;(De Morgan 1, mehrfach)</li><li>¬(¬A ∨ B) ≡ ¬(¬A) ∧ ¬B ≡ <strong>A ∧ ¬B</strong> &nbsp;(De Morgan 2 + Doppelnegation)</li></ol>"
+  },
+  {
+    "id": "mathe-tex-3",
+    "title": "Modus Ponens & Tollens",
+    "question": "Bestimme die Schlussregel und leite die Konklusion ab:",
+    "task": "<ol style='padding-left:20px;line-height:1.8;color:var(--color-text-secondary)'><li>Prämisse 1: A → B &nbsp;|&nbsp; Prämisse 2: A &nbsp;→ Konklusion: ?</li><li>Prämisse 1: A → B &nbsp;|&nbsp; Prämisse 2: ¬B &nbsp;→ Konklusion: ?</li><li>Prämisse 1: (P ∧ Q) → R &nbsp;|&nbsp; Prämisse 2: P ∧ Q &nbsp;→ Konklusion: ?</li><li>Prämisse 1: P → Q &nbsp;|&nbsp; Prämisse 2: Q → R &nbsp;→ Konklusion: ?</li></ol>",
+    "solution": "<ol style='padding-left:20px;line-height:1.8;color:var(--color-text-secondary)'><li><strong>Modus Ponens:</strong> Konklusion: B</li><li><strong>Modus Tollens:</strong> Konklusion: ¬A</li><li><strong>Modus Ponens:</strong> Konklusion: R</li><li><strong>Hypothetischer Syllogismus (Kettenschluss):</strong> Konklusion: P → R</li></ol>"
+  },
+  {
+    "id": "mathe-tex-4",
+    "title": "Formeln vereinfachen",
+    "question": "Vereinfache mit logischen Gesetzen (Absorption, Neutralität, Distributivität):",
+    "task": "<ol style='padding-left:20px;line-height:1.8;color:var(--color-text-secondary)'><li>A ∧ (A ∨ B)</li><li>A ∨ (A ∧ B)</li><li>A ∧ W &nbsp;(W = wahr)</li><li>A ∨ F &nbsp;(F = falsch)</li><li>(A ∧ B) ∨ (¬A ∧ B)</li></ol>",
+    "solution": "<ol style='padding-left:20px;line-height:1.8;color:var(--color-text-secondary)'><li><strong>A</strong> &nbsp;(Absorptionsgesetz)</li><li><strong>A</strong> &nbsp;(Absorptionsgesetz)</li><li><strong>A</strong> &nbsp;(Neutralitätsgesetz)</li><li><strong>A</strong> &nbsp;(Neutralitätsgesetz)</li><li>B ∧ (A ∨ ¬A) = B ∧ W = <strong>B</strong> &nbsp;(Distributivgesetz + Tautologie + Neutralität)</li></ol>"
+  },
+  {
+    "id": "mathe-tex-5",
+    "title": "Quantoren negieren",
+    "question": "Negiere die folgenden quantifizierten Aussagen (Negation vollständig nach innen schieben):",
+    "task": "<ol style='padding-left:20px;line-height:1.8;color:var(--color-text-secondary)'><li>∀x: P(x)</li><li>∃x: P(x)</li><li>∀x: (P(x) → Q(x))</li><li>∃x: (P(x) ∧ Q(x))</li></ol>",
+    "solution": "<ol style='padding-left:20px;line-height:1.8;color:var(--color-text-secondary)'><li>∃x: ¬P(x)</li><li>∀x: ¬P(x)</li><li>∃x: (P(x) ∧ ¬Q(x)) &nbsp;(¬(P→Q) ≡ P ∧ ¬Q)</li><li>∀x: (¬P(x) ∨ ¬Q(x)) &nbsp;(De Morgan für ∧)</li></ol>"
+  },
+  {
+    "id": "mathe-tex-6",
+    "title": "Beweis durch Kontraposition",
+    "question": "Beweise durch Kontraposition: \"Wenn n² gerade ist, dann ist n gerade.\"",
+    "task": "<p style='color:var(--color-text-secondary)'>Hinweis: Zeige die Kontraposition – wenn n ungerade ist, dann ist n² ungerade.</p>",
+    "solution": "<p style='color:var(--color-text-secondary);line-height:1.6'><strong>Kontraposition:</strong> ¬Q → ¬P, also: \"Wenn n ungerade ist, dann ist n² ungerade.\"</p><p style='color:var(--color-text-secondary);line-height:1.6;margin-top:6px'>Sei n ungerade. Dann gilt n = 2k + 1 für ein k ∈ ℤ.</p><p style='color:var(--color-text-secondary);line-height:1.6'>n² = (2k+1)² = 4k² + 4k + 1 = 2(2k² + 2k) + 1</p><p style='color:var(--color-text-secondary);line-height:1.6'>Das ist ungerade. Damit ist die Kontraposition bewiesen. □</p>"
+  },
+  {
+    "id": "mathe-tex-7",
+    "title": "Mengenlehre – Operationen",
+    "question": "Gegeben: A = {1,2,3,4,5}, B = {3,4,5,6,7}, C = {1,3,5,7}. Berechne:",
+    "task": "<ol style='padding-left:20px;line-height:1.8;color:var(--color-text-secondary)'><li>A ∩ B</li><li>A ∪ B</li><li>A \\ B</li><li>(A ∪ B) ∩ C</li><li>A × {a, b}</li></ol>",
+    "solution": "<ol style='padding-left:20px;line-height:1.8;color:var(--color-text-secondary)'><li>{3, 4, 5}</li><li>{1, 2, 3, 4, 5, 6, 7}</li><li>{1, 2}</li><li>{1, 3, 5, 7} = C</li><li>{(1,a),(1,b),(2,a),(2,b),(3,a),(3,b),(4,a),(4,b),(5,a),(5,b)}</li></ol>"
+  },
+  {
+    "id": "mathe-tex-8",
+    "title": "Tautologie, Kontradiktion oder erfüllbar?",
+    "question": "Bestimme für jede Formel, ob sie eine Tautologie, Kontradiktion oder erfüllbar (aber nicht Tautologie) ist:",
+    "task": "<ol style='padding-left:20px;line-height:1.8;color:var(--color-text-secondary)'><li>A ∨ ¬A</li><li>A ∧ ¬A</li><li>A → (B → A)</li><li>(A ∧ B) → A</li><li>A ↔ ¬A</li></ol>",
+    "solution": "<ol style='padding-left:20px;line-height:1.8;color:var(--color-text-secondary)'><li><strong>Tautologie</strong> – Satz vom ausgeschlossenen Dritten (tertium non datur)</li><li><strong>Kontradiktion</strong> – Satz vom Widerspruch</li><li><strong>Tautologie</strong> – wenn A wahr, ist B→A wahr; wenn A falsch, ist die äußere Implikation wahr</li><li><strong>Tautologie</strong> – wenn A∧B wahr, ist A wahr; wenn A∧B falsch, ist die Implikation wahr</li><li><strong>Kontradiktion</strong> – A und ¬A haben nie denselben Wahrheitswert</li></ol>"
+  },
+  {
+    "id": "mathe-tex-9",
+    "title": "Direkter Beweis",
+    "question": "Beweise direkt: \"Die Summe zweier gerader Zahlen ist gerade.\"",
+    "solution": "<p style='color:var(--color-text-secondary);line-height:1.6'>Seien a, b gerade. Dann existieren m, n ∈ ℤ mit a = 2m und b = 2n.</p><p style='color:var(--color-text-secondary);line-height:1.6;margin-top:6px'>a + b = 2m + 2n = 2(m + n)</p><p style='color:var(--color-text-secondary);line-height:1.6'>Da m + n ∈ ℤ, ist a + b von der Form 2k mit k ∈ ℤ, also gerade. □</p>"
+  },
+  {
+    "id": "mathe-tex-10",
+    "title": "Äquivalenzumformung A → B ≡ ¬A ∨ B",
+    "question": "Zeige mit einer Wahrheitstafel, dass gilt: A → B ≡ ¬A ∨ B",
+    "solution": "<table style='width:100%;border-collapse:collapse;color:var(--color-text-secondary);font-size:0.88rem;margin-top:6px'><tr><th style='border:1px solid var(--border);padding:6px 10px;background:var(--surface-2,var(--surface))'>A</th><th style='border:1px solid var(--border);padding:6px 10px;background:var(--surface-2,var(--surface))'>B</th><th style='border:1px solid var(--border);padding:6px 10px;background:var(--surface-2,var(--surface))'>A → B</th><th style='border:1px solid var(--border);padding:6px 10px;background:var(--surface-2,var(--surface))'>¬A ∨ B</th></tr><tr><td style='border:1px solid var(--border);padding:6px 10px;text-align:center'>W</td><td style='border:1px solid var(--border);padding:6px 10px;text-align:center'>W</td><td style='border:1px solid var(--border);padding:6px 10px;text-align:center'>W</td><td style='border:1px solid var(--border);padding:6px 10px;text-align:center'>W</td></tr><tr><td style='border:1px solid var(--border);padding:6px 10px;text-align:center'>W</td><td style='border:1px solid var(--border);padding:6px 10px;text-align:center'>F</td><td style='border:1px solid var(--border);padding:6px 10px;text-align:center'>F</td><td style='border:1px solid var(--border);padding:6px 10px;text-align:center'>F</td></tr><tr><td style='border:1px solid var(--border);padding:6px 10px;text-align:center'>F</td><td style='border:1px solid var(--border);padding:6px 10px;text-align:center'>W</td><td style='border:1px solid var(--border);padding:6px 10px;text-align:center'>W</td><td style='border:1px solid var(--border);padding:6px 10px;text-align:center'>W</td></tr><tr><td style='border:1px solid var(--border);padding:6px 10px;text-align:center'>F</td><td style='border:1px solid var(--border);padding:6px 10px;text-align:center'>F</td><td style='border:1px solid var(--border);padding:6px 10px;text-align:center'>W</td><td style='border:1px solid var(--border);padding:6px 10px;text-align:center'>W</td></tr></table><p style='color:var(--color-text-secondary);margin-top:8px'>Beide Spalten sind identisch → A → B ≡ ¬A ∨ B. □</p>"
+  }
+]

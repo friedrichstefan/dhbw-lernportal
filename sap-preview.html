@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SAP-Bereich – HP Design Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #fff; }
+
+/* ── Portal Nav (unverändert) ── */
+.topnav {
+  background: #fff;
+  border-bottom: 1px solid #dee3e9;
+  padding: 0 2rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  font-family: 'Manrope', system-ui, sans-serif;
+}
+.topnav-brand { font-size: 14px; font-weight: 700; color: #0a1317; }
+.pill-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.pill-tab {
+  padding: 8px 16px;
+  border-radius: 100px;
+  border: 1px solid #ced0d4;
+  background: #fff;
+  color: #1c1e21;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: none;
+}
+.pill-tab.active { background: #0a1317; color: #fff; border-color: #0a1317; }
+.nav-sap { margin-left: auto; background: #0070C0; color: #ffffff; font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 100px; letter-spacing: .5px; font-family: inherit; }
+
+/* ════════════════════════════════
+   HP-Inspired SAP Page
+   ════════════════════════════════ */
+.hp-page {
+  --hp-primary:      #0070C0;
+  --hp-primary-deep: #005a99;
+  --hp-ink:          #1a1a1a;
+  --hp-on-ink:       #ffffff;
+  --hp-canvas:       #ffffff;
+  --hp-cloud:        #f7f7f7;
+  --hp-graphite:     #636363;
+  --hp-charcoal:     #3d3d3d;
+  --hp-steel:        #c2c2c2;
+  --hp-hairline:     #e8e8e8;
+  --hp-gold:         #0070C0;
+  --hp-gold-dark:    #005a99;
+  --r-btn:  4px;
+  --r-card: 16px;
+  --r-sm:   8px;
+  font-family: 'Manrope', system-ui, sans-serif;
+  color: var(--hp-ink);
+  background: var(--hp-canvas);
+}
+
+/* Utility Strip */
+.hp-utility {
+  background: #0070C0;
+  color: #fff;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 2rem;
+  font-size: 12px;
+}
+.hp-utility-sep { opacity: .3; }
+.hp-wordmark {
+  background: rgba(255,255,255,0.2);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  padding: 1px 7px;
+  border-radius: 2px;
+}
+
+/* Container */
+.hp-container { max-width: 1280px; margin: 0 auto; padding: 0 2rem; }
+
+/* Hero */
+.hp-hero-section {
+  position: relative;
+  overflow: hidden;
+  background: var(--hp-canvas);
+  padding: 3rem 2rem;
+}
+
+/* Chevron SVG decoration */
+.hp-chevron-left,
+.hp-chevron-right {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 52px;
+  pointer-events: none;
+}
+.hp-chevron-left  { left: -4px; }
+.hp-chevron-right { right: -4px; transform: scaleX(-1); }
+
+.hp-hero-card {
+  max-width: 1280px;
+  margin: 0 auto;
+  background: var(--hp-cloud);
+  border-radius: var(--r-card);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  min-height: 320px;
+  box-shadow: 0 2px 8px rgba(26,26,26,.08);
+}
+.hp-hero-visual {
+  background: linear-gradient(140deg, #0070C0 0%, #00A0E0 60%, #0070C0 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 280px;
+  position: relative;
+  overflow: hidden;
+}
+.hp-sap-logo {
+  width: 65%;
+  max-width: 220px;
+  height: auto;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 4px 16px rgba(0,0,0,.25));
+}
+.hp-hero-copy {
+  padding: 3rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.hp-eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--hp-graphite);
+  margin-bottom: .5rem;
+}
+.hp-display-lg {
+  font-size: 44px;
+  font-weight: 500;
+  line-height: 1.0;
+  color: var(--hp-ink);
+  margin-bottom: 1rem;
+}
+.hp-display-md {
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.0;
+  color: var(--hp-ink);
+}
+.hp-body-lg { font-size: 18px; font-weight: 400; line-height: 1.33; color: var(--hp-charcoal); margin-bottom: 1.5rem; }
+.hp-body-md { font-size: 16px; font-weight: 400; line-height: 1.38; color: var(--hp-charcoal); }
+
+/* Buttons */
+.hp-btn {
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 1.5rem;
+  border-radius: var(--r-btn);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .7px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 1px solid transparent;
+  font-family: inherit;
+  transition: background .12s;
+  white-space: nowrap;
+}
+.hp-btn--primary { background: var(--hp-primary); color: #fff; border-color: var(--hp-primary); }
+.hp-btn--outline  { background: transparent; color: var(--hp-primary); border-color: var(--hp-primary); }
+.hp-btn--gold     { background: var(--hp-gold); color: var(--hp-primary); background: #fff; border-color: #fff; }
+.hp-cta-row { display: flex; gap: .75rem; flex-wrap: wrap; }
+
+/* Cloud Section */
+.hp-section-cloud { background: var(--hp-cloud); padding: 5rem 0; }
+
+/* Category Grid */
+.hp-cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+.hp-cat-card {
+  background: #fff;
+  border-radius: var(--r-card);
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(26,26,26,.08);
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+.hp-cat-icon  { font-size: 28px; line-height: 1; margin-bottom: 4px; }
+.hp-cat-title { font-size: 20px; font-weight: 500; color: var(--hp-ink); line-height: 1.1; }
+.hp-cat-desc  { font-size: 14px; color: var(--hp-charcoal); line-height: 1.5; flex: 1; }
+.hp-cat-foot  { margin-top: .75rem; }
+.hp-badge-outline {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--hp-ink);
+  color: var(--hp-ink);
+  border-radius: var(--r-sm);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 10px;
+}
+
+/* Ink Slab */
+.hp-ink-slab { background: var(--hp-ink); padding: 4rem 0; }
+.hp-ink-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 720px) {
+  .hp-hero-card { grid-template-columns: 1fr; }
+  .hp-hero-visual { min-height: 160px; }
+  .hp-chevron-left, .hp-chevron-right { display: none; }
+  .hp-display-lg { font-size: 30px; }
+  .hp-ink-inner { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- Portal Nav -->
+<div class="topnav">
+  <span class="topnav-brand">DHBW Lernportal</span>
+  <div class="pill-tabs">
+    <a class="pill-tab" href="#">Dashboard</a>
+    <a class="pill-tab" href="#">KLR</a>
+    <a class="pill-tab" href="#">FiBu</a>
+    <a class="pill-tab active" href="#">SAP</a>
+    <a class="pill-tab" href="#">IT</a>
+  </div>
+  <span class="nav-sap">SAP Intern</span>
+</div>
+
+<!-- HP-Inspired SAP Page -->
+<div class="hp-page">
+
+  <!-- Utility Strip -->
+  <div class="hp-utility">
+    <span>Exklusiver Bereich für SAP-Mitarbeiter</span>
+    <span class="hp-utility-sep">|</span>
+    <span class="hp-wordmark">SAP</span>
+    <span style="opacity:.6">Duales Studium · DHBW</span>
+  </div>
+
+  <!-- Hero with Chevrons -->
+  <div class="hp-hero-section">
+
+    <!-- Left chevron -->
+    <svg class="hp-chevron-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 400" preserveAspectRatio="none">
+      <polygon points="0,0 52,0 28,400 -24,400" fill="#0070C0" opacity=".9"/>
+    </svg>
+    <!-- Right chevron -->
+    <svg class="hp-chevron-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 400" preserveAspectRatio="none">
+      <polygon points="0,0 52,0 28,400 -24,400" fill="#0070C0" opacity=".9"/>
+    </svg>
+
+    <div class="hp-hero-card">
+      <div class="hp-hero-visual">
+        <!-- SAP diagonal slash decoration -->
+        <svg style="position:absolute;top:0;bottom:0;right:0;height:100%;pointer-events:none;opacity:.15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 400" preserveAspectRatio="none">
+          <polygon points="0,400 60,0 60,400" fill="#ffffff"/>
+        </svg>
+        <img src="/Users/I767513/Downloads/SAP_2011_logo.svg.png" alt="SAP" class="hp-sap-logo" />
+      </div>
+      <div class="hp-hero-copy">
+        <p class="hp-eyebrow">SAP-Bereich</p>
+        <h1 class="hp-display-lg">Dein exklusiver<br>SAP-Zugang</h1>
+        <p class="hp-body-lg">
+          Interne Ressourcen, Dokumentationen und praxisnahe
+          SAP-Materialien – speziell für DHBW-Dualstudierende bei SAP.
+        </p>
+        <div class="hp-cta-row">
+          <button class="hp-btn hp-btn--primary">Lernpfad starten</button>
+          <button class="hp-btn hp-btn--outline">Mehr erfahren</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cloud Band: Tiles -->
+  <div class="hp-section-cloud">
+    <div class="hp-container">
+      <p class="hp-eyebrow">Überblick</p>
+      <h2 class="hp-display-md">Inhaltsbereiche</h2>
+      <div class="hp-cat-grid">
+
+        <div class="hp-cat-card">
+          <div class="hp-cat-icon">📚</div>
+          <div class="hp-cat-title">SAP-Lernmaterialien</div>
+          <div class="hp-cat-desc">Offizielle Kurse &amp; Guides direkt aus dem SAP-Ökosystem.</div>
+          <div class="hp-cat-foot"><span class="hp-badge-outline">Bald verfügbar</span></div>
+        </div>
+
+        <div class="hp-cat-card">
+          <div class="hp-cat-icon">📄</div>
+          <div class="hp-cat-title">Interne Dokumentation</div>
+          <div class="hp-cat-desc">Prozessstandards und interne Richtlinien für deinen Alltag.</div>
+          <div class="hp-cat-foot"><span class="hp-badge-outline">Bald verfügbar</span></div>
+        </div>
+
+        <div class="hp-cat-card">
+          <div class="hp-cat-icon">🎓</div>
+          <div class="hp-cat-title">SAP-Tutorials</div>
+          <div class="hp-cat-desc">Schritt-für-Schritt Anleitungen zu S/4HANA, Fiori &amp; Co.</div>
+          <div class="hp-cat-foot"><span class="hp-badge-outline">Bald verfügbar</span></div>
+        </div>
+
+        <div class="hp-cat-card">
+          <div class="hp-cat-icon">💼</div>
+          <div class="hp-cat-title">Praxisprojekte</div>
+          <div class="hp-cat-desc">Echte Systemzugänge und praxisnahe Übungsszenarien.</div>
+          <div class="hp-cat-foot"><span class="hp-badge-outline">Bald verfügbar</span></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Dark Ink Slab -->
+  <div class="hp-ink-slab">
+    <div class="hp-container">
+      <div class="hp-ink-inner">
+        <div>
+          <p class="hp-eyebrow" style="color:rgba(255,255,255,.5)">In Vorbereitung</p>
+          <h2 class="hp-display-md" style="color:#fff;margin-bottom:.75rem">
+            Inhalte werden bald freigeschaltet
+          </h2>
+          <p class="hp-body-md" style="color:rgba(255,255,255,.65);max-width:460px">
+            Wir bereiten aktuell alle Materialien für dich vor.
+            Du wirst benachrichtigt, sobald neue Inhalte verfügbar sind.
+          </p>
+        </div>
+        <button class="hp-btn hp-btn--gold">Benachrichtigen</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

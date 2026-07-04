@@ -1,0 +1,52 @@
+[
+  {
+    "id": "prog-tex-1",
+    "title": "Aufgabe 1 – Grundlegende Python-Syntax",
+    "question": "Was gibt dieses Programm aus? Erkläre jeden Schritt:",
+    "task": "x = 10\ny = 3\nprint(x // y)\nprint(x % y)\nprint(x ** y)\nprint(type(x))",
+    "solution": "<pre>3       # Ganzzahldivision: 10 // 3 = 3\n1       # Modulo (Rest): 10 % 3 = 1\n1000    # Potenz: 10 ** 3 = 1000\n&lt;class 'int'&gt;  # type() gibt den Datentyp zurück</pre>"
+  },
+  {
+    "id": "prog-tex-2",
+    "title": "Aufgabe 2 – Liste und Schleife",
+    "question": "Schreibe eine Funktion, die eine Liste von Zahlen entgegennimmt und die Summe aller geraden Zahlen zurückgibt.",
+    "solution": "<pre>def summe_gerade(zahlen):\n    summe = 0\n    for zahl in zahlen:\n        if zahl % 2 == 0:\n            summe += zahl\n    return summe\n\n# Alternativ mit List Comprehension:\ndef summe_gerade(zahlen):\n    return sum(z for z in zahlen if z % 2 == 0)\n\nprint(summe_gerade([1, 2, 3, 4, 5, 6]))  # Ausgabe: 12</pre>"
+  },
+  {
+    "id": "prog-tex-3",
+    "title": "Aufgabe 3 – Klasse mit Vererbung",
+    "question": "Erstelle eine Klasse <code>Tier</code> mit Attributen name und alter und Methode lautAusgebend(). Leite <code>Hund</code> ab, der bei lautAusgebend() \"Wuff\" ausgibt.",
+    "solution": "<pre>class Tier:\n    def __init__(self, name, alter):\n        self.name = name\n        self.alter = alter\n\n    def laut_ausgeben(self):\n        print(f\"{self.name} macht einen Laut.\")\n\nclass Hund(Tier):\n    def laut_ausgeben(self):\n        print(f\"{self.name} sagt: Wuff!\")\n\nbello = Hund(\"Bello\", 3)\nbello.laut_ausgeben()  # Bello sagt: Wuff!</pre>"
+  },
+  {
+    "id": "prog-tex-4",
+    "title": "Aufgabe 4 – Dictionary und Fehlerbehandlung",
+    "question": "Schreibe eine Funktion, die ein Dictionary mit Schülernamen und Noten entgegennimmt und den Notendurchschnitt berechnet. Behandle den Fall einer leeren Liste.",
+    "solution": "<pre>def notendurchschnitt(noten_dict):\n    if not noten_dict:\n        raise ValueError(\"Kein Schüler übergeben!\")\n    gesamt = sum(noten_dict.values())\n    return gesamt / len(noten_dict)\n\nnoten = {\"Anna\": 1.5, \"Ben\": 2.0, \"Clara\": 1.0}\ntry:\n    avg = notendurchschnitt(noten)\n    print(f\"Durchschnitt: {avg:.2f}\")\nexcept ValueError as e:\n    print(f\"Fehler: {e}\")</pre>"
+  },
+  {
+    "id": "prog-tex-5",
+    "title": "Aufgabe 5 – Rekursion",
+    "question": "Implementiere die Fakultät n! rekursiv und iterativ. Teste mit n=5.",
+    "solution": "<pre># Rekursiv:\ndef fakultaet_rek(n):\n    if n &lt;= 1:\n        return 1\n    return n * fakultaet_rek(n - 1)\n\n# Iterativ:\ndef fakultaet_iter(n):\n    ergebnis = 1\n    for i in range(2, n + 1):\n        ergebnis *= i\n    return ergebnis\n\nprint(fakultaet_rek(5))   # 120\nprint(fakultaet_iter(5))  # 120</pre>"
+  },
+  {
+    "id": "prog-tex-6",
+    "title": "Aufgabe 6 – List Comprehension & Lambda",
+    "question": "Schreibe folgende Operationen als List Comprehension und einmal mit lambda/map:",
+    "task": "1. Alle Quadratzahlen von 1 bis 10\n2. Nur die geraden Zahlen aus [1..20]\n3. Strings in Großbuchstaben aus einer Liste",
+    "solution": "<pre># List Comprehensions:\nquadrate = [x**2 for x in range(1, 11)]\ngerade = [x for x in range(1, 21) if x % 2 == 0]\nwoerter = [\"hallo\", \"welt\", \"python\"]\ngross = [w.upper() for w in woerter]\n\n# Mit map/lambda:\nquadrate2 = list(map(lambda x: x**2, range(1, 11)))\ngross2 = list(map(lambda w: w.upper(), woerter))</pre>"
+  },
+  {
+    "id": "prog-tex-7",
+    "title": "Aufgabe 7 – Binäre Suche implementieren",
+    "question": "Implementiere die binäre Suche in Python. Die Funktion soll den Index zurückgeben oder -1 wenn nicht gefunden.",
+    "solution": "<pre>def binaere_suche(liste, ziel):\n    links, rechts = 0, len(liste) - 1\n    while links &lt;= rechts:\n        mitte = (links + rechts) // 2\n        if liste[mitte] == ziel:\n            return mitte\n        elif liste[mitte] &lt; ziel:\n            links = mitte + 1\n        else:\n            rechts = mitte - 1\n    return -1\n\nsortiert = [1, 3, 5, 7, 9, 11, 13, 15]\nprint(binaere_suche(sortiert, 7))   # 3 (Index)\nprint(binaere_suche(sortiert, 6))   # -1 (nicht gefunden)</pre>"
+  },
+  {
+    "id": "prog-tex-8",
+    "title": "Aufgabe 8 – Datei lesen und schreiben",
+    "question": "Schreibe Python-Code, der eine Textdatei zeilenweise einliest, alle Zeilen in Großbuchstaben wandelt und in eine neue Datei schreibt.",
+    "solution": "<pre>def gross_in_datei(eingabe, ausgabe):\n    with open(eingabe, 'r', encoding='utf-8') as f_ein:\n        zeilen = f_ein.readlines()\n    gross_zeilen = [z.upper() for z in zeilen]\n    with open(ausgabe, 'w', encoding='utf-8') as f_aus:\n        f_aus.writelines(gross_zeilen)\n\n# Verwendung:\ngross_in_datei(\"eingabe.txt\", \"ausgabe.txt\")</pre><p>with-Statement: garantiert automatisches Schließen der Datei auch bei Ausnahmen.</p>"
+  }
+]

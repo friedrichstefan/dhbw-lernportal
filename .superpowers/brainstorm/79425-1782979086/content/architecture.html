@@ -1,0 +1,125 @@
+<h2>Design: SAP-Feature Architektur</h2>
+<p class="subtitle">Überblick über alle Änderungen — bitte kurz durchschauen</p>
+
+<div class="section">
+  <h3>1. Datenschicht — Firestore Userdokument</h3>
+  <div class="mockup">
+    <div class="mockup-header">users/{uid} — neue Felder</div>
+    <div class="mockup-body" style="font-family:monospace;font-size:13px;line-height:1.8">
+      <span style="color:#6c8ebf">isSapUser</span>: <span style="color:#82b366">true / false</span> <span style="color:#888">← wird beim Register/Login gesetzt</span><br>
+      <span style="color:#6c8ebf">theme</span>: <span style="color:#82b366">"default" | "sap" | "minimalist"</span><br>
+      <span style="color:#6c8ebf">sapIntensity</span>: <span style="color:#82b366">"badge" | "full" | "subtle"</span> <span style="color:#888">← nur relevant wenn theme = "sap"</span>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>2. SAP-Erkennung — auth.js</h3>
+  <div class="mockup">
+    <div class="mockup-header">ensureUserDoc() — Erweiterung</div>
+    <div class="mockup-body" style="font-family:monospace;font-size:13px;line-height:1.8">
+      <span style="color:#d79b00">if</span> (email.<span style="color:#6c8ebf">endsWith</span>(<span style="color:#82b366">'@sap.com'</span>)) {<br>
+      &nbsp;&nbsp;isSapUser = <span style="color:#82b366">true</span><br>
+      &nbsp;&nbsp;theme = <span style="color:#82b366">'sap'</span> <span style="color:#888">← Standard für SAP-Nutzer</span><br>
+      &nbsp;&nbsp;sapIntensity = <span style="color:#82b366">'full'</span><br>
+      }
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>3. Theme-Anwendung — main.js + style.css</h3>
+  <div class="mockup">
+    <div class="mockup-header">CSS-Klassen auf &lt;body&gt;</div>
+    <div class="mockup-body" style="font-family:monospace;font-size:13px;line-height:1.8">
+      <span style="color:#888">Standard:</span>   &lt;body&gt; <span style="color:#888">(keine extra Klasse)</span><br>
+      <span style="color:#888">SAP full:</span>    &lt;body class="<span style="color:#d79b00">theme-sap theme-sap-full</span>"&gt;<br>
+      <span style="color:#888">SAP subtle:</span>  &lt;body class="<span style="color:#d79b00">theme-sap theme-sap-subtle</span>"&gt;<br>
+      <span style="color:#888">SAP badge:</span>   &lt;body class="<span style="color:#d79b00">theme-sap theme-sap-badge</span>"&gt;<br>
+      <span style="color:#888">Minimalist:</span>  &lt;body class="<span style="color:#d79b00">theme-minimalist</span>"&gt;
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>4. Was sich visuell ändert (pro Theme)</h3>
+  <table style="width:100%;border-collapse:collapse;font-size:13px">
+    <thead>
+      <tr style="background:var(--color-surface,#f5f5f5)">
+        <th style="padding:8px 12px;text-align:left;border-bottom:1px solid #ddd">Theme</th>
+        <th style="padding:8px 12px;text-align:left;border-bottom:1px solid #ddd">Farben</th>
+        <th style="padding:8px 12px;text-align:left;border-bottom:1px solid #ddd">Logo/Header</th>
+        <th style="padding:8px 12px;text-align:left;border-bottom:1px solid #ddd">Badge</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee"><strong>Standard</strong></td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee">Blau (#0064e0)</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee">DHBW Lernportal</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee">—</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee"><strong>SAP Full</strong></td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee">SAP Gold (#F0AB00) + Dunkelblau</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee">SAP Logo + "Lernportal"</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee">SAP Intern 🔵</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee"><strong>SAP Subtle</strong></td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee">Akzente in SAP Gold</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee">DHBW Lernportal</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee">SAP Intern 🔵</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee"><strong>SAP Badge</strong></td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee">Keine Änderung</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee">DHBW Lernportal</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee">SAP Intern 🔵</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px"><strong>Minimalist</strong></td>
+        <td style="padding:8px 12px">Grau/Weiß, kein Primärblau</td>
+        <td style="padding:8px 12px">DHBW Lernportal</td>
+        <td style="padding:8px 12px">—</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section">
+  <h3>5. Neue Seite: SAP-Bereich</h3>
+  <div class="mockup">
+    <div class="mockup-header">Route: #sap — nur für isSapUser = true sichtbar</div>
+    <div class="mockup-body" style="font-size:13px;line-height:1.8">
+      • Neuer Menüpunkt im Dashboard-Nav (nur für SAP-Nutzer)<br>
+      • Seite zeigt Platzhalter-Karten ("Inhalte folgen demnächst")<br>
+      • Nicht-SAP-Nutzer die URL direkt aufrufen → Redirect zu Dashboard
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>6. Willkommens-Toast</h3>
+  <div class="mockup">
+    <div class="mockup-header">Beim ersten SAP-Login — einmalig</div>
+    <div class="mockup-body" style="font-size:13px;line-height:1.8">
+      • localStorage-Flag <code>sap_welcomed</code> verhindert Wiederholung<br>
+      • Toast erscheint oben auf dem Dashboard: "Willkommen, SAP-Mitarbeiter! Dein exklusiver Bereich ist jetzt verfügbar."<br>
+      • Verschwindet nach 4 Sekunden automatisch
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>7. Account-Seite — Theme-Einstellungen</h3>
+  <div class="mockup">
+    <div class="mockup-header">profile.js — neuer Abschnitt "Erscheinungsbild"</div>
+    <div class="mockup-body" style="font-size:13px;line-height:1.8">
+      • Gesamt-Theme wählen: Standard / SAP / Minimalist<br>
+      • Wenn SAP: Intensität wählen: Badge / Subtil / Vollständig<br>
+      • SAP-Optionen nur sichtbar wenn isSapUser = true<br>
+      • Änderung wird sofort angewendet + in Firestore gespeichert
+    </div>
+  </div>
+</div>

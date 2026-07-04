@@ -24,6 +24,7 @@ registerPage('profile', async (app) => {
   let selectedColor = session.avatarColor
   let profileMsg = ''
   let pwMsg = ''
+  let deleteMsg = ''
   let selectedTheme = session.theme ?? 'default'
   let selectedSapIntensity = session.sapIntensity ?? 'badge'
   let themeMsg = ''
@@ -130,6 +131,7 @@ registerPage('profile', async (app) => {
           <summary>Account löschen</summary>
           <div style="margin-top:var(--space-lg)">
             <p class="text-secondary" style="margin-bottom:var(--space-lg)">Alle deine Lernfortschritte werden unwiderruflich gelöscht.</p>
+            ${deleteMsg ? `<p class="auth-msg auth-error">${escapeHtml(deleteMsg)}</p>` : ''}
             <button id="btn-delete" class="btn btn-danger btn-sm">Account dauerhaft löschen</button>
           </div>
         </details>
@@ -210,7 +212,8 @@ registerPage('profile', async (app) => {
           window.dispatchEvent(new Event('auth-change'))
           window.location.hash = 'login'
         } else {
-          alert(result.error)
+          deleteMsg = result.error
+          render()
         }
       } else {
         // Google/Apple: redirect-based re-auth, deletion happens on return

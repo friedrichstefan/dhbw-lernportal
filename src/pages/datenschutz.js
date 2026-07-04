@@ -9,9 +9,11 @@ registerPage('datenschutz', (app) => {
         <h2 style="font-size:1.1rem;margin-bottom:var(--space-md)">1. Verantwortlicher</h2>
         <p class="text-secondary" style="line-height:1.7">
           Verantwortlich für die Verarbeitung personenbezogener Daten auf dieser Website ist:<br><br>
-          <strong>[Dein Name]</strong><br>
-          [Straße, PLZ Ort]<br>
-          E-Mail: <a href="mailto:[deine@email.de]">[deine@email.de]</a>
+          <strong>Stefan Friedrich</strong><br>
+          Seckenheimer Landstraße 4A<br>
+          Neuostheim, 68163 Mannheim<br>
+          Germany<br>
+          E-Mail: <a href="mailto:delta.corelabs@gmail.com">delta.corelabs@gmail.com</a>
         </p>
       </div>
 
@@ -69,7 +71,7 @@ registerPage('datenschutz', (app) => {
           <li><strong>Datenübertragbarkeit</strong> (Art. 20 DSGVO)</li>
         </ul>
         <p class="text-secondary" style="line-height:1.7;margin-top:var(--space-md)">
-          Zur Ausübung deiner Rechte wende dich per E-Mail an den oben genannten Verantwortlichen. Du hast außerdem das Recht, dich bei einer Datenschutz-Aufsichtsbehörde zu beschweren – zuständig ist der
+          Zur Ausübung deiner Rechte wende dich per E-Mail an <a href="mailto:delta.corelabs@gmail.com">delta.corelabs@gmail.com</a>. Du hast außerdem das Recht, dich bei einer Datenschutz-Aufsichtsbehörde zu beschweren – zuständig ist der
           <strong>Landesbeauftragte für Datenschutz und Informationsfreiheit Baden-Württemberg</strong>
           (<a href="https://www.baden-wuerttemberg.datenschutz.de" target="_blank" rel="noopener">www.baden-wuerttemberg.datenschutz.de</a>).
         </p>

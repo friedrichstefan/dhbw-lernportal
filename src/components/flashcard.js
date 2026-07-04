@@ -94,10 +94,14 @@ export async function mountFlashcards(container, cards) {
   function renderCardContent(card) {
     const front = document.getElementById('fc-front')
     const back = document.getElementById('fc-back')
+    if (!front || !back) return
     if (card.latex) {
       import('katex').then(({ default: katex }) => {
-        front.innerHTML = renderLatex(card.front, katex)
-        back.innerHTML = renderLatex(card.back, katex)
+        const f = document.getElementById('fc-front')
+        const b = document.getElementById('fc-back')
+        if (!f || !b) return
+        f.innerHTML = renderLatex(card.front, katex)
+        b.innerHTML = renderLatex(card.back, katex)
       })
     } else {
       front.textContent = card.front

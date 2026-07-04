@@ -1,0 +1,2109 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lernbuch – GdIT II: Kommunikations- und Betriebssysteme</title>
+<style>
+  html { scroll-behavior: smooth; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #e8ecf0; display: flex; }
+
+  /* === SIDEBAR === */
+  #sidebar {
+    width: 220px; min-width: 220px; background: #1a2744; color: #fff;
+    position: fixed; top: 0; left: 0; height: 100vh; overflow-y: auto;
+    padding: 16px 0; z-index: 100;
+  }
+  #sidebar h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;
+    color: #90caf9; padding: 0 16px 10px; border-bottom: 1px solid #2e3f6e; }
+  #sidebar a { display: block; color: #cfd8f0; text-decoration: none;
+    padding: 6px 16px; font-size: 0.82rem; line-height: 1.4; }
+  #sidebar a:hover { background: #2e3f6e; color: #fff; }
+  #sidebar .section-header { color: #90caf9; font-weight: bold; font-size: 0.78rem;
+    padding: 10px 16px 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* === MAIN === */
+  #main { margin-left: 220px; padding: 30px 20px; width: 100%; }
+
+  /* === PAGE === */
+  .page {
+    background: #fff; max-width: 1100px; margin: 0 auto 40px;
+    padding: 48px 52px; box-shadow: 0 2px 16px rgba(0,0,0,0.13);
+    border-radius: 3px;
+  }
+
+  /* === TYPOGRAPHY === */
+  h1 { color: #1a2744; font-size: 1.9rem; border-bottom: 3px solid #1a2744;
+    padding-bottom: 8px; margin-bottom: 20px; }
+  h2 { color: #1a2744; font-size: 1.35rem; margin: 28px 0 10px;
+    border-left: 5px solid #1a2744; padding-left: 10px; }
+  h3 { color: #1a3a6b; font-size: 1.1rem; margin: 18px 0 8px; }
+  p { line-height: 1.7; margin-bottom: 10px; color: #222; }
+  ul, ol { margin: 8px 0 10px 24px; line-height: 1.7; }
+  li { margin-bottom: 3px; }
+  code { background: #f0f0f0; padding: 2px 5px; border-radius: 3px;
+    font-family: 'Courier New', monospace; font-size: 0.9em; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+  th { background: #1a2744; color: white; padding: 8px 12px; text-align: left; }
+  td { border: 1px solid #ddd; padding: 7px 12px; }
+  tr:nth-child(even) td { background: #f8f8f8; }
+
+  /* === CONTENT BOXES === */
+  .merkkasten {
+    background: #fffde7; border-left: 4px solid #f9a825;
+    border-radius: 6px; padding: 14px 16px; margin: 14px 0;
+  }
+  .merkkasten .box-title { font-weight: bold; color: #e65100; margin-bottom: 6px; }
+  .beispiel {
+    background: #e8f5e9; border-left: 4px solid #4caf50;
+    border-radius: 6px; padding: 14px 16px; margin: 14px 0;
+  }
+  .beispiel .box-title { font-weight: bold; color: #2e7d32; margin-bottom: 6px; }
+  .warnung {
+    background: #fff3e0; border-left: 4px solid #ff9800;
+    border-radius: 6px; padding: 14px 16px; margin: 14px 0;
+  }
+  .warnung .box-title { font-weight: bold; color: #e65100; margin-bottom: 6px; }
+  .pruefung {
+    background: #e3f2fd; border-left: 4px solid #1565c0;
+    border-radius: 6px; padding: 14px 16px; margin: 14px 0;
+  }
+  .pruefung .box-title { font-weight: bold; color: #0d47a1; margin-bottom: 6px; }
+
+  /* === TWO-COLUMN LAYOUT === */
+  .two-col { display: flex; gap: 24px; margin: 16px 0; }
+  .two-col .main-col { flex: 3; }
+  .two-col .side-col { flex: 1.3; }
+
+  /* === AUFGABEN === */
+  .aufgaben-panel {
+    background: #f5f5f5; border: 1px solid #ddd; border-radius: 8px;
+    padding: 16px; margin-top: 16px;
+  }
+  .aufgaben-panel h3 { color: #1a2744; margin-bottom: 10px; font-size: 1rem; }
+  .aufgabe { margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid #e0e0e0; }
+  .aufgabe:last-child { border-bottom: none; }
+  .aufgabe p { font-weight: 500; margin-bottom: 4px; }
+
+  /* === DETAILS/SUMMARY === */
+  details { margin-top: 6px; }
+  summary {
+    cursor: pointer; color: #1565c0; font-size: 0.88rem;
+    padding: 4px 8px; background: #e3f2fd; border-radius: 4px;
+    display: inline-block;
+  }
+  details[open] summary { background: #bbdefb; }
+  .loesung { background: #e8f5e9; border-radius: 4px; padding: 10px 14px;
+    margin-top: 6px; font-size: 0.92rem; line-height: 1.6; }
+
+  /* === FORMULA === */
+  .formel {
+    background: #fce4ec; border: 1px solid #f48fb1; border-radius: 6px;
+    padding: 10px 16px; margin: 10px 0; font-family: 'Courier New', monospace;
+    font-size: 1.05rem; text-align: center;
+  }
+
+  /* === CHAPTER DIVIDER === */
+  .kapitel-trennlinie { border: none; border-top: 2px dashed #ccc; margin: 32px 0; }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 900px) {
+    .two-col { flex-direction: column; }
+    #sidebar { display: none; }
+    #main { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== SIDEBAR ===== -->
+<nav id="sidebar">
+  <h2>GdIT II Lernbuch</h2>
+  <div class="section-header">Kommunikationssysteme</div>
+  <a href="#ks1">1 Schichtenmodelle</a>
+  <a href="#ks2">2 Bitübertragung (Layer 1)</a>
+  <a href="#ks3">3 Sicherungsschicht (Layer 2)</a>
+  <a href="#ks4">4 Vermittlungsschicht (Layer 3)</a>
+  <a href="#ks5">5 Transportschicht (Layer 4)</a>
+  <a href="#ks6">6 Anwendungsschicht</a>
+  <div class="section-header">Betriebssysteme</div>
+  <a href="#bs1">7 Einführung BS</a>
+  <a href="#bs2">8 Prozesse &amp; Threads</a>
+  <a href="#bs3">9 Scheduling</a>
+  <a href="#bs4">10 Synchronisation &amp; Deadlock</a>
+  <a href="#bs5">11 Speicherverwaltung</a>
+  <a href="#bs6">12 Dateisysteme</a>
+  <a href="#bs7">13 Fallbeispiele: ext3/FAT/NTFS</a>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<div id="main">
+
+<!-- ==================== KS KAPITEL 1 ==================== -->
+<div class="page" id="ks1">
+<h1>Kapitel 1: Schichtenmodelle &amp; Grundbegriffe</h1>
+
+<p>Netzwerkkommunikation ist komplex — deshalb unterteilt man sie in <strong>Schichten</strong>. Jede Schicht übernimmt eine klar definierte Aufgabe und bietet der darüber liegenden Schicht einen Dienst an. Das ist wie beim Versenden eines Briefes: Du schreibst den Inhalt, die Post kümmert sich um Transport, das Flugzeug um die Strecke — jeder macht seinen Job, ohne den anderen zu kennen.</p>
+
+<h2>1.1 OSI-Referenzmodell (7 Schichten)</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 Die 7 OSI-Schichten (von unten nach oben)</div>
+  <table>
+    <tr><th>Nr.</th><th>Schicht</th><th>Aufgabe</th><th>Beispiele</th></tr>
+    <tr><td>1</td><td>Physical Layer (Bitübertragung)</td><td>Übertragung von Bits als Signale</td><td>Ethernet-Kabel, Funk</td></tr>
+    <tr><td>2</td><td>Data Link Layer (Sicherung)</td><td>Frames, Fehlererkennung, MAC-Adressen</td><td>Ethernet, WLAN</td></tr>
+    <tr><td>3</td><td>Network Layer (Vermittlung)</td><td>Routing, IP-Adressen</td><td>IP, ICMP</td></tr>
+    <tr><td>4</td><td>Transport Layer (Transport)</td><td>Ende-zu-Ende, Ports</td><td>TCP, UDP</td></tr>
+    <tr><td>5</td><td>Session Layer (Sitzung)</td><td>Sitzungsverwaltung</td><td>NetBIOS</td></tr>
+    <tr><td>6</td><td>Presentation Layer (Darstellung)</td><td>Codierung, Verschlüsselung</td><td>TLS, JPEG</td></tr>
+    <tr><td>7</td><td>Application Layer (Anwendung)</td><td>Anwendungsprotokolle</td><td>HTTP, SMTP, DNS</td></tr>
+  </table>
+</div>
+
+<h2>1.2 TCP/IP-Modell</h2>
+<p>Das praktisch verwendete Modell fasst OSI-Schichten zusammen:</p>
+<div class="merkkasten">
+  <div class="box-title">📌 TCP/IP-Schichten</div>
+  <table>
+    <tr><th>TCP/IP</th><th>OSI-Entsprechung</th></tr>
+    <tr><td>Application Layer</td><td>Schichten 5+6+7</td></tr>
+    <tr><td>Transport Layer</td><td>Schicht 4</td></tr>
+    <tr><td>Internet Layer (Network)</td><td>Schicht 3</td></tr>
+    <tr><td>Link Layer</td><td>Schichten 1+2</td></tr>
+  </table>
+</div>
+
+<h2>1.3 Wichtige Begriffe</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 Kerndefinitionen</div>
+  <ul>
+    <li><strong>Protokoll:</strong> Regeln für die Kommunikation <em>zwischen gleichrangigen Schichten</em> zweier Systeme (horizontal).</li>
+    <li><strong>Dienst:</strong> Was eine Schicht der darüber liegenden Schicht anbietet (vertikal).</li>
+    <li><strong>Schnittstelle (Interface):</strong> Zugriffspunkt zwischen zwei benachbarten Schichten im selben System.</li>
+    <li><strong>SAP (Service Access Point):</strong> Adressierbarer Punkt, an dem eine Schicht ihren Dienst anbietet. Im Internet = Port-Nummer (Layer 4) bzw. IP-Adresse (Layer 3).</li>
+    <li><strong>PDU (Protocol Data Unit):</strong> Dateneinheit einer Schicht, inkl. Header/Trailer. Z.B. Frame (Layer 2), Paket (Layer 3), Segment (Layer 4).</li>
+    <li><strong>SDU (Service Data Unit):</strong> Nutzdaten, die von der oberen Schicht übergeben werden.</li>
+    <li><strong>Header:</strong> Steuerinformation vorne angehängt.</li>
+    <li><strong>Trailer:</strong> Steuerinformation hinten angehängt (z.B. CRC).</li>
+  </ul>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Dienst-Typen</div>
+  <ul>
+    <li><strong>Verbindungsorientiert:</strong> Verbindungsaufbau → Datentransfer → Abbau. Reihenfolge garantiert. (z.B. TCP)</li>
+    <li><strong>Verbindungslos:</strong> Jedes Paket wird unabhängig übertragen. Keine Garantien. (z.B. UDP, IP)</li>
+    <li><strong>Bestätigt (reliable):</strong> Empfang wird quittiert, verlorene Pakete werden wiederholt.</li>
+    <li><strong>Unbestätigt (unreliable):</strong> Kein ACK, keine Wiederholung.</li>
+  </ul>
+</div>
+
+<h2>1.4 Datenkapselung (Encapsulation)</h2>
+<p>Wenn Daten vom Sender durch die Schichten wandern, bekommt jede Schicht einen <strong>Header</strong> davor (und ggf. einen Trailer dahinter). Beim Empfänger wird in umgekehrter Reihenfolge jeder Header wieder entfernt.</p>
+
+<div class="beispiel">
+  <div class="box-title">🔢 Beispiel: HTTP-Anfrage durch alle Schichten</div>
+  <ul>
+    <li><strong>Application:</strong> HTTP GET /index.html</li>
+    <li><strong>Transport:</strong> [TCP-Header | HTTP-Daten] → Segment</li>
+    <li><strong>Network:</strong> [IP-Header | TCP-Segment] → Paket</li>
+    <li><strong>Data Link:</strong> [Ethernet-Header | IP-Paket | CRC] → Frame</li>
+    <li><strong>Physical:</strong> 0101010110... (Bits auf dem Kabel)</li>
+  </ul>
+</div>
+
+<div class="pruefung">
+  <div class="box-title">⭐ Prüfungshinweise</div>
+  <ul>
+    <li>Die 7 OSI-Schichten müssen namentlich bekannt sein und ihrer Aufgabe zugeordnet werden können.</li>
+    <li>Unterschied Protokoll vs. Dienst ist eine klassische Prüfungsfrage.</li>
+    <li>SAP im Internet: Layer-4-SAP = Port, Layer-3-SAP = IP-Adresse.</li>
+  </ul>
+</div>
+
+<div class="warnung">
+  <div class="box-title">⚠️ Typische Fehler</div>
+  <ul>
+    <li>Protokoll ≠ Dienst! Protokoll = Kommunikation zwischen gleichen Schichten; Dienst = Angebot an die höhere Schicht.</li>
+    <li>PDU ≠ SDU! PDU enthält Header + SDU. Die SDU ist nur der Nutzdatenanteil.</li>
+    <li>TCP/IP hat 4 Schichten, nicht 7! OSI hat 7.</li>
+  </ul>
+</div>
+
+<!-- Aufgaben KS1 -->
+<hr class="kapitel-trennlinie">
+<h2>Übungsaufgaben – Kapitel 1</h2>
+<div class="aufgabe">
+  <p>1. Welche Schicht des OSI-Modells ist für das Routing von IP-Paketen verantwortlich?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Schicht 3 – die Vermittlungsschicht (Network Layer). Sie ist für die logische Adressierung (IP) und das Routing zwischen Netzen zuständig.</div></details>
+</div>
+<div class="aufgabe">
+  <p>2. Was ist der Unterschied zwischen einer PDU und einer SDU?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Eine SDU ist die Nutzlast (die Daten der oberen Schicht). Eine PDU = Header + SDU. Beispiel: TCP-Segment (PDU, Layer 4) enthält den TCP-Header plus die HTTP-Daten (SDU).</div></details>
+</div>
+<div class="aufgabe">
+  <p>3. Nenne je ein Protokoll für Layer 2, 3 und 4.</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Layer 2: Ethernet; Layer 3: IP (Internet Protocol); Layer 4: TCP oder UDP.</div></details>
+</div>
+<div class="aufgabe">
+  <p>4. Was ist ein SAP? Nennt ein konkretes Beispiel aus TCP/IP.</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">SAP = Service Access Point = adressierbarer Punkt, an dem ein Dienst genutzt werden kann. Im TCP/IP: die Port-Nummer ist der Transport-SAP (TSAP); die IP-Adresse ist der Network-SAP (NSAP).</div></details>
+</div>
+<div class="aufgabe">
+  <p>5. Erkläre den Begriff "Verbindungsorientiert" und nenne ein Protokoll als Beispiel.</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Verbindungsorientiert = erst wird eine Verbindung aufgebaut (Handshake), dann werden Daten übertragen, dann wird die Verbindung abgebaut. Die Reihenfolge der Daten ist garantiert. Beispiel: TCP.</div></details>
+</div>
+</div>
+
+<!-- ==================== KS KAPITEL 2 ==================== -->
+<div class="page" id="ks2">
+<h1>Kapitel 2: Bitübertragungsschicht (Layer 1)</h1>
+<p>Die unterste Schicht kümmert sich darum, wie Bits physikalisch übertragen werden — als elektrische Signale, Licht oder Funkwellen. Hier geht es um Kabel, Frequenzen, Rauschen und maximale Datenraten.</p>
+
+<h2>2.1 Datenrate und Bandbreite</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 Nyquist-Theorem (rauschfreier Kanal)</div>
+  <div class="formel">B_max = 2 · H · log₂(V)</div>
+  <ul>
+    <li><strong>H</strong> = Bandbreite des Kanals in Hz</li>
+    <li><strong>V</strong> = Anzahl der unterscheidbaren Signalstufen</li>
+    <li><strong>B_max</strong> = maximale Datenrate in Bit/s</li>
+  </ul>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Shannon-Theorem (verrauschter Kanal)</div>
+  <div class="formel">C = H · log₂(1 + S/N)</div>
+  <ul>
+    <li><strong>C</strong> = Kanalkapazität in Bit/s (absolutes Maximum)</li>
+    <li><strong>S/N</strong> = Signal-Rausch-Verhältnis (SNR), oft in dB angegeben</li>
+    <li>S/N in dB: SNR_dB = 10 · log₁₀(S/N) → S/N = 10^(SNR_dB/10)</li>
+  </ul>
+</div>
+
+<div class="beispiel">
+  <div class="box-title">🔢 Beispiel 1: Nyquist</div>
+  <p>Ein Kanal hat Bandbreite H = 3000 Hz und 8 Signalstufen (V = 8).<br>
+  B_max = 2 · 3000 · log₂(8) = 2 · 3000 · 3 = <strong>18.000 Bit/s</strong></p>
+</div>
+
+<div class="beispiel">
+  <div class="box-title">🔢 Beispiel 2: Shannon</div>
+  <p>Telefonnetz: H = 3100 Hz, SNR = 30 dB → S/N = 10³ = 1000<br>
+  C = 3100 · log₂(1001) ≈ 3100 · 9,97 ≈ <strong>30.894 Bit/s</strong><br>
+  (Das erklärt die ~33,6 kBit/s-Grenze alter Modems!)</p>
+</div>
+
+<div class="warnung">
+  <div class="box-title">⚠️ Typische Fehler</div>
+  <ul>
+    <li>Nyquist gibt das Maximum bei <em>idealem</em> Kanal (kein Rauschen). Shannon gibt das absolute Maximum mit Rauschen.</li>
+    <li>Shannon-Grenze kann man <em>nicht</em> überschreiten — egal wie viele Signalstufen man nimmt.</li>
+    <li>SNR in dB muss erst umgerechnet werden: S/N = 10^(dB/10).</li>
+  </ul>
+</div>
+
+<h2>2.2 Leitungscodierung</h2>
+<p>Wie kodiert man 0 und 1 als physikalische Signale?</p>
+<div class="merkkasten">
+  <div class="box-title">📌 Wichtige Codierungen</div>
+  <table>
+    <tr><th>Codierung</th><th>Prinzip</th><th>Problem</th></tr>
+    <tr><td>NRZ (Non-Return-to-Zero)</td><td>1 = hohes Signal, 0 = niedriges Signal</td><td>Lange Folgen gleicher Bits → DC-Anteil, kein Takt</td></tr>
+    <tr><td>NRZI</td><td>1 = Pegelwechsel, 0 = kein Wechsel</td><td>Lange 0-Folgen → kein Takt</td></tr>
+    <tr><td>Manchester</td><td>0 = fallende Flanke, 1 = steigende Flanke (Mitte des Bit-Intervalls)</td><td>Doppelte Bandbreite nötig</td></tr>
+    <tr><td>Diff. Manchester</td><td>Immer Flanke in der Mitte; Start: Wechsel=0, kein Wechsel=1</td><td>Doppelte Bandbreite</td></tr>
+    <tr><td>AMI (Bipolar)</td><td>0 = kein Signal, 1 = abwechselnd +/−</td><td>Lange 0-Folgen → kein Takt</td></tr>
+  </table>
+</div>
+
+<div class="pruefung">
+  <div class="box-title">⭐ Prüfungshinweis: Manchester</div>
+  <p>Manchester-Codierung hat immer einen Pegelwechsel in der Mitte eines Bit-Intervalls → Taktrückgewinnung einfach. Wird bei Ethernet (10 MBit/s) verwendet.</p>
+</div>
+
+<h2>2.3 Multiplexing</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 Multiplexverfahren</div>
+  <table>
+    <tr><th>Verfahren</th><th>Prinzip</th><th>Anwendung</th></tr>
+    <tr><td><strong>FDM</strong> (Frequency Division)</td><td>Verschiedene Frequenzbänder für verschiedene Kanäle</td><td>Radio, TV, DSL</td></tr>
+    <tr><td><strong>TDM</strong> (Time Division)</td><td>Zeitschlitze rotierend zugewiesen</td><td>ISDN, SONET</td></tr>
+    <tr><td><strong>CDM</strong> (Code Division)</td><td>Orthogonale Codes, alle senden gleichzeitig</td><td>CDMA, Mobilfunk</td></tr>
+    <tr><td><strong>WDM</strong> (Wavelength Division)</td><td>Verschiedene Wellenlängen auf Glasfaser</td><td>Glasfaser-Backbone</td></tr>
+  </table>
+</div>
+
+<h2>2.4 Übertragungsmedien</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 Medienvergleich</div>
+  <table>
+    <tr><th>Medium</th><th>Bandbreite</th><th>Störanfälligkeit</th><th>Kosten</th></tr>
+    <tr><td>Twisted Pair (UTP/STP)</td><td>bis GBit/s (Cat6)</td><td>mittel (Übersprechen)</td><td>günstig</td></tr>
+    <tr><td>Koaxialkabel</td><td>bis GBit/s</td><td>gering</td><td>mittel</td></tr>
+    <tr><td>Glasfaser (Multimode)</td><td>bis GBit/s</td><td>sehr gering</td><td>mittel</td></tr>
+    <tr><td>Glasfaser (Singlemode)</td><td>bis TBit/s</td><td>sehr gering</td><td>teuer</td></tr>
+    <tr><td>Funk (WLAN, Mobilfunk)</td><td>variabel</td><td>hoch</td><td>variabel</td></tr>
+  </table>
+</div>
+
+<h2>2.5 Modulation</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 Modulationsarten</div>
+  <ul>
+    <li><strong>AM (Amplitudenmodulation):</strong> Amplitude des Trägersignals variiert</li>
+    <li><strong>FM (Frequenzmodulation):</strong> Frequenz des Trägers variiert</li>
+    <li><strong>PM (Phasenmodulation):</strong> Phase des Trägers variiert</li>
+    <li><strong>QAM (Quadrature Amplitude Modulation):</strong> Kombination AM + PM → hohe Effizienz, z.B. 64-QAM = 6 Bit/Symbol</li>
+  </ul>
+</div>
+
+<div class="beispiel">
+  <div class="box-title">🔢 Beispiel 3: Shannon-Limit mit hohem SNR</div>
+  <p>Glasfaserstrecke: H = 100 GHz, SNR = 40 dB → S/N = 10.000<br>
+  C = 100·10⁹ · log₂(10.001) ≈ 100·10⁹ · 13,29 ≈ <strong>1,33 TBit/s</strong></p>
+</div>
+
+<div class="pruefung">
+  <div class="box-title">⭐ Prüfungshinweise Kapitel 2</div>
+  <ul>
+    <li>Nyquist und Shannon-Formeln auswendig — werden oft in Rechenaufgaben abgefragt.</li>
+    <li>SNR in dB umrechnen nicht vergessen!</li>
+    <li>Manchester-Codierung: Flanke immer in der Mitte des Bit-Intervalls.</li>
+    <li>WDM nur bei Glasfaser (Lichtwellenlängen).</li>
+  </ul>
+</div>
+
+<hr class="kapitel-trennlinie">
+<h2>Übungsaufgaben – Kapitel 2</h2>
+<div class="aufgabe">
+  <p>1. Ein Kanal hat H = 4000 Hz und 16 Signalstufen. Wie hoch ist die maximale Datenrate nach Nyquist?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">B_max = 2 · 4000 · log₂(16) = 2 · 4000 · 4 = <strong>32.000 Bit/s</strong></div></details>
+</div>
+<div class="aufgabe">
+  <p>2. SNR = 20 dB, H = 1 MHz. Was ist die Shannon-Kapazität?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">S/N = 10^(20/10) = 100. C = 10⁶ · log₂(101) ≈ 10⁶ · 6,66 ≈ <strong>6,66 MBit/s</strong></div></details>
+</div>
+<div class="aufgabe">
+  <p>3. Was ist der Hauptvorteil der Manchester-Codierung gegenüber NRZ?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Manchester garantiert immer mindestens einen Pegelwechsel pro Bit-Intervall (in der Mitte) → Taktrückgewinnung ohne separates Taktsignal möglich. NRZ hat bei langen 0/1-Folgen keine Flanken → Takt kann verloren gehen.</div></details>
+</div>
+<div class="aufgabe">
+  <p>4. Nenne den Unterschied zwischen FDM und TDM.</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">FDM = Frequenzmultiplex: Jeder Kanal bekommt ein eigenes Frequenzband. TDM = Zeitmultiplex: Alle Kanäle teilen sich die gesamte Bandbreite, aber rotierend in Zeitschlitzen.</div></details>
+</div>
+<div class="aufgabe">
+  <p>5. Warum kann man die Shannon-Grenze nicht überschreiten, auch wenn man sehr viele Signalstufen nimmt?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Bei mehr Signalstufen werden die Abstände zwischen den Stufen kleiner. Ab einem bestimmten Punkt können die Stufen wegen Rauschen nicht mehr zuverlässig unterschieden werden. Shannon berücksichtigt genau diesen Trade-off — mehr Stufen helfen bei Rauschen nichts mehr.</div></details>
+</div>
+</div>
+
+<!-- ==================== KS KAPITEL 3 ==================== -->
+<div class="page" id="ks3">
+<h1>Kapitel 3: Sicherungsschicht (Layer 2)</h1>
+<p>Layer 2 organisiert Bits zu sinnvollen Einheiten (Frames), erkennt Übertragungsfehler und regelt den Medienzugriff. Hier werden auch Sliding-Window-Protokolle für zuverlässige Übertragung eingesetzt.</p>
+
+<h2>3.1 Framing</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 Framing-Methoden</div>
+  <ul>
+    <li><strong>Byte-Count:</strong> Erstes Feld gibt Anzahl der Bytes im Frame an. Problem: Bitfehler im Längenfeld → Synchronisationsverlust.</li>
+    <li><strong>Flag-Byte mit Byte-Stuffing:</strong> Sonderzeichen (Flag) markiert Beginn/Ende. Im Datenstrom wird das Flag durch Escape-Sequenzen ersetzt (Byte-Stuffing).</li>
+    <li><strong>Bit-Stuffing:</strong> Flag = 01111110 (6 Einsen). Im Datenstrom wird nach 5 aufeinanderfolgenden Einsen eine 0 eingefügt. Empfänger entfernt diese 0 wieder. → Kein Synchronisationsverlust. Wird bei HDLC verwendet.</li>
+  </ul>
+</div>
+
+<div class="beispiel">
+  <div class="box-title">🔢 Beispiel 1: Bit-Stuffing</div>
+  <p><strong>Originaldaten:</strong> 0 1 1 1 1 1 1 1 0</p>
+  <p><strong>Nach Bit-Stuffing</strong> (nach 5 Einsen wird eine 0 eingefügt):<br>
+  0 1 1 1 1 1 <strong>0</strong> 1 1 0<br>
+  (Die markierte 0 wurde nach den 5 Einsen eingefügt)</p>
+  <p>Empfänger: Sieht fünf Einsen → nächste 0 löschen → Original zurück.</p>
+</div>
+
+<h2>3.2 Fehlererkennung und -korrektur</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 Hamming-Distanz</div>
+  <ul>
+    <li><strong>Hamming-Distanz</strong> zweier Codewörter = Anzahl der Stellen, in denen sie sich unterscheiden.</li>
+    <li>Erkennung von d Fehlern: Codedistanz ≥ d + 1</li>
+    <li>Korrektur von d Fehlern: Codedistanz ≥ 2d + 1</li>
+    <li>Hamming-Code: Paritätsbits an Positionen 2⁰, 2¹, 2², 2³, ... (1, 2, 4, 8, ...)</li>
+    <li>Jedes Paritätsbit prüft alle Positionen, in deren Binärdarstellung sein Bit gesetzt ist.</li>
+  </ul>
+</div>
+
+<div class="beispiel">
+  <div class="box-title">🔢 Beispiel 2: Hamming-Code für 4 Datenbits</div>
+  <p>Datenbits: d₁d₂d₃d₄ = 1011. Paritätsbits: p₁ (Pos.1), p₂ (Pos.2), p₄ (Pos.4).</p>
+  <p>Positionen: 1=p₁, 2=p₂, 3=d₁, 4=p₄, 5=d₂, 6=d₃, 7=d₄</p>
+  <p>Einsetzen: _ _ 1 _ 0 1 1</p>
+  <p>p₁ prüft Pos. 1,3,5,7 → p₁ XOR 1 XOR 0 XOR 1 = p₁ XOR 0 → p₁=0<br>
+  p₂ prüft Pos. 2,3,6,7 → p₂ XOR 1 XOR 1 XOR 1 = p₂ XOR 1 → p₂=1<br>
+  p₄ prüft Pos. 4,5,6,7 → p₄ XOR 0 XOR 1 XOR 1 = p₄ XOR 0 → p₄=0</p>
+  <p><strong>Codewort: 0 1 1 0 0 1 1</strong></p>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 CRC (Cyclic Redundancy Check)</div>
+  <ul>
+    <li>Sender und Empfänger kennen ein <strong>Generatorpolynom G(x)</strong>.</li>
+    <li>Sender hängt (k-1) Nullen an die Nachricht (k = Grad von G), dividiert durch G (modulo-2-Division).</li>
+    <li>Der <strong>Rest R</strong> dieser Division wird als Prüfsumme angehängt.</li>
+    <li>Empfänger: teilt empfangene Nachricht durch G. Rest = 0 → kein Fehler erkannt. Rest ≠ 0 → Fehler!</li>
+  </ul>
+</div>
+
+<div class="beispiel">
+  <div class="box-title">🔢 Beispiel 3: CRC-Berechnung</div>
+  <p>Nachricht M = 1101011011, Generator G = 10011 (x⁴+x+1, Grad 4)</p>
+  <p>1. Anhängen von 4 Nullen: M' = 11010110110000</p>
+  <p>2. Modulo-2-Division (XOR, keine Überträge):</p>
+  <pre style="background:#f0f0f0;padding:8px;font-size:0.85em;border-radius:4px;">
+11010110110000  ÷  10011
+10011
+─────
+ 10011
+ 10011
+ ─────
+  00001011
+     10011
+     ─────
+      10100
+      10011
+      ─────
+       01110  ← Rest = 1110</pre>
+  <p><strong>Gesendet wird: 11010110111110</strong> (M + Rest 1110)</p>
+</div>
+
+<h2>3.3 Sliding-Window-Protokolle</h2>
+<p>Beim Stop-and-Wait wartet der Sender nach jedem Frame auf eine Bestätigung. Das ist ineffizient bei langen Leitungen. Sliding-Window erlaubt mehrere ausstehende (unbestätigte) Frames.</p>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Kenngröße: a = T_propagation / T_frame</div>
+  <p>a ist das Verhältnis von Ausbreitungsverzögerung zu Frameübertragungszeit.</p>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Stop-and-Wait</div>
+  <ul>
+    <li>Sendefenster W = 1</li>
+    <li>Effizienz: η = 1 / (1 + 2a)</li>
+    <li>Bei großem a (langer Leitung) → sehr ineffizient</li>
+  </ul>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Go-Back-N (GBN)</div>
+  <ul>
+    <li>Sender darf W Frames senden, ohne ACK abzuwarten</li>
+    <li>Maximales Sendefenster: W = 2ⁿ − 1 (n = Bit-Breite der Sequenznummer)</li>
+    <li>Empfänger-Fenster = 1 (kein Puffern)</li>
+    <li>Fehler → alle Frames ab dem fehlerhaften werden wiederholt</li>
+    <li>Effizienz: η = W/(1+2a) falls W &lt; 1+2a, sonst η = 1</li>
+  </ul>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Selective Repeat (SR)</div>
+  <ul>
+    <li>Sender- und Empfänger-Fenster = 2^(n-1)</li>
+    <li>Nur fehlerhafte Frames werden wiederholt</li>
+    <li>Effizienz: η = W/(1+2a) falls W &lt; 1+2a, sonst η = 1</li>
+    <li>Besser als GBN, aber mehr Pufferspeicher beim Empfänger</li>
+  </ul>
+</div>
+
+<div class="beispiel">
+  <div class="box-title">🔢 Beispiel 4: Effizienz Go-Back-N</div>
+  <p>Satellitenstrecke: T_propagation = 270 ms, Datenrate = 1 MBit/s, Framelänge = 1000 Bit</p>
+  <p>T_frame = 1000 / 10⁶ = 1 ms<br>
+  a = 270 / 1 = 270<br>
+  1 + 2a = 541 Frames müssten im Fenster sein für η=1<br>
+  Mit n=8 Bit: W_max = 2⁸-1 = 255 &lt; 541<br>
+  η = 255 / 541 ≈ <strong>47%</strong></p>
+  <p>Mit n=10 Bit: W_max = 1023 &gt; 541 → η = <strong>100%</strong></p>
+</div>
+
+<h2>3.4 MAC-Schicht: CSMA/CD und Ethernet</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 CSMA/CD (Carrier Sense Multiple Access / Collision Detection)</div>
+  <ul>
+    <li>Bevor Senden: Kanal abhören (Carrier Sense)</li>
+    <li>Mehrere Stationen teilen das Medium (Multiple Access)</li>
+    <li>Kollision erkennen und abbrechen (Collision Detection)</li>
+    <li>Nach Kollision: Zufällige Wartezeit (exponentieller Backoff: warte 0 bis 2ᵏ-1 Slots)</li>
+    <li>Minimale Frame-Größe: 64 Byte bei Ethernet (damit Kollision noch erkannt wird)</li>
+  </ul>
+</div>
+
+<div class="pruefung">
+  <div class="box-title">⭐ Prüfungshinweise Kapitel 3</div>
+  <ul>
+    <li>Bit-Stuffing-Beispiele werden gerechnet: 5 Einsen → 0 einfügen.</li>
+    <li>CRC-Berechnung: Modulo-2-Division (kein Übertrag, nur XOR). Sehr wahrscheinlich in der Prüfung!</li>
+    <li>Hamming-Code: Paritätsbit-Positionen sind immer 1, 2, 4, 8, ...</li>
+    <li>Formel für Fenstergrößen: GBN max W = 2ⁿ-1; SR max W = 2^(n-1).</li>
+    <li>Effizienzformel für Sliding Window auswendig lernen.</li>
+  </ul>
+</div>
+
+<hr class="kapitel-trennlinie">
+<h2>Übungsaufgaben – Kapitel 3</h2>
+<div class="aufgabe">
+  <p>1. Warum braucht Bit-Stuffing eine Mindestframebreite?<br>Führe Bit-Stuffing für die Sequenz <code>011111101</code> durch (Flag = 01111110).</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Die Sequenz 01111110 im Datenstrom würde fälschlich als Frame-Ende interpretiert. Bit-Stuffing:<br>Originaldaten: 0 1 1 1 1 1 1 0 1<br>Nach 5 Einsen wird eine 0 eingefügt: 0 1 1 1 1 1 <strong>0</strong> 1 0 1<br>Die 6. Eins der Flagsequenz ist jetzt durch die 0 unterbrochen.</div></details>
+</div>
+<div class="aufgabe">
+  <p>2. Berechne CRC für Nachricht M = 1010, Generator G = 101.</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Grad G = 2, also 2 Nullen anhängen: M' = 101000<br>101000 ÷ 101:<br>101000 XOR 101 = 000 (Pos. 1-3), rest 000<br>Nächster Teil: 000 → kein XOR nötig<br>Rest = 00. Gesendet: 101000</div></details>
+</div>
+<div class="aufgabe">
+  <p>3. Leitung: T_prop = 20 ms, Framelänge = 1000 Bit, Datenrate = 100 kBit/s. Wie groß muss das Go-Back-N-Fenster mindestens sein für η = 100%?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">T_frame = 1000/100000 = 10 ms. a = 20/10 = 2. 1+2a = 5. W ≥ 5. Mit n=3 Bit: 2³-1 = 7 ≥ 5. ✓</div></details>
+</div>
+<div class="aufgabe">
+  <p>4. Welcher Unterschied besteht zwischen Go-Back-N und Selective Repeat?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">GBN: Bei Fehler werden alle Frames ab dem fehlerhaften neu gesendet. Empfänger-Fenster = 1. SR: Nur der fehlerhafte Frame wird wiederholt. Empfänger puffert korrekte Frames. SR ist effizienter aber braucht mehr Puffer.</div></details>
+</div>
+<div class="aufgabe">
+  <p>5. Was ist exponentieller Backoff bei Ethernet und wann wird er verwendet?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Nach einer Kollision wartet jede Station eine zufällige Zeit, bevor sie erneut sendet. Nach dem k-ten Versuch wählt die Station zufällig eine Wartezeit aus {0, 1, ..., 2^min(k,10)-1} × Slot-Zeit. Verhindert, dass immer wieder dieselbe Kollision auftritt.</div></details>
+</div>
+</div>
+
+<!-- ==================== KS KAPITEL 4 ==================== -->
+<div class="page" id="ks4">
+<h1>Kapitel 4: Vermittlungsschicht / Network Layer (Layer 3)</h1>
+<p>Layer 3 ist verantwortlich für das <strong>Routing</strong> von Paketen durch das Netz. Das wichtigste Protokoll hier ist IP (Internet Protocol). IP-Adressen ermöglichen die weltweite Adressierung von Rechnern.</p>
+
+<h2>4.1 IPv4-Header</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 IPv4-Header-Felder (20 Byte Pflichtfelder)</div>
+  <table>
+    <tr><th>Feld</th><th>Bits</th><th>Bedeutung</th></tr>
+    <tr><td>Version</td><td>4</td><td>IP-Version (4 für IPv4)</td></tr>
+    <tr><td>IHL</td><td>4</td><td>Header-Länge in 32-Bit-Wörtern (min. 5 = 20 Byte)</td></tr>
+    <tr><td>TOS (Type of Service)</td><td>8</td><td>Dienstgüte / Priorität</td></tr>
+    <tr><td>Total Length</td><td>16</td><td>Gesamtlänge des Pakets (Header + Daten) in Byte</td></tr>
+    <tr><td>Identification</td><td>16</td><td>ID für Fragmentzusammenführung</td></tr>
+    <tr><td>Flags</td><td>3</td><td>DF (Don't Fragment), MF (More Fragments)</td></tr>
+    <tr><td>Fragment Offset</td><td>13</td><td>Position dieses Fragments im Original (×8 Byte)</td></tr>
+    <tr><td>TTL</td><td>8</td><td>Time-To-Live: max. Hops (jeder Router dekrementiert)</td></tr>
+    <tr><td>Protocol</td><td>8</td><td>Protokoll der nächsten Schicht (6=TCP, 17=UDP, 1=ICMP)</td></tr>
+    <tr><td>Header Checksum</td><td>16</td><td>Prüfsumme nur des Headers</td></tr>
+    <tr><td>Source Address</td><td>32</td><td>IP-Adresse des Senders</td></tr>
+    <tr><td>Destination Address</td><td>32</td><td>IP-Adresse des Empfängers</td></tr>
+  </table>
+</div>
+
+<h2>4.2 IP-Adressklassen und besondere Adressen</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 IPv4-Adressklassen</div>
+  <table>
+    <tr><th>Klasse</th><th>Erste Bits</th><th>Bereich</th><th>Netz/Host-Aufteilung</th></tr>
+    <tr><td>A</td><td>0</td><td>1.0.0.0 – 127.255.255.255</td><td>8 Bit Netz / 24 Bit Host</td></tr>
+    <tr><td>B</td><td>10</td><td>128.0.0.0 – 191.255.255.255</td><td>16 Bit Netz / 16 Bit Host</td></tr>
+    <tr><td>C</td><td>110</td><td>192.0.0.0 – 223.255.255.255</td><td>24 Bit Netz / 8 Bit Host</td></tr>
+    <tr><td>D</td><td>1110</td><td>224.0.0.0 – 239.255.255.255</td><td>Multicast</td></tr>
+    <tr><td>E</td><td>1111</td><td>240.0.0.0 – 255.255.255.255</td><td>Reserved (experimentell)</td></tr>
+  </table>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Besondere / private Adressen (RFC 3330)</div>
+  <table>
+    <tr><th>Adresse</th><th>Bedeutung</th></tr>
+    <tr><td>0.0.0.0</td><td>This host (kein Netz bekannt)</td></tr>
+    <tr><td>127.x.x.x</td><td>Loopback (localhost)</td></tr>
+    <tr><td>10.x.x.x</td><td>Privates Netz (Klasse A privat)</td></tr>
+    <tr><td>172.16.x.x – 172.31.x.x</td><td>Privates Netz (Klasse B privat)</td></tr>
+    <tr><td>192.168.x.x</td><td>Privates Netz (Klasse C privat)</td></tr>
+    <tr><td>255.255.255.255</td><td>Broadcast auf lokalem Netz</td></tr>
+  </table>
+  <p>Private Adressen werden via NAT (Network Address/Port Translation) ans Internet angebunden.</p>
+</div>
+
+<h2>4.3 Subnet-Masking und CIDR</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 Subnetting</div>
+  <ul>
+    <li><strong>Subnetzmaske:</strong> bestimmt, welche Bits zur Netzadresse gehören. Bitweise AND von IP-Adresse und Maske ergibt die Netzadresse.</li>
+    <li><strong>CIDR-Notation:</strong> x.x.x.x/n → die ersten n Bits sind das Netz. Z.B. 192.168.1.0/24 = Klasse-C-Netz.</li>
+    <li><strong>Routing:</strong> Router prüft für jede Zeile: IP_Ziel AND netmask = IP_j? Bei Treffer: sende über Interface j.</li>
+    <li><strong>Notation:</strong> 63.214.88.3/24 bedeutet Netzmaske 255.255.255.0</li>
+  </ul>
+</div>
+
+<div class="beispiel">
+  <div class="box-title">🔢 Beispiel 1: Subnetz-Berechnung</div>
+  <p>IP: 192.168.10.50, Maske: 255.255.255.0 (/24)</p>
+  <p>Netzadresse: 192.168.10.50 AND 255.255.255.0 = <strong>192.168.10.0</strong></p>
+  <p>Broadcast: 192.168.10.255</p>
+  <p>Hosts: 192.168.10.1 bis 192.168.10.254 (254 Hosts)</p>
+</div>
+
+<div class="beispiel">
+  <div class="box-title">🔢 Beispiel 2: CIDR-Routing</div>
+  <p>Router-Tabelle hat Eintrag: 63.214.88.0 / 255.255.255.0<br>
+  Paket kommt an: Ziel = 63.214.88.3<br>
+  63.214.88.3 AND 255.255.255.0 = 63.214.88.0 ✓ → Match! Weiterleiten.</p>
+</div>
+
+<h2>4.4 IPv6</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 IPv6-Grundlagen</div>
+  <ul>
+    <li><strong>128-Bit-Adressen</strong> (16 Byte) → riesiger Adressraum</li>
+    <li>Notation: 8 Blöcke à 16 Bit, hexadezimal, getrennt durch Doppelpunkte</li>
+    <li>Führende Nullen werden weggelassen; aufeinanderfolgende 0000-Blöcke → <code>::</code> (einmalig!)</li>
+    <li>Buchstaben immer klein: a, b, c, d, e, f</li>
+    <li>Beispiel: 2001:0db8:0000:0000:0001:0000:0000:0001 → <strong>2001:db8::1:0:0:1</strong></li>
+  </ul>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 IPv6-Adresstypen</div>
+  <table>
+    <tr><th>Typ</th><th>Präfix</th><th>Bedeutung</th></tr>
+    <tr><td>Global Unicast (GUA)</td><td>2000::/3</td><td>Weltweit gültige Adresse (wie öffentliche IPv4)</td></tr>
+    <tr><td>Link Local</td><td>fe80::/10</td><td>Nur im lokalen Netz gültig (automatisch aus MAC)</td></tr>
+    <tr><td>Site Local</td><td>fc00::/7</td><td>Privat, nicht geroutet</td></tr>
+    <tr><td>Multicast</td><td>ff00::/8</td><td>Gruppenkommunikation</td></tr>
+    <tr><td>Anycast</td><td>2000::/3</td><td>Wird an nächsten Server weitergeleitet</td></tr>
+  </table>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 SLAAC (Stateless Address Autoconfiguration)</div>
+  <ol>
+    <li>Host bestimmt Link Local Address: Präfix fe80:: + MAC-Adresse (64 Bit)</li>
+    <li>Test auf Eindeutigkeit: Neighbor Solicitation (wie ARP, aber ohne Broadcast)</li>
+    <li>Router-Advertisement → Host generiert GUA (Global Unicast Address)</li>
+    <li>→ Kein DHCP und kein NAT mehr nötig!</li>
+  </ol>
+</div>
+
+<h2>4.5 Routing-Protokolle</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 Interior vs. Exterior Gateway Routing</div>
+  <table>
+    <tr><th>Typ</th><th>Protokoll</th><th>Algorithmus</th><th>Besonderheit</th></tr>
+    <tr><td>IGP (innerhalb AS)</td><td>OSPF</td><td>Link-State (Dijkstra)</td><td>Diverse Kostenmaße, Lastverteilung</td></tr>
+    <tr><td>IGP (alt)</td><td>RIP</td><td>Distance-Vector</td><td>Einfach, max. 15 Hops</td></tr>
+    <tr><td>EGP (zwischen AS)</td><td>BGP</td><td>Distance-Vector-ähnlich</td><td>Politische Routing-Entscheidungen, TCP-Port 179</td></tr>
+  </table>
+  <ul>
+    <li><strong>BGP:</strong> verbindet autonome Systeme (AS), ~940.000 Einträge (2023), verhindert Count-to-Infinity durch Mitführen des Routing-Pfads</li>
+  </ul>
+</div>
+
+<h2>4.6 ICMP und ARP</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 ICMP</div>
+  <ul>
+    <li><strong>ping:</strong> Echo-Request (Type 8) / Echo-Reply (Type 0) → Verbindungstest</li>
+    <li><strong>Destination Unreachable:</strong> Type 3 (z.B. Code 2 = nicht unterstütztes Protokoll)</li>
+    <li><strong>Time Exceeded:</strong> Type 11 (TTL abgelaufen → traceroute nutzt das)</li>
+    <li>ICMP-Pakete enthalten den Header des ursächlichen IP-Pakets, werden in normale Datagramme verpackt</li>
+  </ul>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 ARP (Address Resolution Protocol)</div>
+  <ol>
+    <li>Station A sendet ARP-Broadcast: "Wer hat IP-Adresse x.x.x.x?"</li>
+    <li>Alle empfangen; nur die Station mit dieser IP antwortet mit ihrer MAC-Adresse.</li>
+    <li>A speichert die Zuordnung IP↔MAC im ARP-Cache.</li>
+    <li>A verpackt das IP-Paket in einen Frame mit der korrekten MAC-Zieladresse.</li>
+  </ol>
+</div>
+
+<div class="pruefung">
+  <div class="box-title">⭐ Prüfungshinweise Kapitel 4</div>
+  <ul>
+    <li>IPv4-Header-Felder und ihre Größen auswendig (esp. TTL, Protocol, Flags).</li>
+    <li>Adressklassen A/B/C erkennen und Anzahl der Hosts berechnen können.</li>
+    <li>IPv6-Adresse kürzen und auflösen können. :: darf nur einmal vorkommen!</li>
+    <li>CIDR: Routing-Entscheidung durch AND mit Subnetzmaske.</li>
+    <li>ARP: IP→MAC im LAN; ICMP: Kontrollnachrichten.</li>
+  </ul>
+</div>
+
+<hr class="kapitel-trennlinie">
+<h2>Übungsaufgaben – Kapitel 4</h2>
+<div class="aufgabe">
+  <p>1. Welcher Adressklasse gehört 172.20.5.1 an? Wie viele Hosts kann ein solches Netz haben?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">172.20.5.1 beginnt mit 10 → <strong>Klasse B</strong>. Klasse B hat 16 Bit Host-Anteil → 2¹⁶ - 2 = <strong>65.534 Hosts</strong> (abzüglich Netz- und Broadcast-Adresse). Hinweis: 172.16.x.x – 172.31.x.x ist auch als privater Bereich reserviert!</div></details>
+</div>
+<div class="aufgabe">
+  <p>2. Kürze die IPv6-Adresse: fe80:0000:0000:0000:0201:02ff:fe03:0405</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung"><strong>fe80::201:2ff:fe03:405</strong><br>Erklärung: Die vier 0000-Blöcke werden zu ::, führende Nullen in jedem Block werden weggelassen (0201→201, 02ff→2ff, 0405→405).</div></details>
+</div>
+<div class="aufgabe">
+  <p>3. Ein Router hat Eintrag 10.0.0.0/8. Wird das Paket mit Ziel 10.5.3.7 weitergeleitet?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Maske /8 = 255.0.0.0. 10.5.3.7 AND 255.0.0.0 = 10.0.0.0 ✓ → <strong>Ja</strong>, das Paket matcht und wird weitergeleitet.</div></details>
+</div>
+<div class="aufgabe">
+  <p>4. Warum senkt IPv6 die Netzlast gegenüber IPv4, obwohl der Header größer ist?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">IPv6 ersetzt Broadcast durch Multicast und Anycast. Broadcast-Pakete müssen von ALLEN Stationen im Netz verarbeitet werden, Multicast/Anycast nur von den relevanten. Außerdem entfällt die Header-Prüfsumme (Aufwand pro Router), und optionale Erweiterungen sind aus dem Basispheader ausgelagert.</div></details>
+</div>
+<div class="aufgabe">
+  <p>5. Was macht ARP und warum wird es benötigt?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">ARP löst IP-Adressen in MAC-Adressen auf. Es wird benötigt, weil IP-Pakete eine Ziel-IP-Adresse enthalten, aber die Netzwerkkarte (Layer 2) nur MAC-Adressen kennt. Im LAN sendet die Station einen Broadcast, der Empfänger antwortet mit seiner MAC-Adresse.</div></details>
+</div>
+</div>
+
+<!-- ==================== KS KAPITEL 5 ==================== -->
+<div class="page" id="ks5">
+<h1>Kapitel 5: Transportschicht (Layer 4)</h1>
+<p>Layer 4 ist die Schnittstelle für Anwendungen. Während IP-Pakete nur Rechner adressieren, ermöglichen Ports die Adressierung einzelner <em>Prozesse</em> auf einem Rechner. TCP baut auf IP auf und liefert zuverlässige, geordnete Datenübertragung.</p>
+
+<h2>5.1 TSAP und Sockets</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 TSAP (Transport Service Access Point)</div>
+  <ul>
+    <li>Kommunikation findet zwischen zwei <strong>Prozessen</strong> statt.</li>
+    <li>Jeder Prozess bekommt einen <strong>Socket</strong> zugeordnet.</li>
+    <li>Socket-Adresse = <strong>IP-Adresse + Port-Nummer</strong></li>
+    <li>Eine Verbindung wird durch 4-Tupel identifiziert: (Source-IP, Source-Port, Dest-IP, Dest-Port)</li>
+  </ul>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Port-Bereiche</div>
+  <table>
+    <tr><th>Bereich</th><th>Name</th><th>Bedeutung</th></tr>
+    <tr><td>0 – 1023</td><td>Well-known Ports</td><td>Von IANA verwaltet, nur Root-Prozesse dürfen warten</td></tr>
+    <tr><td>1024 – 49151</td><td>Registered Ports</td><td>Für bekannte Dienste registriert</td></tr>
+    <tr><td>49152 – 65535</td><td>Dynamic / Private Ports</td><td>Für Client-seitige kurzlebige Verbindungen</td></tr>
+  </table>
+  <p><strong>Wichtige Ports:</strong> FTP 21, SSH 22, Telnet 23, SMTP 25, HTTP 80, POP3 110, HTTPS 443, IMAPS 993</p>
+</div>
+
+<h2>5.2 Verbindungsaufbau: Dreifacher Handshake</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 3-Way-Handshake</div>
+  <ol>
+    <li>Client → Server: <code>CR(seq=x)</code> (SYN-Flag gesetzt, Sequenznummer x)</li>
+    <li>Server → Client: <code>ACK(seq=y, ack=x+1)</code> (SYN+ACK, eigene ISN y)</li>
+    <li>Client → Server: <code>ACK(ack=y+1)</code> (Verbindung steht)</li>
+  </ol>
+  <p><strong>Warum 3 Schritte?</strong> Beide Seiten müssen ihre ISN (Initial Sequence Number) bekanntmachen UND bestätigt bekommen. ISN darf nicht 0 sein (alte Pakete könnten fälschlich akzeptiert werden).</p>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Verbindungsabbau (symmetrisch)</div>
+  <ul>
+    <li><strong>Asymmetrischer Abbau:</strong> Eine Seite sendet DR (Disconnect Request) → die andere bestätigt. Problem: Datenverlust möglich!</li>
+    <li><strong>Symmetrischer Abbau:</strong> Beide Seiten senden unabhängig DR. Problem: Beweisbar gibt es kein Protokoll, das bei unbeschränkten Verzögerungen <em>immer</em> sicher abbaut (→ Distributed Consensus). Pragmatische Lösung: Timeouts.</li>
+    <li>In TCP: FIN-Flag für Abbau, RST-Flag für sofortigen Abbruch.</li>
+  </ul>
+</div>
+
+<h2>5.3 Flusskontrolle und Pufferverwaltung</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 Dynamische Puffer-Reservierung</div>
+  <ul>
+    <li>Sender beantragt r Pufferbereiche; Empfänger gewährt g ≤ r.</li>
+    <li>Empfänger kann g jederzeit erhöhen (bis zu r).</li>
+    <li>Optimale Puffergröße: <strong>c · r</strong> (c = TPDUs/s, r = RTT)</li>
+    <li>Ein deutlich größerer Puffer wäre Verschwendung.</li>
+  </ul>
+</div>
+
+<h2>5.4 TCP im Detail</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 TCP-Header-Felder</div>
+  <table>
+    <tr><th>Feld</th><th>Bits</th><th>Bedeutung</th></tr>
+    <tr><td>Source Port</td><td>16</td><td>Quell-Port</td></tr>
+    <tr><td>Destination Port</td><td>16</td><td>Ziel-Port</td></tr>
+    <tr><td>Sequence Number</td><td>32</td><td>Byte-Sequenznummer des ersten Bytes dieses Segments</td></tr>
+    <tr><td>Acknowledgement Number</td><td>32</td><td>Nächstes erwartetes Byte vom Sender</td></tr>
+    <tr><td>Header Length</td><td>4</td><td>TCP-Header-Länge in 32-Bit-Wörtern</td></tr>
+    <tr><td>Flags</td><td>6</td><td>URG, ACK, PSH, RST, SYN, FIN</td></tr>
+    <tr><td>Window Size</td><td>16</td><td>Freier Empfangspuffer (Flusskontrolle)</td></tr>
+    <tr><td>Checksum</td><td>16</td><td>Prüfsumme (über Pseudo-Header + TCP-Header + Daten)</td></tr>
+    <tr><td>Urgent Pointer</td><td>16</td><td>Position der dringenden Daten (wenn URG=1)</td></tr>
+  </table>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 TCP-Flags</div>
+  <ul>
+    <li><strong>SYN:</strong> Verbindungsaufbau (+ ISN bekanntgeben)</li>
+    <li><strong>FIN:</strong> Verbindungsabbau (graceful)</li>
+    <li><strong>RST:</strong> Verbindung sofort abbrechen</li>
+    <li><strong>ACK:</strong> Acknowledgement-Feld ist gültig (fast immer gesetzt)</li>
+    <li><strong>URG:</strong> Urgent-Pointer ist gültig (dringende Daten)</li>
+    <li><strong>PSH:</strong> Daten sofort an Anwendung weitergeben (kein Puffern)</li>
+  </ul>
+</div>
+
+<div class="beispiel">
+  <div class="box-title">🔢 Beispiel: TCP-Fenstermanagement</div>
+  <p>Empfänger hat 4096 Byte Puffer. Client schreibt 2K:</p>
+  <ol>
+    <li>SEQ=0, 2K Daten gesendet → Puffer hat 2K frei</li>
+    <li>ACK=2048, WIN=2048 (nur noch 2K frei)</li>
+    <li>Client schreibt 3K → Sender blockiert (Fenster zu klein)</li>
+    <li>Anwendung liest 2K → ACK=2048, WIN=4096 → Sender darf wieder senden</li>
+  </ol>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Silly-Window-Syndrome</div>
+  <p>Problem: Empfänger liest 1 Byte, gibt Fenster frei, Sender sendet 1 Byte → enorme Overhead-Verschwendung (40 Byte Header für 1 Byte Daten!).</p>
+  <p>Lösung: Puffer sowohl beim Sender (Nagle-Algorithmus: erst senden wenn genug Daten) als auch beim Empfänger (Clark-Algorithmus: erst ACK wenn genug Platz frei).</p>
+</div>
+
+<h2>5.5 TCP-Timeout-Berechnung</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 Jacobson-Algorithmus</div>
+  <div class="formel">RTT_neu = α · RTT_alt + (1−α) · RTT_m</div>
+  <div class="formel">D_neu = α' · D_alt + (1−α') · |RTT − RTT_m|</div>
+  <div class="formel">Timeout = RTT_neu + 4 · D_neu</div>
+  <ul>
+    <li>α = Glättungsfaktor (0 &lt; α &lt; 1), typisch α = 7/8</li>
+    <li>RTT_m = aktuell gemessene RTT</li>
+    <li>D = Standardabweichungsschätzung</li>
+    <li>Je größer die Streuung → desto länger der Timeout</li>
+  </ul>
+  <p><strong>Alternative (Karn):</strong> Bei jedem Timeout wird die Timeout-Zeit verdoppelt.</p>
+</div>
+
+<div class="beispiel">
+  <div class="box-title">🔢 Beispiel: Timeout-Berechnung</div>
+  <p>RTT_alt = 20ms, RTT_m = 24ms, D_alt = 2ms, α = 7/8, α' = 3/4</p>
+  <p>RTT_neu = 7/8 · 20 + 1/8 · 24 = 17.5 + 3 = <strong>20.5 ms</strong></p>
+  <p>D_neu = 3/4 · 2 + 1/4 · |20 − 24| = 1.5 + 1 = <strong>2.5 ms</strong></p>
+  <p>Timeout = 20.5 + 4 · 2.5 = <strong>30.5 ms</strong></p>
+</div>
+
+<h2>5.6 UDP</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 UDP (User Datagram Protocol, RFC 768)</div>
+  <ul>
+    <li><strong>Verbindungslos</strong> und <strong>unzuverlässig</strong></li>
+    <li>Header: Source Port (16), Dest Port (16), Length (16), Checksum (16) = <strong>nur 8 Byte</strong></li>
+    <li>Sende gekapselter roher IP-Pakete → minimal Overhead</li>
+    <li>Pseudo-Header für Checksumme (wie TCP)</li>
+    <li>Anwendung: DNS, NTP, RPC, Streaming, Online-Gaming</li>
+  </ul>
+</div>
+
+<div class="pruefung">
+  <div class="box-title">⭐ Prüfungshinweise Kapitel 5</div>
+  <ul>
+    <li>3-Way-Handshake skizzieren können (SYN, SYN+ACK, ACK mit Sequenznummern).</li>
+    <li>TCP-Flags kennen: SYN=Aufbau, FIN=Abbau, RST=Abbruch, ACK=Bestätigung.</li>
+    <li>Jacobson-Formel für Timeout-Berechnung: Rechenaufgabe sehr wahrscheinlich!</li>
+    <li>Well-known Ports (FTP=21, SSH=22, HTTP=80, HTTPS=443) kennen.</li>
+    <li>Warum Silly-Window-Syndrome ein Problem ist und wie man es löst.</li>
+  </ul>
+</div>
+
+<hr class="kapitel-trennlinie">
+<h2>Übungsaufgaben – Kapitel 5</h2>
+<div class="aufgabe">
+  <p>1. Skizziere den TCP-3-Way-Handshake zwischen Client (ISN=100) und Server (ISN=300).</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">
+  Client → Server: SYN(seq=100)<br>
+  Server → Client: SYN(seq=300, ACK=101)<br>
+  Client → Server: ACK(seq=101, ack=301)<br>
+  Verbindung steht. Client sendet nun Daten ab seq=101, Server ab seq=301.
+  </div></details>
+</div>
+<div class="aufgabe">
+  <p>2. RTT_alt=10ms, RTT_m=14ms, D_alt=1ms, α=7/8, α'=3/4. Berechne neuen Timeout.</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">
+  RTT_neu = 7/8 · 10 + 1/8 · 14 = 8.75 + 1.75 = 10.5 ms<br>
+  D_neu = 3/4 · 1 + 1/4 · |10-14| = 0.75 + 1 = 1.75 ms<br>
+  Timeout = 10.5 + 4·1.75 = 10.5 + 7 = <strong>17.5 ms</strong>
+  </div></details>
+</div>
+<div class="aufgabe">
+  <p>3. Welches Flag sendet der Client beim Verbindungsabbau? Was passiert mit nicht gesendeten Daten?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Der Client sendet FIN-Flag. Ein FIN bedeutet "Ich sende keine Daten mehr", aber die andere Seite kann noch Daten senden (Half-Close). Erst wenn beide FIN gesendet und bestätigt wurden, ist die Verbindung geschlossen. Mit RST wird sofort abgebrochen, nicht gesendete Daten gehen verloren.</div></details>
+</div>
+<div class="aufgabe">
+  <p>4. Warum kann UDP für Video-Streaming sinnvoller sein als TCP?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Bei Video-Streaming ist ein kurzes Ruckeln (verlorenes Paket) weniger schlimm als eine große Verzögerung (TCP wartet auf Wiederholung). UDP ermöglicht niedrige Latenz ohne Retransmission-Overhead. Anwendungen können selbst entscheiden, wie sie mit Verlusten umgehen.</div></details>
+</div>
+<div class="aufgabe">
+  <p>5. Was ist der Unterschied zwischen Sequenznummer und Acknowledgement-Nummer in TCP?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Die Sequenznummer gibt die Byte-Position des ersten Bytes in diesem Segment an. Die ACK-Nummer gibt das nächste vom Empfänger erwartete Byte an (= alle Bytes bis dahin korrekt empfangen, Piggy-Backing).</div></details>
+</div>
+</div>
+
+<!-- ==================== KS KAPITEL 6 ==================== -->
+<div class="page" id="ks6">
+<h1>Kapitel 6: Anwendungsschicht</h1>
+<p>Die Anwendungsschicht implementiert die eigentlichen Netzwerkdienste für den Benutzer. Sie nutzt die Schnittstellen der Transportschicht (Sockets/System-Calls).</p>
+
+<h2>6.1 Domain Name System (DNS)</h2>
+<p>Das Internet verwendet IP-Adressen (141.72.70.16), aber Menschen merken sich lieber Namen (www.dhbw-mannheim.de). DNS übersetzt Namen in IP-Adressen — wie ein Telefonbuch des Internets.</p>
+
+<div class="merkkasten">
+  <div class="box-title">📌 DNS-Grundlagen</div>
+  <ul>
+    <li>Kein direktes 1:1-Mapping (ein Name kann mehrere IPs haben und umgekehrt).</li>
+    <li><strong>Lokale Tabelle</strong> (/etc/hosts): skaliert nicht für das Internet.</li>
+    <li><strong>Verteilte Datenbank:</strong> Viele Server verwalten jeweils einen Teil des Namensraums.</li>
+    <li><strong>DNS-Server</strong> leisten die Namensauflösung und cachen Ergebnisse.</li>
+    <li><strong>DNS-Cache:</strong> Ergebnisse werden für begrenzte Zeit (TTL) gespeichert.</li>
+  </ul>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Hierarchie des DNS-Namensraums</div>
+  <ul>
+    <li>Root-Server (.) → Top-Level-Domains (TLDs)</li>
+    <li><strong>Generische TLDs:</strong> .com, .org, .edu, .gov, .mil, .net, ...</li>
+    <li><strong>Länderspezifische TLDs:</strong> .de, .fr, .jp, .us, ...</li>
+    <li>Darunter: Organisationsdomänen (dhbw-mannheim.de), Subdomain (www.dhbw-mannheim.de)</li>
+    <li>Weltweit <strong>13 Root-Nameserver</strong></li>
+  </ul>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Zonen und Server-Platzierung</div>
+  <ul>
+    <li>Der Namensraum ist in <strong>disjunkte Zonen</strong> unterteilt.</li>
+    <li>Für jede Zone existieren i.d.R. mehrere gleichberechtigte DNS-Server (Redundanz).</li>
+  </ul>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Namensauflösung: iterativ vs. rekursiv</div>
+  <table>
+    <tr><th>Iterativ</th><th>Rekursiv</th></tr>
+    <tr><td>Client fragt lokalen Server → bekommt Verweis auf nächsten Server → fragt diesen selbst</td><td>Lokaler Server fragt selbst weiter und liefert dem Client das finale Ergebnis</td></tr>
+    <tr><td>Client macht mehr Arbeit</td><td>Server macht mehr Arbeit, aber Client ist einfacher</td></tr>
+  </table>
+</div>
+
+<div class="beispiel">
+  <div class="box-title">🔢 Beispiel: Auflösung von www.cs.mit.edu (rekursiv)</div>
+  <ol>
+    <li>DNS-Client fragt lokalen DNS-Server: "Was ist www.cs.mit.edu?"</li>
+    <li>Lokaler Server fragt Root-Nameserver: "Was ist .edu?"</li>
+    <li>Root antwortet: "Frag den edu-Nameserver"</li>
+    <li>Lokaler Server fragt edu-Nameserver: "Was ist mit.edu?"</li>
+    <li>Dieser antwortet: "Frag den mit.edu-Nameserver"</li>
+    <li>Lokaler Server fragt mit.edu: "Was ist cs.mit.edu?"</li>
+    <li>Antwortet: "Frag cs.mit.edu-Server"</li>
+    <li>cs.mit.edu-Server antwortet: IP = 18.62.0.96</li>
+    <li>Lokaler Server gibt 18.62.0.96 an Client zurück und cachet das Ergebnis.</li>
+  </ol>
+</div>
+
+<h2>6.2 Weitere Anwendungsschicht-Dienste</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 Wichtige Anwendungsschicht-Protokolle</div>
+  <table>
+    <tr><th>Protokoll</th><th>Port</th><th>Funktion</th></tr>
+    <tr><td>HTTP</td><td>80</td><td>World Wide Web, zustandslos</td></tr>
+    <tr><td>HTTPS</td><td>443</td><td>HTTP über TLS (verschlüsselt)</td></tr>
+    <tr><td>SMTP</td><td>25</td><td>E-Mail senden</td></tr>
+    <tr><td>POP3</td><td>110</td><td>E-Mail abrufen (löscht vom Server)</td></tr>
+    <tr><td>IMAP/IMAPS</td><td>143/993</td><td>E-Mail abrufen (bleibt auf Server)</td></tr>
+    <tr><td>FTP</td><td>21</td><td>Dateiübertragung</td></tr>
+    <tr><td>SSH</td><td>22</td><td>Sichere Remote-Shell</td></tr>
+    <tr><td>Telnet</td><td>23</td><td>Remote-Shell (unverschlüsselt!)</td></tr>
+    <tr><td>DNS</td><td>53</td><td>Namensauflösung (UDP/TCP)</td></tr>
+  </table>
+</div>
+
+<div class="warnung">
+  <div class="box-title">⚠️ Typische Fehler</div>
+  <ul>
+    <li>DNS-Auflösung ist <em>nicht</em> 1:1 (CDNs liefern unterschiedliche IPs je nach Standort).</li>
+    <li>DNS selbst nutzt UDP (Port 53), nur bei großen Antworten TCP.</li>
+    <li>Root-Nameserver gibt nicht die IP-Adresse zurück, sondern nur den Verweis auf den nächsten zuständigen Nameserver.</li>
+  </ul>
+</div>
+
+<div class="pruefung">
+  <div class="box-title">⭐ Prüfungshinweise Kapitel 6</div>
+  <ul>
+    <li>DNS-Ablauf (iterativ/rekursiv) erklären können.</li>
+    <li>Bekannte Ports auswendig (FTP 21, SSH 22, HTTP 80, HTTPS 443 etc.).</li>
+    <li>Unterschied POP3 vs. IMAP: POP3 löscht Mails vom Server, IMAP lässt sie dort.</li>
+    <li>13 Root-Nameserver, Zonen-Konzept.</li>
+  </ul>
+</div>
+
+<hr class="kapitel-trennlinie">
+<h2>Übungsaufgaben – Kapitel 6</h2>
+<div class="aufgabe">
+  <p>1. Erkläre den Unterschied zwischen iterativer und rekursiver DNS-Auflösung.</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Iterativ: Der Client bekommt nur Verweise auf andere Server zurück und fragt diese selbst. Rekursiv: Der erste gefragte Server übernimmt alle weiteren Anfragen und gibt dem Client das fertige Ergebnis. Bei rekursiver Auflösung wird die Last auf die Server verschoben, bei iterativer auf den Client.</div></details>
+</div>
+<div class="aufgabe">
+  <p>2. Warum hat das Internet 13 Root-Nameserver und nicht einen?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Redundanz und Verfügbarkeit: Fiele ein einzelner Root-Server aus, wäre das gesamte Internet nicht mehr erreichbar. Mit 13 Servern (tatsächlich noch mehr durch Anycast) wird hohe Ausfallsicherheit und geografische Verteilung gewährleistet.</div></details>
+</div>
+<div class="aufgabe">
+  <p>3. Auf welchem Port läuft DNS und welches Transportprotokoll wird bevorzugt?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">DNS läuft auf Port 53 und bevorzugt UDP (wegen geringem Overhead für kleine Anfragen/Antworten). Bei großen Antworten (z.B. Zonentransfer) wird TCP verwendet.</div></details>
+</div>
+<div class="aufgabe">
+  <p>4. Was ist ein DNS-Cache und welches Problem kann er verursachen?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Ein DNS-Cache speichert Auflösungsergebnisse für eine begrenzte Zeit (TTL), um Folge-Anfragen schnell zu beantworten. Problem: Ändert sich eine IP-Adresse (z.B. bei Server-Umzug), antworten gecachte Server noch mit der alten Adresse. DNS-Cache-Poisoning ist außerdem ein Sicherheitsproblem.</div></details>
+</div>
+<div class="aufgabe">
+  <p>5. Nenne 3 Anwendungsschicht-Protokolle und jeweils einen konkreten Anwendungsfall.</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">HTTP (Port 80): Webseite abrufen. SMTP (Port 25): E-Mail an einen Mail-Server senden. SSH (Port 22): Sicher auf einen Remote-Server einloggen.</div></details>
+</div>
+</div>
+
+<!-- ==================== BS KAPITEL 7 ==================== -->
+<div class="page" id="bs1">
+<h1>Kapitel 7: Einführung Betriebssysteme</h1>
+<p>Ein Betriebssystem (BS) ist die Software-Schicht zwischen der Hardware und den Anwendungsprogrammen. Es verwaltet alle Ressourcen des Rechners und stellt Anwendungen komfortable Schnittstellen (System Calls) zur Verfügung.</p>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Aufgaben eines Betriebssystems</div>
+  <ul>
+    <li><strong>Ressourcenverwaltung:</strong> CPU, Arbeitsspeicher, Dateien, E/A-Geräte fair und effizient verteilen</li>
+    <li><strong>Abstraktion:</strong> Hardware-Komplexität vor Anwendungen verbergen (z.B. Datei statt Sektornummer)</li>
+    <li><strong>Schutz:</strong> Prozesse voreinander und vor der Hardware schützen</li>
+    <li><strong>Prozessverwaltung:</strong> Starten, Stoppen, Scheduling von Programmen</li>
+    <li><strong>Speicherverwaltung:</strong> Adressraum zuweisen, virtuellem Speicher verwalten</li>
+    <li><strong>Dateiverwaltung:</strong> Dateisystem, Zugriffskontrolle</li>
+    <li><strong>I/O-Verwaltung:</strong> Treiber, Gerätezugriff</li>
+  </ul>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Betriebsarten</div>
+  <table>
+    <tr><th>Art</th><th>Beschreibung</th><th>Beispiel</th></tr>
+    <tr><td>Batch-Betrieb</td><td>Jobs werden sequenziell ohne Benutzerinteraktion ausgeführt</td><td>Lohnabrechnung, nächtliche Berechnungen</td></tr>
+    <tr><td>Interaktiv</td><td>Benutzer interagiert in Echtzeit mit dem System</td><td>Desktop-PC, Terminal</td></tr>
+    <tr><td>Echtzeit</td><td>Harte Zeitgarantien für kritische Aufgaben</td><td>Airbag-Steuerung, Herzschrittmacher</td></tr>
+    <tr><td>Mehrbenutzer</td><td>Mehrere Benutzer gleichzeitig auf einem System</td><td>Unix-Server</td></tr>
+  </table>
+</div>
+
+<div class="pruefung">
+  <div class="box-title">⭐ Prüfungshinweis</div>
+  <p>Die 3 Hauptaufgaben des BS (Ressourcenverwaltung, Abstraktion, Schutz) sind typische Prüfungsfragen. Merksatz: <strong>"VAS"</strong> – Verwalten, Abstrahieren, Schützen.</p>
+</div>
+</div>
+
+<!-- ==================== BS KAPITEL 8 ==================== -->
+<div class="page" id="bs2">
+<h1>Kapitel 8: Prozesse und Threads</h1>
+<p>Ein <strong>Prozess</strong> ist ein Programm in Ausführung — also nicht nur der Code, sondern auch der aktuelle Zustand (Register, Stack, offene Dateien). Mehrere Prozesse können scheinbar gleichzeitig laufen (Multiprogramming).</p>
+
+<h2>8.1 Prozesse</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 Prozess-Zustände</div>
+  <table>
+    <tr><th>Zustand</th><th>Bedeutung</th><th>Übergang</th></tr>
+    <tr><td>Neu (New)</td><td>Prozess wird erstellt</td><td>→ Bereit (zugelassen)</td></tr>
+    <tr><td>Bereit (Ready)</td><td>Wartet auf CPU-Zuteilung</td><td>→ Laufend (Dispatcher)</td></tr>
+    <tr><td>Laufend (Running)</td><td>Wird gerade ausgeführt</td><td>→ Bereit (Zeitscheibe abgelaufen) oder Blockiert (I/O)</td></tr>
+    <tr><td>Blockiert (Waiting)</td><td>Wartet auf Ereignis (I/O, Semaphor)</td><td>→ Bereit (Ereignis eingetreten)</td></tr>
+    <tr><td>Beendet (Terminated)</td><td>Prozess fertig</td><td>–</td></tr>
+  </table>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 PCB (Process Control Block)</div>
+  <p>Jeder Prozess hat einen PCB — die Datenstruktur des BS zur Verwaltung des Prozesses:</p>
+  <ul>
+    <li>Prozess-ID (PID), Zustand</li>
+    <li>Programmzähler (PC), Register</li>
+    <li>Speicherverwaltungsinfo (Seitentabelle, ...)</li>
+    <li>Liste offener Dateien, I/O-Gerätezuordnungen</li>
+    <li>Scheduling-Informationen (Priorität, ...)</li>
+    <li>Signalbehandlung, Benutzer-ID</li>
+  </ul>
+</div>
+
+<h2>8.2 Threads</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 Threads (Leichtgewichtsprozesse)</div>
+  <ul>
+    <li>Threads laufen innerhalb eines Prozesses und <strong>teilen dessen Adressraum</strong> (Code, Daten, Heap).</li>
+    <li>Jeder Thread hat eigenen: Stack, Programmzähler, Register, Zustand.</li>
+    <li><strong>Vorteile:</strong> Schnellerer Kontextwechsel (kein Adressraumwechsel), einfache Kommunikation (geteilter Speicher), Parallelität auf Multi-Core-Systemen.</li>
+    <li><strong>Nachteile:</strong> Ein Fehler in einem Thread kann alle anderen Threads eines Prozesses betreffen.</li>
+  </ul>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 User-Level vs. Kernel-Level Threads</div>
+  <table>
+    <tr><th>Eigenschaft</th><th>User-Level Threads</th><th>Kernel-Level Threads</th></tr>
+    <tr><td>Verwaltung durch</td><td>Laufzeitbibliothek (z.B. pthreads)</td><td>Betriebssystem-Kernel</td></tr>
+    <tr><td>Kontextwechsel</td><td>Schnell (kein System-Call)</td><td>Langsamer (System-Call nötig)</td></tr>
+    <tr><td>Blockierender I/O</td><td>Blockiert gesamten Prozess!</td><td>Nur der betreffende Thread blockiert</td></tr>
+    <tr><td>Parallelität</td><td>Nur auf einem Core</td><td>Echte Parallelität auf Multi-Core</td></tr>
+  </table>
+</div>
+
+<div class="pruefung">
+  <div class="box-title">⭐ Prüfungshinweise Kapitel 8</div>
+  <ul>
+    <li>Prozesszustände und Übergänge kennen und zeichnen können.</li>
+    <li>Unterschied Prozess vs. Thread: Threads teilen Adressraum, Prozesse nicht.</li>
+    <li>PCB-Inhalt: Was speichert das BS pro Prozess?</li>
+  </ul>
+</div>
+
+<hr class="kapitel-trennlinie">
+<h2>Übungsaufgaben – Kapitel 8</h2>
+<div class="aufgabe">
+  <p>1. In welche Zustände kann ein laufender Prozess übergehen? Was löst den Übergang aus?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Ein laufender Prozess kann übergehen in: (a) Bereit → Zeitscheibe abgelaufen oder höher priorisierter Prozess wird bereit; (b) Blockiert → Prozess wartet auf I/O oder ein Ereignis (Semaphor, Signal).</div></details>
+</div>
+<div class="aufgabe">
+  <p>2. Welcher Unterschied besteht zwischen User-Level und Kernel-Level Threads bei blockierendem I/O?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Bei User-Level Threads blockiert ein I/O-Aufruf den gesamten Prozess (alle Threads), weil das BS nur den Prozess kennt, nicht die einzelnen Threads. Bei Kernel-Level Threads blockiert nur der Thread, der den I/O initiiert hat — andere Threads des gleichen Prozesses können weiterlaufen.</div></details>
+</div>
+<div class="aufgabe">
+  <p>3. Was sind die Vorteile von Threads gegenüber separaten Prozessen?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Threads teilen Adressraum → (1) schnellerer Kontextwechsel (kein TLB-Flush), (2) einfache Kommunikation über geteilte Variablen (kein IPC nötig), (3) geringerer Speicherverbrauch, (4) echte Parallelität auf Multi-Core.</div></details>
+</div>
+</div>
+
+<!-- ==================== BS KAPITEL 9 ==================== -->
+<div class="page" id="bs3">
+<h1>Kapitel 9: Scheduling</h1>
+<p>Scheduling bestimmt, welcher bereite Prozess als nächstes die CPU bekommt. Ein guter Scheduler verteilt die CPU fair, minimiert Wartezeiten und maximiert den Durchsatz.</p>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Scheduling-Ziele</div>
+  <ul>
+    <li><strong>Fairness:</strong> Jeder Prozess bekommt einen fairen CPU-Anteil</li>
+    <li><strong>Effizienz:</strong> CPU soll möglichst immer beschäftigt sein</li>
+    <li><strong>Antwortzeit (Response Time):</strong> Kurze Zeit bis zur ersten Antwort (interaktive Systeme)</li>
+    <li><strong>Durchsatz (Throughput):</strong> Möglichst viele Jobs pro Zeiteinheit</li>
+    <li><strong>Turnaround Time:</strong> Gesamtzeit von Ankunft bis Beendigung eines Jobs</li>
+    <li><strong>Deadlines:</strong> Echtzeitanforderungen einhalten</li>
+  </ul>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Nicht-präemptiv vs. Präemptiv</div>
+  <ul>
+    <li><strong>Nicht-präemptiv:</strong> Laufender Prozess gibt CPU nur freiwillig ab (I/O, fertig).</li>
+    <li><strong>Präemptiv:</strong> BS kann Prozess jederzeit unterbrechen (z.B. Zeitscheibe abgelaufen).</li>
+  </ul>
+</div>
+
+<h2>9.1 Scheduling-Algorithmen</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 FCFS (First Come, First Served)</div>
+  <ul>
+    <li>Prozesse werden in Reihenfolge ihrer Ankunft bedient.</li>
+    <li><strong>Nicht-präemptiv.</strong></li>
+    <li>Vorteil: Einfach, kein Verhungern.</li>
+    <li>Nachteil: <strong>Konvoi-Effekt</strong> — ein langer Job blockiert viele kurze Jobs.</li>
+  </ul>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 SJF (Shortest Job First) und SRTN</div>
+  <ul>
+    <li><strong>SJF:</strong> Job mit kürzester (erwarteter) Ausführungszeit kommt zuerst. <strong>Nicht-präemptiv.</strong></li>
+    <li>Optimal für mittlere Wartezeit, aber: Verhungern von langen Jobs möglich! Burst-Zeit muss geschätzt werden.</li>
+    <li><strong>SRTN (Shortest Remaining Time Next):</strong> Präemptives SJF. Neuer Job mit kürzerer Restzeit unterbricht laufenden Job.</li>
+  </ul>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Round Robin (RR)</div>
+  <ul>
+    <li>Jeder Prozess bekommt eine <strong>Zeitscheibe q</strong> (Quantum).</li>
+    <li><strong>Präemptiv.</strong> Fairste Methode.</li>
+    <li>Zeitscheibe zu klein → viel Kontextwechsel-Overhead</li>
+    <li>Zeitscheibe zu groß → degeneriert zu FCFS</li>
+    <li>Typisch: q = 10–100 ms</li>
+  </ul>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Priority Scheduling und Multilevel Feedback Queue</div>
+  <ul>
+    <li><strong>Priority:</strong> Höhere Priorität → zuerst bedient. Problem: Verhungern (Starvation) von Prozessen mit niedriger Priorität. Lösung: <strong>Aging</strong> (Priorität steigt mit Wartezeit).</li>
+    <li><strong>Multilevel Feedback Queue:</strong> Mehrere Queues mit verschiedenen Prioritäten und Scheduling-Algorithmen. Prozesse wechseln zwischen Queues (z.B. I/O-lastiger Prozess bekommt höhere Priorität).</li>
+  </ul>
+</div>
+
+<div class="beispiel">
+  <div class="box-title">🔢 Beispiel: FCFS vs. SJF</div>
+  <p>Prozesse: P1 (Burst=10ms), P2 (Burst=1ms), P3 (Burst=2ms) — alle ankommen zur Zeit 0.</p>
+  <p><strong>FCFS (P1,P2,P3):</strong><br>
+  Wartezeit P1=0, P2=10, P3=11 → Durchschnitt = (0+10+11)/3 = <strong>7 ms</strong></p>
+  <p><strong>SJF (P2,P3,P1):</strong><br>
+  Wartezeit P2=0, P3=1, P1=3 → Durchschnitt = (0+1+3)/3 = <strong>1,33 ms</strong></p>
+</div>
+
+<div class="warnung">
+  <div class="box-title">⚠️ Typische Fehler</div>
+  <ul>
+    <li>SJF ist optimal, aber in der Praxis kaum nutzbar, weil die Burst-Zeit unbekannt ist (muss geschätzt werden).</li>
+    <li>Round Robin mit sehr kleinem Quantum ist nicht besser — der Overhead durch Kontextwechsel überwiegt.</li>
+    <li>Verhungern (Starvation) ≠ Deadlock! Starvation: Ein Prozess wartet sehr lange aber nicht ewig; mit Aging heilbar.</li>
+  </ul>
+</div>
+
+<div class="pruefung">
+  <div class="box-title">⭐ Prüfungshinweise Kapitel 9</div>
+  <ul>
+    <li>Alle 5 Algorithmen erklären und Vor-/Nachteile nennen können.</li>
+    <li>Rechenaufgaben: Wartezeit, Turnaround-Zeit für FCFS, SJF und RR berechnen.</li>
+    <li>Konvoi-Effekt bei FCFS, Verhungern bei SJF und Priority — Lösungen kennen.</li>
+  </ul>
+</div>
+
+<hr class="kapitel-trennlinie">
+<h2>Übungsaufgaben – Kapitel 9</h2>
+<div class="aufgabe">
+  <p>1. Vier Prozesse kommen zur Zeit 0 an: P1(6ms), P2(8ms), P3(7ms), P4(3ms). Berechne mittlere Wartezeit für FCFS und SJF.</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">
+  <strong>FCFS (Reihenfolge P1,P2,P3,P4):</strong><br>
+  P1 wartet 0, P2 wartet 6, P3 wartet 14, P4 wartet 21<br>
+  Durchschnitt = (0+6+14+21)/4 = <strong>10.25 ms</strong><br><br>
+  <strong>SJF (Reihenfolge P4,P1,P3,P2):</strong><br>
+  P4 wartet 0, P1 wartet 3, P3 wartet 9, P2 wartet 16<br>
+  Durchschnitt = (0+3+9+16)/4 = <strong>7 ms</strong>
+  </div></details>
+</div>
+<div class="aufgabe">
+  <p>2. Was ist der Konvoi-Effekt bei FCFS und wann tritt er auf?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Beim Konvoi-Effekt blockiert ein langer Prozess (wie ein langsamer LKW auf einer einspurigen Straße) viele kurze Prozesse, die nach ihm in der Queue warten. Er tritt auf, wenn ein CPU-intensiver Prozess vor vielen kurzen I/O-lastigen Prozessen in der Queue steht.</div></details>
+</div>
+<div class="aufgabe">
+  <p>3. Erkläre Aging bei Priority Scheduling. Warum ist es notwendig?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Aging erhöht die Priorität eines Prozesses mit zunehmender Wartezeit. Ohne Aging könnten Prozesse mit niedriger Priorität verhungern (Starvation), wenn ständig neue höher-priorisierte Prozesse hinzukommen. Aging garantiert, dass jeder Prozess irgendwann die CPU bekommt.</div></details>
+</div>
+<div class="aufgabe">
+  <p>4. Round Robin mit Quantum=4ms: P1(5ms), P2(3ms), P3(7ms) ankommen zur Zeit 0. Erstelle Gantt-Chart und berechne mittlere Turnaround-Zeit.</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">
+  Reihenfolge: P1(0-4), P2(4-7), P3(7-11), P1(11-12), P3(12-15)<br>
+  Fertig: P1 bei t=12, P2 bei t=7, P3 bei t=15<br>
+  Turnaround: P1=12, P2=7, P3=15<br>
+  Durchschnitt = (12+7+15)/3 = <strong>11.33 ms</strong>
+  </div></details>
+</div>
+<div class="aufgabe">
+  <p>5. Was ist SRTN und wie unterscheidet es sich von SJF?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">SRTN (Shortest Remaining Time Next) ist die präemptive Variante von SJF. Kommt ein neuer Prozess mit kürzerer Restzeit als der aktuell laufende, wird der laufende Prozess sofort unterbrochen. SJF (nicht-präemptiv) lässt den aktuellen Prozess fertig laufen, bevor es zum kürzesten wechselt.</div></details>
+</div>
+</div>
+
+<!-- ==================== BS KAPITEL 10 ==================== -->
+<div class="page" id="bs4">
+<h1>Kapitel 10: Synchronisation, Interprozesskommunikation &amp; Deadlocks</h1>
+<p>Wenn mehrere Prozesse/Threads auf gemeinsame Ressourcen zugreifen, können Race Conditions entstehen. Synchronisationsmechanismen verhindern das. Deadlocks passieren, wenn Prozesse sich gegenseitig blockieren.</p>
+
+<h2>10.1 Kritischer Abschnitt (Critical Section)</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 Anforderungen an eine Lösung für den kritischen Abschnitt</div>
+  <ol>
+    <li><strong>Mutual Exclusion:</strong> Nur ein Prozess darf sich gleichzeitig im kritischen Abschnitt befinden.</li>
+    <li><strong>Progress:</strong> Wenn kein Prozess im krit. Abschnitt ist, muss die Entscheidung, wer hinein darf, in endlicher Zeit fallen.</li>
+    <li><strong>Bounded Waiting:</strong> Jeder Prozess, der warten muss, bekommt irgendwann Zugang (kein Verhungern).</li>
+  </ol>
+</div>
+
+<h2>10.2 Semaphore</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 Semaphor</div>
+  <ul>
+    <li>Eine nicht-negative Integer-Variable mit atomaren Operationen P (wait) und V (signal).</li>
+    <li><strong>P(s) / wait(s):</strong> Wenn s &gt; 0: s := s-1 (Ressource belegen). Wenn s = 0: Prozess blockiert.</li>
+    <li><strong>V(s) / signal(s):</strong> s := s+1 (Ressource freigeben). Falls Prozesse warten: einen aufwecken.</li>
+    <li><strong>Binärer Semaphor (Mutex):</strong> s ∈ {0, 1}, entspricht einem Schloss.</li>
+  </ul>
+</div>
+
+<div class="beispiel">
+  <div class="box-title">🔢 Beispiel: Semaphor für kritischen Abschnitt</div>
+  <pre style="background:#f0f0f0;padding:10px;border-radius:4px;font-size:0.88em;">
+Semaphor mutex = 1;  // Initialisierung
+
+Prozess A:              Prozess B:
+P(mutex);              P(mutex);
+  // kritischer          // kritischer
+  // Abschnitt          // Abschnitt
+V(mutex);              V(mutex);</pre>
+  <p>Wenn A zuerst P(mutex) ausführt: mutex=0. B ruft P(mutex) → blockiert. A beendet kritischen Abschnitt, ruft V(mutex) → B wird aufgeweckt.</p>
+</div>
+
+<h2>10.3 Deadlock</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 4 Coffman-Bedingungen für Deadlock</div>
+  <p>Alle 4 müssen gleichzeitig gelten:</p>
+  <ol>
+    <li><strong>Mutual Exclusion:</strong> Mindestens eine Ressource ist exklusiv nutzbar.</li>
+    <li><strong>Hold-and-Wait:</strong> Ein Prozess hält mindestens eine Ressource und wartet auf weitere.</li>
+    <li><strong>No Preemption:</strong> Ressourcen können einem Prozess nicht entzogen werden.</li>
+    <li><strong>Circular Wait:</strong> Es gibt einen Zyklus in der Ressourcen-Anforderungs-Kette (P1→R1→P2→R2→P1).</li>
+  </ol>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Deadlock-Strategien</div>
+  <table>
+    <tr><th>Strategie</th><th>Methode</th><th>Nachteil</th></tr>
+    <tr><td><strong>Verhütung (Prevention)</strong></td><td>Eine der 4 Bedingungen strukturell verhindern</td><td>Geringe Ressourcennutzung</td></tr>
+    <tr><td><strong>Vermeidung (Avoidance)</strong></td><td>Banker's Algorithmus: nur sichere Zustände erlauben</td><td>Maximalbedarf muss bekannt sein</td></tr>
+    <tr><td><strong>Erkennung (Detection)</strong></td><td>Ressourcengraph auf Zyklen prüfen</td><td>Deadlock passiert erst, dann reagieren</td></tr>
+    <tr><td><strong>Behebung (Recovery)</strong></td><td>Prozess abbrechen oder Ressource entziehen</td><td>Datenverlust möglich</td></tr>
+  </table>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Banker's Algorithmus (Deadlock-Vermeidung)</div>
+  <ul>
+    <li>Konzept: Banken vergeben Kredite nur, wenn sie alle ausstehenden Kredite bedienen können.</li>
+    <li><strong>Sicherer Zustand:</strong> Es existiert eine Reihenfolge aller Prozesse (sichere Sequenz), so dass jeder Prozess mit den verfügbaren + freigegebenen Ressourcen abgeschlossen werden kann.</li>
+    <li>Bei Ressource-Anfrage: Simulation durchführen. Wenn neuer Zustand sicher → gewähren, sonst → ablehnen und warten.</li>
+  </ul>
+</div>
+
+<div class="beispiel">
+  <div class="box-title">🔢 Beispiel: Banker's Algorithmus</div>
+  <p>3 Prozesse, 1 Ressourcentyp (10 Einheiten gesamt):</p>
+  <table>
+    <tr><th>Prozess</th><th>Max</th><th>Zugeteilt</th><th>Noch benötigt</th></tr>
+    <tr><td>P1</td><td>7</td><td>2</td><td>5</td></tr>
+    <tr><td>P2</td><td>3</td><td>3</td><td>0</td></tr>
+    <tr><td>P3</td><td>9</td><td>2</td><td>7</td></tr>
+  </table>
+  <p>Verfügbar: 10 - (2+3+2) = 3</p>
+  <p>P2 braucht 0 → kann fertig werden → gibt 3 frei → verfügbar = 6<br>
+  P1 braucht 5 ≤ 6 → kann fertig werden → gibt 2 frei → verfügbar = 8<br>
+  P3 braucht 7 ≤ 8 → kann fertig werden ✓</p>
+  <p><strong>Sichere Sequenz: P2, P1, P3 → Zustand ist sicher!</strong></p>
+</div>
+
+<div class="pruefung">
+  <div class="box-title">⭐ Prüfungshinweise Kapitel 10</div>
+  <ul>
+    <li>Die 4 Coffman-Bedingungen auswendig können — immer in der Prüfung gefragt!</li>
+    <li>Semaphor P/V-Operationen und Mutex-Verwendung.</li>
+    <li>Banker's Algorithmus: sichere Sequenz ermitteln.</li>
+    <li>Unterschied Prevention/Avoidance/Detection/Recovery.</li>
+  </ul>
+</div>
+
+<hr class="kapitel-trennlinie">
+<h2>Übungsaufgaben – Kapitel 10</h2>
+<div class="aufgabe">
+  <p>1. Nenne die 4 Coffman-Bedingungen und erkläre eine Methode, um Deadlocks durch Aufheben der "Hold-and-Wait"-Bedingung zu verhindern.</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Die 4 Bedingungen: (1) Mutual Exclusion, (2) Hold-and-Wait, (3) No Preemption, (4) Circular Wait.<br>Aufheben von Hold-and-Wait: Prozesse müssen alle benötigten Ressourcen auf einmal anfordern (alles-oder-nichts). Nachteil: Geringe Ressourcenauslastung, Verhungern möglich.</div></details>
+</div>
+<div class="aufgabe">
+  <p>2. Was ist der Unterschied zwischen Deadlock-Verhütung und Deadlock-Vermeidung?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Verhütung (Prevention): Strukturelle Maßnahmen, die eine der 4 Coffman-Bedingungen dauerhaft außer Kraft setzen. Vermeidung (Avoidance): Ressourcen werden dynamisch zugeteilt, aber nur wenn der neue Zustand sicher ist (Banker's Algorithmus). Verhütung ist statisch, Vermeidung ist dynamisch.</div></details>
+</div>
+<div class="aufgabe">
+  <p>3. Prüfe ob sicherer Zustand: P1(Max=4, Zugeteilt=1), P2(Max=6, Zugeteilt=4), P3(Max=3, Zugeteilt=2). Gesamt: 12 Einheiten.</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Verfügbar = 12-(1+4+2) = 5. Noch benötigt: P1=3, P2=2, P3=1.<br>P3 braucht 1 ≤ 5 → fertig → frei: 5+2=7. P1 braucht 3 ≤ 7 → fertig → frei: 7+1=8. P2 braucht 2 ≤ 8 → fertig ✓. Sichere Sequenz: P3, P1, P2 → <strong>sicherer Zustand!</strong></div></details>
+</div>
+<div class="aufgabe">
+  <p>4. Was ist eine Race Condition? Gib ein Beispiel.</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Eine Race Condition tritt auf, wenn das Ergebnis einer Operation von der nicht-deterministischen Reihenfolge zweier gleichzeitiger Operationen abhängt. Beispiel: P1 liest Variable x=5, P2 liest x=5, P1 schreibt x=6 (5+1), P2 schreibt x=6 (5+1). Richtig sollte x=7 (zwei Inkremente) sein, aber durch die Überlappung wird ein Inkrement verloren.</div></details>
+</div>
+<div class="aufgabe">
+  <p>5. Erkläre den Unterschied zwischen einem Semaphor und einem Mutex.</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Ein Mutex (Mutual Exclusion Lock) ist ein binärer Semaphor mit s ∈ {0, 1}. Er erlaubt exklusiven Zugriff auf eine Ressource. Ein allgemeiner Semaphor kann einen Wert s ≥ 0 haben und verwaltet eine bestimmte Anzahl gleichzeitig nutzbarer Ressourcen (z.B. s=3 → 3 Drucker).</div></details>
+</div>
+</div>
+
+<!-- ==================== BS KAPITEL 11 ==================== -->
+<div class="page" id="bs5">
+<h1>Kapitel 11: Speicherverwaltung</h1>
+<p>Die Speicherverwaltung des BS gibt jedem Prozess den Eindruck, allein im Speicher zu sein (virtueller Adressraum). Die MMU übersetzt logische in physische Adressen.</p>
+
+<h2>11.1 Grundlagen</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 Logische vs. Physische Adresse</div>
+  <ul>
+    <li><strong>Logische (virtuelle) Adresse:</strong> Vom Prozess verwendete Adresse (0 bis max).</li>
+    <li><strong>Physische Adresse:</strong> Tatsächliche Adresse im RAM.</li>
+    <li><strong>MMU (Memory Management Unit):</strong> Hardware, die zur Laufzeit logisch→physisch übersetzt.</li>
+  </ul>
+</div>
+
+<h2>11.2 Paging (Seitenverwaltung)</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 Paging-Konzept</div>
+  <ul>
+    <li>Logischer Adressraum wird in gleichgroße <strong>Seiten (Pages)</strong> eingeteilt (typisch 4 KiB).</li>
+    <li>Physischer Speicher wird in gleich große <strong>Kacheln (Frames)</strong> eingeteilt.</li>
+    <li><strong>Seitentabelle:</strong> Ordnet jeder Seite eine physische Kachel zu.</li>
+    <li>Logische Adresse = Seitennummer (p) + Offset (d)</li>
+    <li>Physische Adresse = Kachelnummer (f) + Offset (d)</li>
+    <li><strong>Interne Fragmentierung:</strong> Letzte Seite ist oft nicht voll belegt.</li>
+    <li><strong>Keine externe Fragmentierung</strong> (alle Kacheln gleich groß)!</li>
+  </ul>
+</div>
+
+<div class="beispiel">
+  <div class="box-title">🔢 Beispiel: Adressübersetzung mit Paging</div>
+  <p>Seitengröße = 1 KiB = 1024 Byte = 2¹⁰ Byte → Offset = 10 Bit, Seitennummer = restliche Bits.</p>
+  <p>Logische Adresse: 2500 (dezimal)<br>
+  Seitennummer p = 2500 ÷ 1024 = 2 (ganzzahlig)<br>
+  Offset d = 2500 mod 1024 = 452<br>
+  Seitentabelle: Seite 2 → Kachel 5<br>
+  Physische Adresse = 5 × 1024 + 452 = <strong>5572</strong></p>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 TLB (Translation Lookaside Buffer)</div>
+  <ul>
+    <li>Hardware-Cache für Seitentabellen-Einträge.</li>
+    <li>TLB-Hit: Adressübersetzung in einem Takt (sehr schnell).</li>
+    <li>TLB-Miss: Seitentabelle im RAM nachschlagen (langsamer).</li>
+    <li>Bei Kontextwechsel: TLB muss geleert werden (oder Prozess-ID mitgeführt werden).</li>
+  </ul>
+</div>
+
+<h2>11.2b Seitentabelleneintrag (Page Table Entry)</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 Aufbau eines Seitentabelleneintrags</div>
+  <table>
+    <tr><th>Feld</th><th>Name</th><th>Bedeutung</th></tr>
+    <tr><td>K</td><td>Kachelnummer</td><td>Physische Kachelnummer im RAM</td></tr>
+    <tr><td>P-Bit</td><td>Presence-Bit (Präsenz-Bit)</td><td>1 = Seite im Hauptspeicher; 0 = Seite ausgelagert → Seitenfehler-Interrupt bei Zugriff</td></tr>
+    <tr><td>Ref-Bit</td><td>Referenced-Bit (Used/Accessed)</td><td>Von der Hardware gesetzt, wenn auf Seite zugegriffen wurde (für LRU/Second Chance)</td></tr>
+    <tr><td>C-Bit</td><td>Change-Bit (Dirty/Modified)</td><td>1 = Seite wurde verändert → muss beim Auslagern zurückgeschrieben werden; 0 = unverändert</td></tr>
+    <tr><td>R-Bit</td><td>Read-Bit</td><td>Lese-Schutzbit</td></tr>
+    <tr><td>W-Bit</td><td>Write-Bit</td><td>Schreib-Schutzbit</td></tr>
+    <tr><td>E-Bit</td><td>Execute-Bit</td><td>Ausführungs-Schutzbit</td></tr>
+  </table>
+  <p>Bei P-Bit = 0 erzeugt die Adressumsetzungs-Hardware einen <strong>Seitenfehler-Interrupt</strong>. Das BS lädt dann die Seite nach und setzt P-Bit = 1, C-Bit = 0.</p>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Speicherung der Seitentabellen</div>
+  <ul>
+    <li><strong>Problem:</strong> Bei 32-Bit-Adressen mit 4-KiB-Seiten: 1 Mio. Einträge pro Adressraum ≈ 10 MB. Bei 64-Bit: 2⁵²  Einträge ≈ 20.000 TB!</li>
+    <li><strong>Hierarchische Seitentabellen:</strong> Adressumsetzung erfolgt in mehreren Stufen. Vorteil: Teilbäume müssen nicht vollständig angelegt werden.</li>
+    <li><strong>Invertierte Seitentabellen:</strong> Ein Eintrag pro Hauptspeicherkachel (enthält PID + Seitennr.). Nur eine Tabelle für den gesamten Speicher nötig. Nachteil: Teure Suche; Abhilfe: großer TLB + Hash-Tabelle.</li>
+  </ul>
+</div>
+
+<h2>11.2c Hauptspeicherverwaltung ohne virtuellen Speicher</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 Belegungsstrategien für zusammenhängende Bereiche (Heap)</div>
+  <ul>
+    <li><strong>First-Fit:</strong> Ersten freien Bereich, der groß genug ist, nehmen. Schnell, erzeugt kleine Löcher vorne.</li>
+    <li><strong>Best-Fit:</strong> Kleinsten passenden freien Bereich nehmen. Problem: viele kleine unbrauchbare Reste; in der Praxis oft schlechter als First-Fit (da Simulationen zeigen, dass First-Fit fast immer besser ist).</li>
+    <li><strong>Variante 1:</strong> Freiliste nach Größe sortiert → First-Fit und Best-Fit sind identisch.</li>
+    <li><strong>Variante 2:</strong> Mehrere Listen für Größenklassen → schnellere Suche.</li>
+    <li><strong>Externe Fragmentierung:</strong> Freie Speicherbereiche zu klein für neue Anfragen, obwohl genug freier Gesamtspeicher vorhanden.</li>
+  </ul>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Buddy-System</div>
+  <ul>
+    <li>Speicher wird in Bereiche konstanter Länge <em>l</em> zerlegt.</li>
+    <li>Jede Anforderung wird auf <em>l · 2<sup>k</sup></em> (k minimal) aufgerundet.</li>
+    <li>Gesamtgröße: <em>l · 2<sup>S</sup></em> → es werden S+1 Listen verwendet. Liste <em>i</em> enthält freie Bereiche der Länge <em>l · 2<sup>i</sup></em>.</li>
+    <li>Zuteilung: Falls Liste i leer → nächstgrößere Liste halbieren (Buddies entstehen) → ggf. rekursiv.</li>
+    <li>Freigabe: Verschmelzen mit dem jeweiligen Buddy; rekursiv wiederholen.</li>
+    <li><strong>Vorteil:</strong> Zusammenfügen geht sehr schnell; schneller als First-Fit.</li>
+    <li><strong>Nachteil:</strong> Ca. 1/3 mehr Speicherplatzbedarf als First-Fit wegen stärkerer interner Fragmentierung.</li>
+  </ul>
+</div>
+
+
+<div class="merkkasten">
+  <div class="box-title">📌 Demand Paging</div>
+  <ul>
+    <li>Seiten werden erst bei Bedarf in den RAM geladen (nicht alles auf einmal).</li>
+    <li><strong>Page Fault:</strong> Prozess greift auf nicht geladene Seite zu → BS lädt sie von der Festplatte.</li>
+    <li>Ermöglicht, Programme zu starten, die größer als der RAM sind.</li>
+    <li><strong>Working Set:</strong> Menge der zuletzt genutzten Seiten (Lokalitätsprinzip).</li>
+    <li><strong>Thrashing:</strong> Zu viele Page Faults → CPU verbringt mehr Zeit mit Laden als Rechnen. Ursache: Working Set passt nicht in verfügbare Frames.</li>
+  </ul>
+</div>
+
+<h2>11.4 Seitenersetzungsalgorithmen</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 Seitenersetzung: Welche Seite wird aus dem RAM entfernt?</div>
+  <table>
+    <tr><th>Algorithmus</th><th>Prinzip</th><th>Belady-Anomalie?</th><th>Praktisch?</th></tr>
+    <tr><td><strong>Random</strong></td><td>Zufällige Seite wird ersetzt</td><td>–</td><td>Ja, trivial</td></tr>
+    <tr><td><strong>FIFO</strong></td><td>Älteste Seite wird ersetzt</td><td>Ja! Mehr Frames → mehr Page Faults möglich</td><td>Ja, einfach</td></tr>
+    <tr><td><strong>NFU</strong> (Not Frequently Used)</td><td>Seite mit wenigstem Zugriffs-Zähler wird ersetzt. Abhilfe gegen alte populäre Seiten: Aging</td><td>Nein</td><td>Ja (mit Aging)</td></tr>
+    <tr><td><strong>LRU</strong></td><td>Zuletzt am wenigsten verwendete Seite wird ersetzt</td><td>Nein</td><td>Teuer (Zeitstempel nötig)</td></tr>
+    <tr><td><strong>OPT (Optimal)</strong></td><td>Seite ersetzt, die am längsten nicht benötigt wird</td><td>Nein</td><td>Nein (Zukunft unbekannt)</td></tr>
+    <tr><td><strong>Second Chance (Clock)</strong></td><td>LRU-Approximation: Ref-Bit + Change-Bit + Auslagerungsbit; zyklischer Kachelzeiger</td><td>Nein</td><td>Ja (Standard in Linux)</td></tr>
+  </table>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Second-Chance-Algorithmus (Clock) – Detailbeschreibung</div>
+  <p>Verwendet Referenzbit (Ref), Änderungsbit (C) und Auslagerungsbit (Software). Ein zyklischer Kachelzeiger wandert durch alle Kacheln:</p>
+  <ul>
+    <li>Ref = 1: Ref := 0, Kachelzeiger weiter (zweite Chance).</li>
+    <li>Ref = 0, C = 1: C := 0, Auslagerungsbit := 1 (muss ausgelagert werden). Kachelzeiger weiter.</li>
+    <li>Ref = 0, C = 0: Diese Seite wird ausgewählt. Falls Auslagerungsbit = 1: Kachelinhalt auf Platte zurückschreiben.</li>
+  </ul>
+  <p>Veränderte Seiten bekommen also drei Chancen, unveränderte Seiten zwei Chancen. Mögliche Endkriterien: genau eine Kachel frei, oder mindestens 25% Kacheln frei (Paging Daemon).</p>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 LRU-Implementierung mit Messintervallen</div>
+  <ul>
+    <li>Hardware setzt Referenzbit bei jedem Kachelzugriff auf 1.</li>
+    <li>Pro Kachel ein Zähler. Am Intervallanfang: alle Ref-Bits = 0.</li>
+    <li>Am Intervallende: Ref-Bit = 0 → Zähler inkrementieren; Ref-Bit = 1 → Zähler = 0 (war kürzlich aktiv).</li>
+    <li>Auslagern: Seite mit höchstem Zähler (= am längsten nicht benutzt).</li>
+    <li>Zähler-Reset nach langer Zeit nötig (Zählerüberlauf vermeiden).</li>
+  </ul>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Verwaltung des Hintergrundspeichers (Swap Space)</div>
+  <ul>
+    <li><strong>Statisch:</strong> Pro Prozess ist eine feste Anfangsadresse im Swap bekannt. Alle Seiten eines Prozesses liegen hintereinander.</li>
+    <li><strong>Dynamisch:</strong> Pro Seite ist die Adresse im Swap bekannt (Disk Map). Flexibler, aber zusätzliche Verwaltungsstruktur nötig.</li>
+  </ul>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Residente Seiten und Paging Daemon</div>
+  <ul>
+    <li><strong>Residente Seiten</strong> dürfen nicht ausgelagert werden:
+      <ul>
+        <li>Seiten, die in eine E/A-Operation einbezogen sind (E/A-Controller adressiert real, nicht virtuell!)</li>
+        <li>Seiten mit wichtigen BS-Daten (Unterbrechungsroutinen, Dispatcher, Seitentauschsystem)</li>
+        <li>Bestimmte Seiten von Echtzeit-Anwendungen</li>
+      </ul>
+    </li>
+    <li>Lösung: <strong>Locked-Down-Bit</strong> im Seitentabelleneintrag. Gesetzt → wird vom Auslagerungsalgorithmus ignoriert.</li>
+    <li><strong>Paging Daemon:</strong> Prozess, der regelmäßig (aber nicht zu oft) einen gewissen Anteil an Kacheln frei räumt. Vorteil: Bei Seitenfehlern ist Auslagern i.Allg. unnötig.</li>
+  </ul>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Thrashing, lokale vs. globale Ersetzung, Copy-on-Write</div>
+  <ul>
+    <li><strong>Lokale Ersetzung:</strong> Nur Seiten des den Seitenfehler verursachenden Prozesses betrachten.</li>
+    <li><strong>Globale Ersetzung:</strong> Seiten können unabhängig von ihrer Prozesszugehörigkeit ausgelagert werden. Aus Gesamtsystem-Sicht i.Allg. besser.</li>
+    <li><strong>Copy-on-Write (CoW):</strong> Bei <code>fork()</code> wird nur die Seitentabelle kopiert. Eltern- und Kindprozess teilen zunächst alle Seiten (als Read-Only markiert). Bei Schreibzugriff → Schutzverletzung → Interrupt → erst jetzt wird die betreffende Seite kopiert. Sehr effizient, da oft nur wenige Seiten wirklich unterschiedlich beschrieben werden.</li>
+  </ul>
+</div>
+
+  <p>Referenzfolge: 1,2,3,4,1,2,5,1,2,3,4,5 — 3 Frames</p>
+  <table style="font-size:0.85em">
+    <tr><th>Ref</th><th>Frame1</th><th>Frame2</th><th>Frame3</th><th>Fault?</th></tr>
+    <tr><td>1</td><td>1</td><td>-</td><td>-</td><td>✓</td></tr>
+    <tr><td>2</td><td>1</td><td>2</td><td>-</td><td>✓</td></tr>
+    <tr><td>3</td><td>1</td><td>2</td><td>3</td><td>✓</td></tr>
+    <tr><td>4</td><td>4</td><td>2</td><td>3</td><td>✓ (1 raus)</td></tr>
+    <tr><td>1</td><td>4</td><td>1</td><td>3</td><td>✓ (2 raus)</td></tr>
+    <tr><td>2</td><td>4</td><td>1</td><td>2</td><td>✓ (3 raus)</td></tr>
+    <tr><td>5</td><td>5</td><td>1</td><td>2</td><td>✓ (4 raus)</td></tr>
+    <tr><td>1</td><td>5</td><td>1</td><td>2</td><td>-</td></tr>
+    <tr><td>2</td><td>5</td><td>1</td><td>2</td><td>-</td></tr>
+    <tr><td>3</td><td>5</td><td>3</td><td>2</td><td>✓</td></tr>
+  </table>
+  <p>Total: 9 Page Faults</p>
+</div>
+
+<div class="warnung">
+  <div class="box-title">⚠️ Belady-Anomalie bei FIFO</div>
+  <p>Bei FIFO kann es passieren, dass <strong>mehr Frames zu mehr Page Faults führen</strong>. Das ist kontraintuitiv! LRU und OPT sind frei von der Belady-Anomalie (sie sind "Stack-Algorithmen").</p>
+</div>
+
+<div class="pruefung">
+  <div class="box-title">⭐ Prüfungshinweise Kapitel 11</div>
+  <ul>
+    <li>Adressübersetzung mit Paging berechnen können (Seitennummer, Offset, physische Adresse).</li>
+    <li>FIFO/LRU/NFU/Second-Chance Page Replacement für eine gegebene Referenzfolge simulieren.</li>
+    <li>Belady-Anomalie: nur bei FIFO möglich! LRU und OPT sind Stack-Algorithmen → frei davon.</li>
+    <li>Thrashing erklären und Working-Set-Konzept (Lokalität!).</li>
+    <li>Buddy-System: Anforderung wird auf l·2^k aufgerundet; Freigabe = Verschmelzen mit Buddy.</li>
+    <li>First-Fit vs. Best-Fit: First-Fit praktisch meist besser. Variante: nach Größe sortierte Liste → identisch.</li>
+    <li>Seitentabelleneintrag: P-Bit (Präsenz), Ref-Bit (Referenz), C-Bit (Dirty), R/W/E-Bits (Schutz).</li>
+    <li>Second-Chance-Algorithmus: Ref=1 → 0 geben, nächste; Ref=0, C=1 → Auslagerungsbit setzen; Ref=0, C=0 → auslagern.</li>
+    <li>Copy-on-Write: fork() kopiert nur Seitentabelle; echte Kopiierung erst bei Schreibzugriff.</li>
+    <li>Lokale vs. globale Ersetzung: Global ist für das Gesamtsystem i.Allg. besser.</li>
+    <li>Paging Daemon: räumt prophylaktisch Kacheln frei → verhindert Auslagern bei Page Fault.</li>
+  </ul>
+</div>
+
+<hr class="kapitel-trennlinie">
+<h2>Übungsaufgaben – Kapitel 11</h2>
+<div class="aufgabe">
+  <p>1. Seitengröße = 512 Byte. Logische Adresse = 1200. Seite 2 liegt in Kachel 7. Berechne physische Adresse.</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Offset-Bits = log₂(512) = 9. Seitennummer = 1200 ÷ 512 = 2 (ganzzahlig). Offset = 1200 mod 512 = 176. Kachel 7 → Physische Adresse = 7 × 512 + 176 = 3584 + 176 = <strong>3760</strong></div></details>
+</div>
+<div class="aufgabe">
+  <p>2. Was ist Thrashing und wie kann man es beheben?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Thrashing: Der Prozess verbringt mehr Zeit damit, Seiten auszulagern und einzuladen, als tatsächlich zu rechnen. Ursache: Der Working Set des Prozesses passt nicht in die zugeteilten Frames. Lösung: Mehr Frames zuteilen, Working-Set-Modell anwenden (Frames dynamisch anpassen), oder Prozesse auslagern (Swapping).</div></details>
+</div>
+<div class="aufgabe">
+  <p>3. Erkläre die Belady-Anomalie. Bei welchem Algorithmus tritt sie auf?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Die Belady-Anomalie besagt, dass bei FIFO mehr Frames zu mehr Page Faults führen können — entgegen der Intuition. Sie tritt nur bei FIFO auf, nicht bei LRU oder OPT (Stack-Algorithmen). Berühmtes Beispiel: Referenzfolge 1,2,3,4,1,2,5,1,2,3,4,5 hat mit 3 Frames 9 Faults, mit 4 Frames 10 Faults.</div></details>
+</div>
+<div class="aufgabe">
+  <p>4. Warum ist OPT in der Praxis nicht verwendbar?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">OPT (Optimal Replacement) ersetzt die Seite, die in der Zukunft am längsten nicht benötigt wird. Dazu müsste das BS die Zukunft kennen, was nicht möglich ist. OPT dient nur als theoretischer Benchmark.</div></details>
+</div>
+<div class="aufgabe">
+  <p>5. Was ist der Unterschied zwischen dem Clock-Algorithmus und NFU? Erkläre kurz das Aging-Verfahren.</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">NFU (Not Frequently Used): Zählt Zugriffe pro Seite. Seite mit niedrigstem Zähler wird ausgelagert. Problem: früher oft genutzte Seiten bleiben wegen hohem Zählerstand lange im Speicher, obwohl aktuell nicht mehr nötig. Lösung: Aging — der Zähler wird nach einer gewissen Zeit zurückgesetzt (Zeitstempel der letzten Nutzung berücksichtigen). Clock-Algorithmus: verwendet nur Ref-Bit und C-Bit, ist hardwarenäher und einfacher; er approximiert LRU ohne Zähler und ist der in der Praxis bevorzugte Algorithmus (z.B. Linux).</div></details>
+</div>
+
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">LRU ist sehr genau, aber aufwändig zu implementieren (Zeitstempel oder Zähler pro Seite, Hardware-Unterstützung nötig). Der Clock-Algorithmus (Second Chance) approximiert LRU mit einem einfachen Reference-Bit (von der MMU gesetzt), das bei Bedarf zurückgesetzt wird — einfach implementierbar mit sehr geringem Overhead.</div></details>
+</div>
+</div>
+
+<!-- ==================== BS KAPITEL 12 ==================== -->
+<div class="page" id="bs6">
+<h1>Kapitel 12: Dateisysteme – Konzepte und Schutz</h1>
+<p>Das Dateisystem verwaltet den persistenten Speicher. Es übersetzt symbolische Dateinamen in physische Blockadressen und steuert, wer was darf.</p>
+
+<h2>12.0 Hardware: HDD und SSD</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 Magnetische Festplatte (HDD) – Aufbau</div>
+  <ul>
+    <li><strong>Plattenstapel (Disk Pack):</strong> mehrere Scheiben auf einer gemeinsamen Achse.</li>
+    <li><strong>Spur (Track):</strong> konzentrische Kreise auf den Oberflächen der Scheiben.</li>
+    <li><strong>Zylinder (Cylinder):</strong> übereinanderliegende Spuren aller Scheibenflächen.</li>
+    <li><strong>Sektor (Sector):</strong> Spuren unterteilt in Sektoren.</li>
+    <li><strong>Block:</strong> Sektoren nehmen Blöcke auf.</li>
+    <li>Pro Plattenebene: eigener <strong>Lese-/Schreibkopf (Read/Write Head)</strong>. Alle Köpfe bewegen sich als Einheit.</li>
+    <li><strong>Armbewegung</strong> ist langsam und teuer: ca. 10 ms mittlere Zugriffszeit auf beliebige Spur.</li>
+  </ul>
+  <p><strong>Plattenblockadresse:</strong> <code>cylno</code> (horizontale Einstellung), <code>headno</code> (vertikale Einstellung = Plattenebene), <code>blockno</code> (Positionierung innerhalb Spur).</p>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Solid State Drive (SSD) – Vergleich mit HDD</div>
+  <table>
+    <tr><th>Eigenschaft</th><th>SSD</th><th>HDD</th></tr>
+    <tr><td>Zugriffszeit</td><td>Faktor 100 schneller (kein Arm)</td><td>ca. 10 ms</td></tr>
+    <tr><td>Laufzeit</td><td>Faktor 2–4 schneller</td><td>Referenz</td></tr>
+    <tr><td>Geräusch/Vibration</td><td>Lautlos, robust</td><td>Laut, erschütterungsanfällig</td></tr>
+    <tr><td>Energieverbrauch</td><td>Geringer</td><td>Höher</td></tr>
+    <tr><td>Preis</td><td>Teurer</td><td>Günstiger</td></tr>
+    <tr><td>Haltbarkeit</td><td>3.000–100.000 Schreibvorgänge pro Zelle</td><td>Mechanisch begrenzt</td></tr>
+    <tr><td>Löschen</td><td>Gezieltes Löschen einzelner Zellen i.A. nicht möglich (Secure Erase)</td><td>Sektoren überschreibbar</td></tr>
+  </table>
+  <p>SSD-Controller verteilt Schreibzugriffe gleichmäßig (Wear Leveling), um Lebensdauer zu verlängern.</p>
+</div>
+
+
+<div class="merkkasten">
+  <div class="box-title">📌 Drei Ebenen</div>
+  <table>
+    <tr><th>Ebene</th><th>Aufgabe</th></tr>
+    <tr><td><strong>Physikalisches Dateisystem</strong></td><td>Tatsächliche Blöcke auf dem Medium</td></tr>
+    <tr><td><strong>Basisdateisystem</strong></td><td>Abbildung logischer Blocknummern auf physische Blöcke. Verwaltet Benutzerverzeichnisse. Dateioperationen: Einrichten/Öffnen/Lesen/Schreiben/Schließen/Löschen/Umbenennen</td></tr>
+    <tr><td><strong>Logisches Dateisystem</strong></td><td>Abbildung von Datensätzen (Records) auf Blöcke. Stellt Zugriffsmethoden bereit: sequenziell oder wahlfreier Zugriff</td></tr>
+  </table>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Logische vs. physische Datei</div>
+  <ul>
+    <li><strong>Basisdatei:</strong> Menge von logischen Datenblöcken mit logischen Blocknummern. Ein logischer Block besteht aus n physikalischen Blöcken. Vorteil: Unabhängigkeit von physischer Struktur des Datenträgers.</li>
+    <li><strong>Logische Datei:</strong> Menge von Datensätzen (Records) mit logischer Organisationsform.</li>
+    <li><strong>Sequenziell:</strong> Totale Ordnung, Zugriff nur in vorgegebener Reihenfolge.</li>
+    <li><strong>Wahlfreier Zugriff:</strong> Indexsequenziell oder baumsequenziell.</li>
+  </ul>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Freispeicherverzeichnis – Methoden</div>
+  <table>
+    <tr><th>Methode</th><th>Beschreibung</th></tr>
+    <tr><td><strong>Listenmethode</strong></td><td>Freie Blöcke als verkettete Liste. Zeiger zeigt auf ersten freien Block; jeder freie Block enthält Zeiger auf nächsten freien (oder null).</td></tr>
+    <tr><td><strong>Indexmethode</strong></td><td>Freie Blöcke indexiert. Erster freier Block enthält Zeiger auf weitere freie Blöcke / Indexblöcke. Indexblöcke linear oder baumförmig verkettet.</td></tr>
+    <tr><td><strong>Vektormethode (Bitmap)</strong></td><td>Ein Bit-Vektor gibt für jeden Block an, ob er frei (0) oder belegt (1) ist. Einfach, schnell bei Suche nach Blöcken.</td></tr>
+  </table>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Physikalische Dateiorganisationsformen</div>
+  <ul>
+    <li><strong>Zusammenhängende Speicherung:</strong> Alle Blöcke einer Datei hintereinander auf der Platte. Dateideskriptor enthält Startadresse + Anzahl Blöcke. Vorteil: schneller sequenzieller Zugriff. Nachteil: externe Fragmentierung, Dateierweiterung schwierig.</li>
+    <li><strong>Gestreute Speicherung:</strong> Dateideskriptor enthält Zeiger auf Segmente (Teilketten zusammenhängender Blöcke). Deskriptor enthält mehrere Segmentlängen und Startadressen. Flexibler, aber aufwändiger.</li>
+  </ul>
+</div>
+
+
+<div class="merkkasten">
+  <div class="box-title">📌 Benutzerkategorien und Zugriffsrechte (DAC)</div>
+  <table>
+    <tr><th>Kategorie</th><th>Bedeutung</th><th>Zugriffsrecht</th><th>Bedeutung</th></tr>
+    <tr><td>S</td><td>System (Systemverwalter)</td><td>R</td><td>Lesen (Read)</td></tr>
+    <tr><td>O</td><td>Owner (Besitzer)</td><td>W</td><td>Schreiben (Write)</td></tr>
+    <tr><td>G</td><td>Group (Gruppe des Besitzers)</td><td>E</td><td>Ausführen (Execute)</td></tr>
+    <tr><td>W</td><td>World (alle anderen)</td><td>D</td><td>Löschen (Delete)</td></tr>
+  </table>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Zugriffsmatrix, ACL und Capability List</div>
+  <ul>
+    <li><strong>Zugriffsmatrix:</strong> Zeilen = Subjekte, Spalten = Objekte. Eintrag = Zugriffsrechte. Problem: Sehr groß, dünn besetzt → ineffizient.</li>
+    <li><strong>ACL (Access Control List):</strong> Pro Objekt eine Liste der Subjekte mit Rechten. = Spalte der Zugriffsmatrix. Effizient für Zugriffsprüfung.</li>
+    <li><strong>Capability List (Befähigungsliste):</strong> Pro Subjekt eine Liste der Objekte mit Rechten. = Zeile der Zugriffsmatrix. Problem: Löschen eines Objekts aufwändig (alle Capability Lists durchsuchen).</li>
+  </ul>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Mandatory Access Control (MAC) – Bell-La Padula (1973)</div>
+  <ul>
+    <li>Subjekte und Objekte werden klassifiziert: <strong>streng geheim (3) / geheim (2) / vertraulich (1) / öffentlich (0)</strong></li>
+    <li>Zugriffsrechte werden automatisch berechnet: Ein Subjekt darf ein Objekt lesen, wenn seine Klassifikation ≥ der des Objekts ist.</li>
+    <li><strong>Rollenbasiert (RBAC):</strong> Zugriffsrechte ergeben sich aus der aktuellen Rolle des Benutzers + Kontext.</li>
+  </ul>
+</div>
+
+<h2>12.3 Namensverwaltung</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 Hierarchische Dateiverzeichnisse</div>
+  <ul>
+    <li>Root Directory → User Directories → Subdirectories → Files</li>
+    <li>Vorteile: Gleicher Name in verschiedenen Verzeichnissen möglich. Dateien eines Projekts zusammen speichern. Verzeichnisstruktur spiegelt Organisationsstruktur wider.</li>
+  </ul>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Links</div>
+  <table>
+    <tr><th>Link-Typ</th><th>Funktionsweise</th><th>Besonderheit</th></tr>
+    <tr><td><strong>Softlink (Symbolic Link)</strong></td><td>Enthält den Pfadnamen der Zieldatei</td><td>Einfach, aber bricht wenn Ziel verschoben wird</td></tr>
+    <tr><td><strong>Hardlink</strong></td><td>Dateiverzeichniseintrag verweist direkt auf den i-node</td><td>Dateisystem ist kein Baum mehr, sondern ein Graph. Link Counter verhindert frühzeitiges Löschen.</td></tr>
+  </table>
+  <p><strong>Link Counter:</strong> Datei wird erst dann tatsächlich gelöscht, wenn kein Hardlink mehr auf sie zeigt (Counter = 0).</p>
+  <p><strong>Zyklenproblem mit Hardlinks:</strong> Zyklen im Graphen möglich → Lösung: Zyklenerkennung oder keine Hardlinks auf Verzeichnisse.</p>
+</div>
+
+<h2>12.4 Verwaltung von Dateisystemen</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 Disk-Layout (Abb. 36)</div>
+  <p>Eine Partition ist aufgeteilt in:</p>
+  <ol>
+    <li><strong>MBR (Master Boot Record):</strong> Sektor 0 der gesamten Disk. Enthält Partitionstabelle und bezeichnet aktive Partition. Wird vom BIOS beim Booten geladen.</li>
+    <li><strong>Boot Block:</strong> Pro Partition. Lädt das Betriebssystem der Partition.</li>
+    <li><strong>Super Block:</strong> Pro Partition. Enthält: Typ des Dateisystems, Anzahl der Blöcke, weitere Verwaltungsinfos.</li>
+    <li><strong>Free Space Management:</strong> Verwaltung der freien Blöcke (Bitmap oder Freiliste).</li>
+    <li><strong>I-nodes:</strong> Eine pro Datei.</li>
+    <li><strong>Root Directory und Dateien/Verzeichnisse.</strong></li>
+  </ol>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Journal-Dateisysteme</div>
+  <ul>
+    <li><strong>Problem:</strong> File Caches im RAM → Schreiben gepuffert → bei Crash: Inkonsistenzen in i-nodes.</li>
+    <li><strong>Lösung:</strong> Alle Änderungen an Metadaten werden vorab in ein Journal (Log) geschrieben. Nach Crash: Journal wiedereinspielen → konsistenter Zustand.</li>
+    <li><strong>Beispiele:</strong> ext3FS, ext4FS, NTFS, JFS, XFS, ZFS</li>
+  </ul>
+</div>
+
+<div class="pruefung">
+  <div class="box-title">⭐ Prüfungshinweise Kapitel 12</div>
+  <ul>
+    <li>DAC: Zugriffsmatrix, ACL vs. Capability List — Unterschiede und Probleme!</li>
+    <li>Hardlink vs. Softlink: Link Counter, Zyklenproblem.</li>
+    <li>MBR → Boot Block → Super Block → Free Space → I-nodes → Dateien (Reihenfolge!).</li>
+    <li>Bell-La Padula: Klassifikation lesen = Klassifikation Subjekt ≥ Klassifikation Objekt.</li>
+    <li>HDD: Zylinder/Spur/Sektor/Block-Aufbau. Plattenblockadresse: cylno, headno, blockno.</li>
+    <li>SSD: Schneller (Faktor 100), kein Arm, aber Wear-out, kein gezieltes Löschen (Secure Erase).</li>
+    <li>Freispeicherverwaltung: Listen-, Index- und Vektormethode (Bitmap) unterscheiden.</li>
+    <li>Schichtenmodell: physikalisches FS → Basisdateisystem → logisches FS (Zugriffsarten: sequenziell, wahlfreier Zugriff).</li>
+    <li>Journal-Dateisysteme: Journal-Typen und Beispiele (ext3, ext4, NTFS, JFS, XFS, ZFS).</li>
+  </ul>
+</div>
+
+<hr class="kapitel-trennlinie">
+<h2>Übungsaufgaben – Kapitel 12</h2>
+<div class="aufgabe">
+  <p>1. Was ist der Unterschied zwischen einer ACL und einer Capability List? Welches Problem hat jede?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">ACL: Pro Objekt → Liste der Subjekte mit Rechten (= Spalte der Zugriffsmatrix). Problem: Welche Rechte hat ein Subjekt auf alle Objekte? → Alle ACLs durchsuchen. Capability List: Pro Subjekt → Liste der Objekte mit Rechten (= Zeile). Problem: Löschen eines Objekts → alle Capability Lists durchsuchen und bereinigen.</div></details>
+</div>
+<div class="aufgabe">
+  <p>2. Was passiert, wenn ein Benutzer eine Datei löscht, auf die noch ein Hardlink zeigt?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Der Dateiverzeichniseintrag wird entfernt, aber der i-node wird NICHT gelöscht, weil der Link Counter noch > 0 ist. Die Datei bleibt über den Hardlink erreichbar. Erst wenn alle Hardlinks entfernt wurden (Counter = 0), werden i-node und Dateiblöcke freigegeben.</div></details>
+</div>
+<div class="aufgabe">
+  <p>3. Erkläre den Zweck des Super Blocks in einem Dateisystem.</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Der Super Block enthält die wesentlichen Metadaten einer Partition: Typ des Dateisystems, Gesamtanzahl der Blöcke, Anzahl der freien Blöcke, Größe der Blöcke, Anzahl der i-nodes und weitere dateisystem-spezifische Verwaltungsinformationen. Ohne Super Block kann das Dateisystem nicht eingehängt werden.</div></details>
+</div>
+<div class="aufgabe">
+  <p>4. Warum sind Journal-Dateisysteme wichtig? Wie funktioniert das Journaling?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Ohne Journaling werden Schreiboperationen zunächst in RAM-Puffern gehalten (für bessere Performance) und periodisch auf Platte geschrieben (sync). Stürzt das System zwischen zwei syncs ab, sind die Daten auf der Platte inkonsistent. Journaling schreibt alle Metadaten-Änderungen vorab in ein sequenzielles Log. Nach einem Crash wird das Log eingespielt → konsistenter Zustand ohne aufwändigen fsck-Scan.</div></details>
+</div>
+<div class="aufgabe">
+  <p>5. In welcher Reihenfolge erscheinen die Strukturen auf einer Disk-Partition?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Boot Block → Super Block → Free Space Management → I-nodes → Root Directory → Dateien und Verzeichnisse. (Auf der gesamten Disk steht zuerst der MBR mit Partitionstabelle in Sektor 0.)</div></details>
+</div>
+</div>
+
+<!-- ==================== BS KAPITEL 13 ==================== -->
+<div class="page" id="bs7">
+<h1>Kapitel 13: Fallbeispiele – UNIX/ext3, MS-DOS/FAT, NTFS</h1>
+<p>Theorie trifft Praxis: Drei konkrete Dateisysteme zeigen, wie die Konzepte aus Kapitel 12 umgesetzt werden.</p>
+
+<h2>13.1 UNIX-Dateisystem und ext3</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 I-node (Index Node) – Herzstück des UNIX-Dateisystems</div>
+  <ul>
+    <li>Pro Datei ein I-node (File Descriptor / Datenstruktur des Systemkerns).</li>
+    <li><strong>Inhalt eines I-nodes:</strong> Benutzer-ID, Gruppen-ID, Dateityp, Dateigröße, Zugriffsrechte, Zeitinformationen (created/modified/accessed).</li>
+    <li><strong>Blockverweise:</strong>
+      <ul>
+        <li>10 (oder 12 bei ext3) <strong>direkte Zeiger</strong> → direkt auf Datenblöcke</li>
+        <li>1 <strong>einfach-indirekter</strong> Zeiger → Indexblock → Datenblöcke</li>
+        <li>1 <strong>zweifach-indirekter</strong> Zeiger → Indexblock → Indexblöcke → Datenblöcke</li>
+        <li>1 <strong>dreifach-indirekter</strong> Zeiger → 3 Ebenen Indirektion</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<div class="beispiel">
+  <div class="box-title">🔢 Beispiel: Maximale Dateigröße mit I-nodes (ext3)</div>
+  <p>Blockgröße = 4 KiB = 4096 Byte. Ein Zeiger = 4 Byte → 1024 Zeiger pro Indexblock.</p>
+  <ul>
+    <li>12 direkte Zeiger: 12 × 4 KiB = <strong>48 KiB</strong></li>
+    <li>1-fach indirekt: 1024 × 4 KiB = <strong>4 MiB</strong></li>
+    <li>2-fach indirekt: 1024² × 4 KiB = <strong>4 GiB</strong></li>
+    <li>3-fach indirekt: 1024³ × 4 KiB = <strong>4 TiB</strong></li>
+    <li>Theoretisches Maximum: ~4 TiB (ext3 praktisch: 2 TiB wegen 32-Bit-Offsets)</li>
+  </ul>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Unix-Zugriffsrechte</div>
+  <ul>
+    <li>3 Kategorien: <strong>u</strong> (user/owner), <strong>g</strong> (group), <strong>o</strong> (other/world)</li>
+    <li>3 Rechte: <strong>r</strong> (read=4), <strong>w</strong> (write=2), <strong>x</strong> (execute=1)</li>
+    <li>Darstellung: <code>-rw-r-----</code> = Owner: rw, Group: r, Other: ---</li>
+    <li>Oktal: 640 = 110 100 000 = rw-r-----</li>
+    <li>Ändern: <code>chmod 755 datei</code> (rwxr-xr-x)</li>
+    <li>Bei Verzeichnissen: r=Inhalt auflisten, w=Dateien anlegen/löschen, x=Verzeichnis betreten</li>
+    <li><strong>SUID-Bit:</strong> Prozess erhält Rechte des Dateibesitzers für die Dauer der Ausführung. Beispiel: shutdown mit SUID root.</li>
+  </ul>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 ext3-Dateisystem</div>
+  <table>
+    <tr><th>Eigenschaft</th><th>Wert</th></tr>
+    <tr><td>Kompatibilität</td><td>Kompatibel zu ext2</td></tr>
+    <tr><td>Max. Partitionsgröße</td><td>16 TiB</td></tr>
+    <tr><td>Blockgröße</td><td>i.Allg. 4 KiB (min. 512 Byte)</td></tr>
+    <tr><td>Max. Dateigröße</td><td>2 TiB (praktisch oft 2 GiB)</td></tr>
+    <tr><td>I-node-Größe</td><td>128 Byte (oder Vielfaches)</td></tr>
+    <tr><td>Direkte Zeiger</td><td>12 (+ 1/2/3-fach indirekt)</td></tr>
+    <tr><td>Journal</td><td>Ja (für Metadaten, optional für Daten)</td></tr>
+    <tr><td>Blockgruppen</td><td>Reduziert Kopfpositionierungszeiten</td></tr>
+  </table>
+  <p><strong>ext4FS</strong> (seit 2008): bis 1 EiB, bessere Performance.<br>
+  <strong>Alternativen:</strong> XFS und Btrfs (B-tree FS) — beide bis 8 EiB Dateigröße, 16 EiB Dateisystemgröße.</p>
+</div>
+
+<h2>13.2 MS-DOS Dateisystem (FAT)</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 FAT (File Allocation Table)</div>
+  <ul>
+    <li>Verwaltet Dateien als <strong>verkettete Listen von Blöcken</strong>.</li>
+    <li>1 FAT-Eintrag pro Plattenblock. FAT-16: 16 Bit → 65.536 Blöcke adressierbar.</li>
+    <li>FAT muss vollständig im Hauptspeicher liegen → Änderungen sofort nachführen.</li>
+    <li>Freie Blöcke werden nur als "frei" markiert (kein sofortiges Löschen der Daten).</li>
+    <li>FAT-16: max. 2 GiB (Blockgröße 32 KiB) | FAT-32: max. 2 TiB (Blockgröße ab 8 KiB)</li>
+  </ul>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 MS-DOS Verzeichniseintrag</div>
+  <ul>
+    <li>Dateiname: max. 8 Zeichen + max. 3 Zeichen Erweiterung (8.3-Format)</li>
+    <li>Keine Unterscheidung Groß-/Kleinschreibung</li>
+    <li>Dateiattribute: read only, archive, hidden, system</li>
+    <li>Zeit und Datum der letzten Änderung</li>
+    <li>Dateigröße</li>
+    <li>Zeiger auf den ersten Block in der FAT</li>
+  </ul>
+</div>
+
+<div class="beispiel">
+  <div class="box-title">🔢 Beispiel: FAT-Struktur (Abb. 39)</div>
+  <p>Datei A belegt Blöcke: 6 → 8 → 4 → 2 (EOF)</p>
+  <p>FAT-Einträge: FAT[6]=8, FAT[8]=4, FAT[4]=2, FAT[2]=EOF</p>
+  <p>Verzeichniseintrag von Datei A zeigt auf Block 6 (ersten Block).</p>
+  <p>Blöcke 7, 11, 14 = frei. Block 15 = BAD (defekt, nicht verwendbar).</p>
+</div>
+
+<h2>13.3 NTFS (Windows)</h2>
+<div class="merkkasten">
+  <div class="box-title">📌 NTFS-Überblick</div>
+  <table>
+    <tr><th>Eigenschaft</th><th>Wert</th></tr>
+    <tr><td>System</td><td>Windows ab NT</td></tr>
+    <tr><td>Blockgrößen</td><td>64 KiB–2048 KiB, i.Allg. 4 KiB</td></tr>
+    <tr><td>Dateinamen</td><td>Unicode, max. 255 Zeichen, Groß-/Kleinschreibung</td></tr>
+    <tr><td>Max. Dateisystem</td><td>8 PiB</td></tr>
+    <tr><td>Multiprocessing</td><td>Ja</td></tr>
+    <tr><td>Links</td><td>Softlinks und Hardlinks</td></tr>
+    <tr><td>Extras</td><td>Optionale Komprimierung, optionale Verschlüsselung</td></tr>
+  </table>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 MFT (Master File Table)</div>
+  <ul>
+    <li>Datenstruktur (Datei) zur Verwaltung aller Metainformationen der Partition.</li>
+    <li>1 Eintrag (1 KiB) pro Datei/Verzeichnis.</li>
+    <li>MFT-Eintrag enthält: Standard Info, File Name, Data Header mit <strong>Runs</strong>.</li>
+    <li><strong>Run:</strong> Aufeinanderfolgende Blöcke. Eine Datei besteht aus einem oder mehreren Runs (Abb. 40).</li>
+    <li>Für große Dateien: <strong>Extension Records</strong> (Base Record + mehrere Extension Records in der MFT, Abb. 41).</li>
+    <li>MFT enthält auch Verweis auf Root-Verzeichnis, Freiliste, Sicherungskopie der MFT.</li>
+  </ul>
+</div>
+
+<div class="beispiel">
+  <div class="box-title">🔢 Beispiel: NTFS MFT-Eintrag (Abb. 40)</div>
+  <p>Datei mit 9 Blöcken in 3 Runs:</p>
+  <table>
+    <tr><th>Run</th><th>Start-Block</th><th>Anzahl Blöcke</th><th>Blöcke</th></tr>
+    <tr><td>Run #1</td><td>20</td><td>4</td><td>20-23</td></tr>
+    <tr><td>Run #2</td><td>64</td><td>2</td><td>64-65</td></tr>
+    <tr><td>Run #3</td><td>80</td><td>3</td><td>80-82</td></tr>
+  </table>
+  <p>MFT-Eintrag: [Standard Info | File Name | Data Header: (0,9) | Run1: (20,4) | Run2: (64,2) | Run3: (80,3) | Unused]</p>
+</div>
+
+<div class="merkkasten">
+  <div class="box-title">📌 Vergleich der Dateisysteme</div>
+  <table>
+    <tr><th>Eigenschaft</th><th>ext3/4</th><th>FAT32</th><th>NTFS</th></tr>
+    <tr><td>Metadaten-Struktur</td><td>I-node</td><td>FAT + Verzeichniseintrag</td><td>MFT</td></tr>
+    <tr><td>Zugriffsrechte</td><td>Unix rwx (9 Bit)</td><td>Nur Attribute (read-only, etc.)</td><td>ACLs</td></tr>
+    <tr><td>Journal</td><td>Ja (ext3+)</td><td>Nein</td><td>Ja</td></tr>
+    <tr><td>Max. Dateigröße</td><td>2 TiB / 1 EiB</td><td>4 GiB</td><td>8 PiB</td></tr>
+    <tr><td>Unicode-Namen</td><td>Ja (UTF-8)</td><td>Nein (8.3)</td><td>Ja</td></tr>
+  </table>
+</div>
+
+<div class="pruefung">
+  <div class="box-title">⭐ Prüfungshinweise Kapitel 13</div>
+  <ul>
+    <li>I-node-Struktur: Original Unix hat <strong>10</strong> direkte Zeiger; ext3 hat <strong>12</strong> direkte Zeiger. Plus je 1× einfach-, zweifach-, dreifach-indirekt. Maximale Dateigröße berechnen.</li>
+    <li>Unix-Zugriffsrechte lesen und in Oktal umrechnen. SUID-Bit erklären.</li>
+    <li>FAT: Verkettete Liste, 1 Eintrag pro Block, muss vollständig im RAM liegen. BAD-Block-Markierung.</li>
+    <li>NTFS: MFT mit Runs, Extension Records für große Dateien. MFT-Eintrag = 1 KiB.</li>
+    <li>Unterschied FAT/NTFS: NTFS hat echte Zugriffsrechte (ACLs), Journal, Unicode.</li>
+    <li>ext3: max 16 TiB Partition, max 2 TiB Datei, 128-Byte-I-node, Blockgruppen.</li>
+    <li>MS-DOS Dateiname: 8.3-Format, keine Groß-/Kleinschreibung.</li>
+  </ul>
+</div>
+
+<hr class="kapitel-trennlinie">
+<h2>Übungsaufgaben – Kapitel 13</h2>
+<div class="aufgabe">
+  <p>1. Blockgröße = 4 KiB, Zeiger = 4 Byte. Wie viele Blöcke sind über den einfach-indirekten Zeiger erreichbar? Wie groß ist der Dateiinhalt maximal?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Ein Indexblock hat 4096/4 = 1024 Zeiger. Jeder Zeiger zeigt auf einen 4-KiB-Block. Datenvolumen: 1024 × 4 KiB = <strong>4 MiB</strong>.</div></details>
+</div>
+<div class="aufgabe">
+  <p>2. Was bedeutet die Ausgabe: <code>-rwxr-x--- 1 alice dev 1024 datei.sh</code>?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Dateityp: reguläre Datei (-). Owner (alice): rwx = lesen, schreiben, ausführen. Group (dev): r-x = lesen, ausführen. Other: --- = keine Rechte. 1 Hardlink. Dateigröße 1024 Byte.</div></details>
+</div>
+<div class="aufgabe">
+  <p>3. Warum muss die FAT komplett im RAM liegen? Was ist der Nachteil?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">FAT-Einträge verweisen auf den nächsten Block einer Datei (verkettete Liste). Für jeden Dateizugriff muss die Kette traversiert werden — das wäre bei Disk-Zugriff pro Schritt sehr langsam. Im RAM sind alle Einträge schnell lesbar. Nachteil: Bei großen Partitionen/vielen Blöcken wird die FAT sehr groß und belegt viel RAM.</div></details>
+</div>
+<div class="aufgabe">
+  <p>4. Was ist ein "Run" in NTFS?</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">Ein Run ist eine Folge aufeinanderfolgender (zusammenhängender) Blöcke auf der Disk, beschrieben durch Start-Blocknummer und Anzahl der Blöcke. Statt jeden Block einzeln aufzulisten, genügt es, einen Run mit Start+Länge zu beschreiben. Eine Datei besteht typisch aus einem oder wenigen Runs (bei wenig Fragmentierung).</div></details>
+</div>
+<div class="aufgabe">
+  <p>5. Nenne drei wesentliche Vorteile von NTFS gegenüber FAT32.</p>
+  <details><summary>Lösung anzeigen</summary>
+  <div class="loesung">(1) Zugriffsrechte: NTFS unterstützt ACLs → feingranulare Rechtevergabe; FAT hat nur rudimentäre Attribute. (2) Journaling: NTFS hat ein Journal für Metadaten → Crash-Sicherheit; FAT nicht. (3) Größere Dateien: NTFS bis 8 PiB, FAT32 max. 4 GiB pro Datei. Außerdem: Unicode-Dateinamen, optionale Verschlüsselung/Komprimierung.</div></details>
+</div>
+</div>
+
+<!-- ==================== FOOTER ==================== -->
+<div class="page" style="text-align:center;padding:32px;">
+  <h2 style="color:#1a2744;">Du schaffst das! 💪</h2>
+  <p style="color:#555;margin-top:12px;">Lernbuch GdIT II – Kommunikations- und Betriebssysteme<br>
+  DHBW Mannheim | Prof. Pagnia | Sommer 2026</p>
+  <p style="color:#888;font-size:0.9em;margin-top:8px;">13 Kapitel | Alle Prüfungsthemen abgedeckt</p>
+</div>
+
+</div><!-- end #main -->
+</body>
+</html>

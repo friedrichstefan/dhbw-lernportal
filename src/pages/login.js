@@ -25,7 +25,7 @@ registerPage('login', (app) => {
               Mit Google anmelden
             </button>
             <button id="btn-apple" class="btn btn-secondary" style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px">
-              <svg width="18" height="18" viewBox="0 0 814 1000" fill="currentColor"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-37.3-152.2-96.7C81 453 80 435.2 80 388.8c0-148.6 99.5-227.7 197.4-227.7 70.4 0 112.9 46.3 157.2 46.3 42.8 0 92.4-49.3 171.9-49.3zm-5.8-298.8c37 0 84.4-24 113.3-55.4 26.2-28.8 45.1-70.9 45.1-113.1 0-5.9-.5-11.8-1.6-16.8-43.3 1.6-95 28.8-126.3 62.2-24.8 27-48.2 68.9-48.2 111.7 0 6.1.6 12.2 1.1 14.2 2.7.4 5.4.6 8.2.6z"/></svg>
+              <img src="${import.meta.env.BASE_URL}apple-logo.svg" alt="" style="width:16px;height:19px;display:block" />
               Mit Apple anmelden
             </button>
             <button id="btn-microsoft" class="btn btn-secondary" style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px">
@@ -107,8 +107,8 @@ registerPage('login', (app) => {
       document.getElementById(id).onclick = async (e) => {
         const btn = e.currentTarget
         btn.disabled = true
-        const origText = btn.textContent
-        btn.textContent = 'Anmelden…'
+        const origInner = btn.innerHTML
+        if (id !== 'btn-apple') btn.textContent = 'Anmelden…'
         clearError()
         const result = await fn()
         if (result?.ok) {
@@ -116,10 +116,17 @@ registerPage('login', (app) => {
           window.dispatchEvent(new Event('auth-change'))
         } else {
           btn.disabled = false
-          btn.textContent = origText
+          btn.innerHTML = origInner
           if (result?.error) showError(result.error)
         }
       }
+    }
+
+    if (!document.getElementById('apple-signin-script')) {
+      const script = document.createElement('script')
+      script.id = 'apple-signin-script'
+      script.src = 'https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/de_DE/appleid.auth.js'
+      document.body.appendChild(script)
     }
 
     document.getElementById('btn-guest').onclick = () => {

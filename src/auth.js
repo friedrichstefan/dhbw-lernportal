@@ -2,6 +2,7 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signInWithPopup,
+  GoogleAuthProvider,
   OAuthProvider,
   signOut,
   updateProfile as fbUpdateProfile,
@@ -105,7 +106,17 @@ export async function register(email, password, displayName) {
 }
 
 export async function loginWithGoogle() {
-  return { error: 'Google Login nicht verfügbar.' }
+  const provider = new GoogleAuthProvider()
+  provider.addScope('email')
+  provider.addScope('profile')
+  try {
+    const cred = await signInWithPopup(auth, provider)
+    await ensureUserDoc(cred.user, { provider: 'google' })
+    return { ok: true }
+  } catch (e) {
+    if (e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request') return { ok: false }
+    return { error: 'Google-Anmeldung fehlgeschlagen: ' + e.message }
+  }
 }
 
 export async function loginWithApple() {

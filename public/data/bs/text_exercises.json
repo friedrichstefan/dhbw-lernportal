@@ -1,0 +1,32 @@
+[
+  {
+    "id": "bs-tex-1",
+    "title": "Aufgaben eines Betriebssystems",
+    "question": "Nenne und erkläre die 5 Hauptaufgaben eines Betriebssystems.",
+    "solution": "<ol style='padding-left:20px;line-height:1.8;color:var(--color-text-secondary)'><li><strong>Prozessverwaltung:</strong> Erstellen, Scheduling und Beenden von Prozessen/Threads.</li><li><strong>Speicherverwaltung:</strong> Zuweisung und Freigabe von RAM, virtueller Speicher, Segmentierung, Paging.</li><li><strong>Dateisystemverwaltung:</strong> Lesen/Schreiben von Dateien, Verzeichnisse, Zugriffsrechte.</li><li><strong>Geräteverwaltung:</strong> Ansteuerung von Ein-/Ausgabegeräten über Treiber.</li><li><strong>Sicherheit &amp; Schutzmechanismen:</strong> Zugriffskontrolle, Benutzerauthentifizierung, Isolation von Prozessen.</li></ol>"
+  },
+  {
+    "id": "bs-tex-2",
+    "title": "Prozesszustände",
+    "question": "Erkläre das 3-Zustands-Modell eines Prozesses mit den möglichen Zustandsübergängen.",
+    "solution": "<p style='color:var(--color-text-secondary);line-height:1.6'><strong>Zustände:</strong> Bereit (ready) → Laufend (running) → Blockiert (blocked/waiting)</p><ol style='padding-left:20px;line-height:1.8;color:var(--color-text-secondary);margin-top:8px'><li>Bereit → Laufend: Scheduler wählt Prozess aus (dispatch)</li><li>Laufend → Bereit: Zeitscheibe abgelaufen / höherprioriger Prozess (preempt)</li><li>Laufend → Blockiert: Prozess wartet auf E/A oder Ressource (wait)</li><li>Blockiert → Bereit: E/A abgeschlossen / Ressource verfügbar (wakeup)</li></ol>"
+  },
+  {
+    "id": "bs-tex-3",
+    "title": "Deadlock – Coffman-Bedingungen",
+    "question": "Erkläre die vier notwendigen Bedingungen für einen Deadlock (Coffman-Bedingungen).",
+    "solution": "<ol style='padding-left:20px;line-height:1.8;color:var(--color-text-secondary)'><li><strong>Mutual Exclusion:</strong> Ressourcen können nicht gleichzeitig von mehreren Prozessen genutzt werden.</li><li><strong>Hold and Wait:</strong> Prozesse halten Ressourcen und warten auf weitere.</li><li><strong>No Preemption:</strong> Ressourcen können einem Prozess nicht entzogen werden.</li><li><strong>Circular Wait:</strong> Zirkuläre Wartekette: P1 wartet auf P2, P2 auf P3, ... Pn auf P1.</li></ol><p style='color:var(--color-text-secondary);margin-top:8px'>Alle vier Bedingungen müssen gleichzeitig gelten → Deadlock möglich.</p>"
+  },
+  {
+    "id": "bs-tex-4",
+    "title": "Scheduling-Algorithmen",
+    "question": "Beschreibe FCFS, Round Robin und Priority Scheduling. Welche Probleme können auftreten?",
+    "solution": "<p style='color:var(--color-text-secondary);line-height:1.6'><strong>FCFS (First Come First Served):</strong> Einfachstes Verfahren, kein Preemption. Problem: langer Prozess blockiert kurze (Konvoi-Effekt).</p><p style='color:var(--color-text-secondary);line-height:1.6;margin-top:6px'><strong>Round Robin:</strong> Jedem Prozess wird eine Zeitscheibe zugeteilt. Preemptiv. Fairness für alle. Problem: hoher Kontextwechsel-Overhead bei kleiner Zeitscheibe.</p><p style='color:var(--color-text-secondary);line-height:1.6;margin-top:6px'><strong>Priority Scheduling:</strong> Höchste Priorität wird zuerst ausgeführt. Problem: Starvation (niedrigpriore Prozesse warten ewig) → Lösung: Aging (Priorität steigt mit Wartezeit).</p>"
+  },
+  {
+    "id": "bs-tex-5",
+    "title": "Virtueller Speicher und Page Fault",
+    "question": "Erkläre das Konzept des virtuellen Speichers und was bei einem Page Fault passiert.",
+    "solution": "<p style='color:var(--color-text-secondary);line-height:1.6'>Virtueller Speicher ermöglicht, dass jeder Prozess einen eigenen, scheinbar großen Adressraum hat – größer als der tatsächliche RAM. Daten werden auf Festplatte (Swap/Auslagerungsdatei) ausgelagert.</p><p style='color:var(--color-text-secondary);line-height:1.6;margin-top:8px'><strong>Page Fault:</strong> Prozess greift auf Seite zu, die nicht im RAM ist → Betriebssystem lädt die Seite von der Festplatte in den RAM → Prozess kann fortfahren (aber langsamer). Sehr viele Page Faults führen zu Thrashing.</p>"
+  }
+]
