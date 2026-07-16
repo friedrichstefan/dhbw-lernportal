@@ -1,52 +1,58 @@
 [
   {
     "id": "prog-tex-1",
-    "title": "Aufgabe 1 – Grundlegende Python-Syntax",
-    "question": "Was gibt dieses Programm aus? Erkläre jeden Schritt:",
-    "task": "x = 10\ny = 3\nprint(x // y)\nprint(x % y)\nprint(x ** y)\nprint(type(x))",
-    "solution": "<pre>3       # Ganzzahldivision: 10 // 3 = 3\n1       # Modulo (Rest): 10 % 3 = 1\n1000    # Potenz: 10 ** 3 = 1000\n&lt;class 'int'&gt;  # type() gibt den Datentyp zurück</pre>"
+    "title": "Aufgabe 1 – Exception Handling",
+    "question": "Implementiere eine Klasse <code>Auto</code> mit einer Methode <code>drive(int km)</code>, die eine eigene Checked Exception <code>TankLeer</code> wirft, wenn der Kraftstoff aufgebraucht ist. Fange die Exception in einer Main-Methode mit try-catch-finally ab.",
+    "task": "// TankLeer extends Exception mit Konstruktor\n// Auto: tank (int), kmCount (int)\n// drive(): verringert tank, wirft TankLeer wenn tank <= 0\n// Main: Objekt anlegen, drive aufrufen, Exception behandeln",
+    "solution": "<pre>public class TankLeer extends Exception {\n    public TankLeer(int km) {\n        super(\"Der Tank ist leer nach \" + km + \" km.\");\n    }\n}\n\npublic class Auto {\n    private int tank;\n    private int kmCount;\n\n    public Auto(int tank) { this.tank = tank; }\n\n    public void drive(int km) throws TankLeer {\n        if (tank <= 0) throw new TankLeer(kmCount);\n        tank -= km;\n        kmCount += km;\n    }\n}\n\n// Main:\ntry {\n    Auto bmw = new Auto(50);\n    bmw.drive(100);\n} catch (TankLeer e) {\n    System.out.println(e.getMessage());\n} finally {\n    System.out.println(\"Fahrt beendet.\");\n}</pre>"
   },
   {
     "id": "prog-tex-2",
-    "title": "Aufgabe 2 – Liste und Schleife",
-    "question": "Schreibe eine Funktion, die eine Liste von Zahlen entgegennimmt und die Summe aller geraden Zahlen zurückgibt.",
-    "solution": "<pre>def summe_gerade(zahlen):\n    summe = 0\n    for zahl in zahlen:\n        if zahl % 2 == 0:\n            summe += zahl\n    return summe\n\n# Alternativ mit List Comprehension:\ndef summe_gerade(zahlen):\n    return sum(z for z in zahlen if z % 2 == 0)\n\nprint(summe_gerade([1, 2, 3, 4, 5, 6]))  # Ausgabe: 12</pre>"
+    "title": "Aufgabe 2 – ArrayList mit Iterator",
+    "question": "Erstelle eine <code>ArrayList&lt;String&gt;</code> mit Studierenden-Namen. Füge Elemente hinzu, überschreibe eines, prüfe ob ein Name enthalten ist und traversiere die Liste mit einem Iterator.",
+    "task": "import java.util.ArrayList;\nimport java.util.Iterator;\n// Namen: \"Anna\", \"Ben\", \"Clara\"\n// Ben an Index 1 durch \"Bernd\" ersetzen\n// Prüfe ob \"Clara\" enthalten ist\n// Traversiere mit Iterator und print",
+    "solution": "<pre>import java.util.ArrayList;\nimport java.util.Iterator;\n\nArrayList&lt;String&gt; liste = new ArrayList&lt;&gt;();\nliste.add(\"Anna\");\nliste.add(\"Ben\");\nliste.add(\"Clara\");\n\nliste.set(1, \"Bernd\"); // Ben überschreiben\n\nSystem.out.println(liste.contains(\"Clara\")); // true\nSystem.out.println(liste.indexOf(\"Anna\"));   // 0\n\nIterator&lt;String&gt; it = liste.iterator();\nwhile (it.hasNext()) {\n    System.out.println(it.next());\n}\n// Ausgabe: Anna, Bernd, Clara</pre>"
   },
   {
     "id": "prog-tex-3",
-    "title": "Aufgabe 3 – Klasse mit Vererbung",
-    "question": "Erstelle eine Klasse <code>Tier</code> mit Attributen name und alter und Methode lautAusgebend(). Leite <code>Hund</code> ab, der bei lautAusgebend() \"Wuff\" ausgibt.",
-    "solution": "<pre>class Tier:\n    def __init__(self, name, alter):\n        self.name = name\n        self.alter = alter\n\n    def laut_ausgeben(self):\n        print(f\"{self.name} macht einen Laut.\")\n\nclass Hund(Tier):\n    def laut_ausgeben(self):\n        print(f\"{self.name} sagt: Wuff!\")\n\nbello = Hund(\"Bello\", 3)\nbello.laut_ausgeben()  # Bello sagt: Wuff!</pre>"
+    "title": "Aufgabe 3 – Comparable implementieren",
+    "question": "Erstelle eine Klasse <code>Student</code> mit Attributen <code>vorname</code>, <code>nachname</code> und <code>matrikelNr</code>. Implementiere <code>Comparable&lt;Student&gt;</code> so, dass Studierende nach Matrikelnummer sortiert werden. Füge mehrere Studenten in ein <code>TreeSet</code> ein und traversiere es.",
+    "task": "// Student implements Comparable<Student>\n// compareTo(): nach matrikelNr sortieren\n// TreeSet<Student> anlegen, 3 Studenten einfügen\n// Iterator: Ausgabe \"MatrikelNr Vorname Nachname\"",
+    "solution": "<pre>import java.util.TreeSet;\nimport java.util.Iterator;\n\npublic class Student implements Comparable&lt;Student&gt; {\n    private String vorname, nachname;\n    private int matrikelNr;\n\n    public Student(String vorname, String nachname, int matrikelNr) {\n        this.vorname = vorname;\n        this.nachname = nachname;\n        this.matrikelNr = matrikelNr;\n    }\n\n    @Override\n    public int compareTo(Object o) {\n        return this.matrikelNr - ((Student) o).matrikelNr;\n    }\n}\n\n// Verwendung:\nTreeSet&lt;Student&gt; set = new TreeSet&lt;&gt;();\nset.add(new Student(\"Hans\", \"Müller\", 65871));\nset.add(new Student(\"Peter\", \"Maier\", 75382));\nset.add(new Student(\"Lisa\", \"Schmidt\", 19853));\n\nIterator&lt;Student&gt; it = set.iterator();\nwhile (it.hasNext()) {\n    Student s = it.next();\n    System.out.println(s.matrikelNr + \" \" + s.vorname + \" \" + s.nachname);\n}\n// Ausgabe sortiert: 19853, 65871, 75382</pre>"
   },
   {
     "id": "prog-tex-4",
-    "title": "Aufgabe 4 – Dictionary und Fehlerbehandlung",
-    "question": "Schreibe eine Funktion, die ein Dictionary mit Schülernamen und Noten entgegennimmt und den Notendurchschnitt berechnet. Behandle den Fall einer leeren Liste.",
-    "solution": "<pre>def notendurchschnitt(noten_dict):\n    if not noten_dict:\n        raise ValueError(\"Kein Schüler übergeben!\")\n    gesamt = sum(noten_dict.values())\n    return gesamt / len(noten_dict)\n\nnoten = {\"Anna\": 1.5, \"Ben\": 2.0, \"Clara\": 1.0}\ntry:\n    avg = notendurchschnitt(noten)\n    print(f\"Durchschnitt: {avg:.2f}\")\nexcept ValueError as e:\n    print(f\"Fehler: {e}\")</pre>"
+    "title": "Aufgabe 4 – equals() und hashCode() überschreiben",
+    "question": "Erstelle eine Klasse <code>Pet</code> mit Attributen <code>species</code> (String) und <code>weight</code> (int). Überschreibe <code>equals()</code> und <code>hashCode()</code> korrekt (Alias-Check, Null-Check, Typprüfung, Feldvergleich).",
+    "task": "// equals(): (1) alias check ==, (2) null check, (3) getClass(), (4) Felder vergleichen\n// hashCode(): basierend auf species.hashCode() und weight\n// Teste: zwei gleiche Objekte → equals() true, gleicher hashCode",
+    "solution": "<pre>public class Pet {\n    private String species;\n    private int weight;\n\n    public Pet(String species, int weight) {\n        this.species = species;\n        this.weight = weight;\n    }\n\n    @Override\n    public boolean equals(Object object) {\n        if (this == object) return true;        // alias check\n        if (object == null) return false;       // null check\n        if (object.getClass() != this.getClass()) return false; // type check\n        if (!this.species.equals(((Pet) object).species)) return false; // field\n        if (this.weight != ((Pet) object).weight) return false;\n        return true;\n    }\n\n    @Override\n    public int hashCode() {\n        return this.species.hashCode() ^ this.weight;\n    }\n}\n\n// Test:\nPet p1 = new Pet(\"Hund\", 20);\nPet p2 = new Pet(\"Hund\", 20);\nSystem.out.println(p1.equals(p2));           // true\nSystem.out.println(p1.hashCode() == p2.hashCode()); // true</pre>"
   },
   {
     "id": "prog-tex-5",
-    "title": "Aufgabe 5 – Rekursion",
-    "question": "Implementiere die Fakultät n! rekursiv und iterativ. Teste mit n=5.",
-    "solution": "<pre># Rekursiv:\ndef fakultaet_rek(n):\n    if n &lt;= 1:\n        return 1\n    return n * fakultaet_rek(n - 1)\n\n# Iterativ:\ndef fakultaet_iter(n):\n    ergebnis = 1\n    for i in range(2, n + 1):\n        ergebnis *= i\n    return ergebnis\n\nprint(fakultaet_rek(5))   # 120\nprint(fakultaet_iter(5))  # 120</pre>"
+    "title": "Aufgabe 5 – Swing-Fenster mit ActionListener",
+    "question": "Erstelle ein einfaches Swing-Fenster mit zwei Buttons (\"OK\" und \"Exit\"). Ein ActionListener soll bei OK \"OK wurde gedrückt\" ausgeben, bei Exit die Anwendung beenden.",
+    "task": "// JFrame erstellen, ContentPane mit FlowLayout\n// JButton ok und exit anlegen\n// ActionListener implementieren: actionPerformed prüft getActionCommand()\n// Buttons bei Listener registrieren",
+    "solution": "<pre>import javax.swing.*;\nimport java.awt.*;\nimport java.awt.event.*;\n\nJFrame window = new JFrame(\"Demo\");\nwindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);\nwindow.getContentPane().setLayout(new FlowLayout());\n\nActionListener listener = new ActionListener() {\n    public void actionPerformed(ActionEvent e) {\n        String event = e.getActionCommand();\n        if (event.equals(\"OK\")) {\n            System.out.println(\"OK wurde gedrückt.\");\n        } else if (event.equals(\"Exit\")) {\n            System.exit(0);\n        }\n    }\n};\n\nJButton ok = new JButton(\"OK\");\nJButton exit = new JButton(\"Exit\");\nok.addActionListener(listener);\nexit.addActionListener(listener);\n\nwindow.getContentPane().add(ok);\nwindow.getContentPane().add(exit);\nwindow.pack();\nwindow.setVisible(true);</pre>"
   },
   {
     "id": "prog-tex-6",
-    "title": "Aufgabe 6 – List Comprehension & Lambda",
-    "question": "Schreibe folgende Operationen als List Comprehension und einmal mit lambda/map:",
-    "task": "1. Alle Quadratzahlen von 1 bis 10\n2. Nur die geraden Zahlen aus [1..20]\n3. Strings in Großbuchstaben aus einer Liste",
-    "solution": "<pre># List Comprehensions:\nquadrate = [x**2 for x in range(1, 11)]\ngerade = [x for x in range(1, 21) if x % 2 == 0]\nwoerter = [\"hallo\", \"welt\", \"python\"]\ngross = [w.upper() for w in woerter]\n\n# Mit map/lambda:\nquadrate2 = list(map(lambda x: x**2, range(1, 11)))\ngross2 = list(map(lambda w: w.upper(), woerter))</pre>"
+    "title": "Aufgabe 6 – Textdatei lesen und schreiben",
+    "question": "Schreibe Java-Code der eine Textdatei zeilenweise einliest und den Inhalt in einer neuen Datei speichert. Verwende BufferedReader und FileWriter. Behandle IOException korrekt mit try-with-resource.",
+    "task": "// Quelldatei: \"eingabe.txt\"\n// Zieldatei: \"ausgabe.txt\"\n// Zeilenweise lesen mit BufferedReader\n// Schreiben mit BufferedWriter\n// try-with-resource für automatisches Schließen",
+    "solution": "<pre>import java.io.*;\n\ntry (\n    BufferedReader reader = new BufferedReader(new FileReader(\"eingabe.txt\"));\n    BufferedWriter writer = new BufferedWriter(new FileWriter(\"ausgabe.txt\"))\n) {\n    String line;\n    while ((line = reader.readLine()) != null) {\n        writer.write(line);\n        writer.newLine();\n    }\n    System.out.println(\"Kopieren abgeschlossen.\");\n} catch (FileNotFoundException e) {\n    System.out.println(\"Datei nicht gefunden: \" + e.getMessage());\n} catch (IOException e) {\n    e.printStackTrace();\n}\n// try-with-resource schließt reader und writer automatisch</pre>"
   },
   {
     "id": "prog-tex-7",
-    "title": "Aufgabe 7 – Binäre Suche implementieren",
-    "question": "Implementiere die binäre Suche in Python. Die Funktion soll den Index zurückgeben oder -1 wenn nicht gefunden.",
-    "solution": "<pre>def binaere_suche(liste, ziel):\n    links, rechts = 0, len(liste) - 1\n    while links &lt;= rechts:\n        mitte = (links + rechts) // 2\n        if liste[mitte] == ziel:\n            return mitte\n        elif liste[mitte] &lt; ziel:\n            links = mitte + 1\n        else:\n            rechts = mitte - 1\n    return -1\n\nsortiert = [1, 3, 5, 7, 9, 11, 13, 15]\nprint(binaere_suche(sortiert, 7))   # 3 (Index)\nprint(binaere_suche(sortiert, 6))   # -1 (nicht gefunden)</pre>"
+    "title": "Aufgabe 7 – Rekursion: Fibonacci",
+    "question": "Implementiere Fibonacci(n) rekursiv und iterativ in Java. Erkläre den Unterschied in der Laufzeitkomplexität.",
+    "task": "// Rekursiv: fib(n) = fib(n-1) + fib(n-2), Basisfall n <= 1\n// Iterativ: Schleife mit zwei Variablen\n// Teste beide mit n=10 (Ergebnis: 55)",
+    "solution": "<pre>// Rekursiv: O(2^n) – exponentiell!\npublic static int fibRekursiv(int n) {\n    if (n <= 1) return n;\n    return fibRekursiv(n - 1) + fibRekursiv(n - 2);\n}\n\n// Iterativ: O(n) – linear\npublic static int fibIterativ(int n) {\n    if (n <= 1) return n;\n    int a = 0, b = 1;\n    for (int i = 2; i <= n; i++) {\n        int c = a + b;\n        a = b;\n        b = c;\n    }\n    return b;\n}\n\nSystem.out.println(fibRekursiv(10));  // 55\nSystem.out.println(fibIterativ(10));  // 55\n\n// Rekursiv: jeder Aufruf verzweigt in 2 weitere → O(2^n)\n// Iterativ: einmal durch die Schleife → O(n)</pre>"
   },
   {
     "id": "prog-tex-8",
-    "title": "Aufgabe 8 – Datei lesen und schreiben",
-    "question": "Schreibe Python-Code, der eine Textdatei zeilenweise einliest, alle Zeilen in Großbuchstaben wandelt und in eine neue Datei schreibt.",
-    "solution": "<pre>def gross_in_datei(eingabe, ausgabe):\n    with open(eingabe, 'r', encoding='utf-8') as f_ein:\n        zeilen = f_ein.readlines()\n    gross_zeilen = [z.upper() for z in zeilen]\n    with open(ausgabe, 'w', encoding='utf-8') as f_aus:\n        f_aus.writelines(gross_zeilen)\n\n# Verwendung:\ngross_in_datei(\"eingabe.txt\", \"ausgabe.txt\")</pre><p>with-Statement: garantiert automatisches Schließen der Datei auch bei Ausnahmen.</p>"
+    "title": "Aufgabe 8 – Serialisierung",
+    "question": "Erstelle eine serialisierbare Klasse <code>Person</code> mit Name und Vorname. Serialisiere zwei Objekte in eine Datei und lese sie anschließend wieder aus.",
+    "task": "// Person implements Serializable\n// serialVersionUID = 1L\n// ObjectOutputStream: writeObject()\n// ObjectInputStream: readObject()\n// EOFException abfangen beim Lesen",
+    "solution": "<pre>import java.io.*;\n\npublic class Person implements Serializable {\n    static final long serialVersionUID = 1L;\n    private String name;\n    private String vorname;\n\n    public Person(String name, String vorname) {\n        this.name = name;\n        this.vorname = vorname;\n    }\n\n    public String toString() { return vorname + \" \" + name; }\n}\n\n// Speichern:\ntry (ObjectOutputStream oos = new ObjectOutputStream(\n        new FileOutputStream(\"personen.dat\"))) {\n    oos.writeObject(new Person(\"Mayer\", \"Klaus\"));\n    oos.writeObject(new Person(\"Schmidt\", \"Gabi\"));\n}\n\n// Laden:\ntry (ObjectInputStream ois = new ObjectInputStream(\n        new FileInputStream(\"personen.dat\"))) {\n    while (true) {\n        try {\n            System.out.println(ois.readObject());\n        } catch (EOFException e) { break; }\n    }\n} catch (ClassNotFoundException e) { e.printStackTrace(); }</pre>"
   }
 ]

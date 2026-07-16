@@ -33,12 +33,179 @@ registerPage('programmieren', async (app) => {
   const p = await calcPcts()
 
   const codeExamples = [
-    { title: 'Fibonacci (rekursiv)', lang: 'java', code: `public static int fibonacci(int n) {\n    if (n <= 1) return n;\n    return fibonacci(n - 1) + fibonacci(n - 2);\n}\n\n// Aufruf:\nSystem.out.println(fibonacci(10)); // 55` },
-    { title: 'Bubblesort', lang: 'java', code: `public static void bubbleSort(int[] arr) {\n    int n = arr.length;\n    for (int i = 0; i < n - 1; i++) {\n        for (int j = 0; j < n - i - 1; j++) {\n            if (arr[j] > arr[j + 1]) {\n                int temp = arr[j];\n                arr[j] = arr[j + 1];\n                arr[j + 1] = temp;\n            }\n        }\n    }\n}` },
-    { title: 'Binäre Suche', lang: 'java', code: `public static int binarySearch(int[] arr, int target) {\n    int left = 0, right = arr.length - 1;\n    while (left <= right) {\n        int mid = left + (right - left) / 2;\n        if (arr[mid] == target) return mid;\n        if (arr[mid] < target) left = mid + 1;\n        else right = mid - 1;\n    }\n    return -1; // nicht gefunden\n}` },
-    { title: 'OOP: Vererbung & Polymorphismus', lang: 'java', code: `abstract class Tier {\n    String name;\n    Tier(String name) { this.name = name; }\n    abstract String laut(); // abstrakte Methode\n}\n\nclass Hund extends Tier {\n    Hund(String name) { super(name); }\n    @Override\n    String laut() { return "Wuff!"; }\n}\n\n// Polymorphismus:\nTier t = new Hund("Rex");\nSystem.out.println(t.laut()); // Wuff!` },
-    { title: 'ArrayList & HashMap', lang: 'java', code: `import java.util.ArrayList;\nimport java.util.HashMap;\n\nArrayList<String> liste = new ArrayList<>();\nliste.add("Alice");\nliste.add("Bob");\nSystem.out.println(liste.get(0)); // Alice\n\nHashMap<String, Integer> map = new HashMap<>();\nmap.put("Alice", 25);\nmap.put("Bob", 30);\nSystem.out.println(map.get("Alice")); // 25` },
-    { title: 'Exception Handling', lang: 'java', code: `public static int divide(int a, int b) {\n    if (b == 0) throw new IllegalArgumentException("Teiler darf nicht 0 sein");\n    return a / b;\n}\n\ntry {\n    int result = divide(10, 0);\n} catch (IllegalArgumentException e) {\n    System.out.println("Fehler: " + e.getMessage());\n} finally {\n    System.out.println("Wird immer ausgeführt");\n}` }
+    { title: 'Exception Handling: eigene Exception', lang: 'java', code: `// Eigene Checked Exception
+public class TankLeer extends Exception {
+    public TankLeer(int km) {
+        super("Der Tank ist leer nach " + km + " km.");
+    }
+}
+
+// Methode wirft Exception
+public void drive(int km) throws TankLeer {
+    if (tank <= 0) throw new TankLeer(kmCount);
+    tank -= km;
+    kmCount += km;
+}
+
+// Behandlung
+try {
+    bmw.drive(500);
+} catch (TankLeer e1) {
+    System.out.println(e1.getMessage());
+} catch (Exception e2) {
+    e2.printStackTrace();
+} finally {
+    System.out.println("Fahrt beendet.");
+}` },
+    { title: 'Collections: List & Iterator', lang: 'java', code: `import java.util.ArrayList;
+import java.util.Iterator;
+
+ArrayList<String> myList = new ArrayList<>();
+myList.add("Otto");
+myList.add("Karl");
+myList.add("Ludwig");
+myList.set(2, "Overwrites Ludwig");
+
+System.out.println(myList.contains("Otto")); // true
+System.out.println(myList.indexOf("Karl"));  // 1
+System.out.println(myList.size());           // 3
+
+// Iterator
+Iterator<String> i = myList.iterator();
+while (i.hasNext()) {
+    System.out.println(i.next());
+}
+myList.clear();` },
+    { title: 'Collections: TreeSet mit Comparable', lang: 'java', code: `// Klasse implementiert Comparable
+public class Student implements Comparable<Student> {
+    private int matrikelNo;
+    private String firstName, lastName;
+
+    @Override
+    public int compareTo(Object vStudent) {
+        return this.matrikelNo - ((Student) vStudent).getMatrikelNo();
+    }
+}
+
+// TreeSet sortiert automatisch
+import java.util.TreeSet;
+TreeSet<Student> set = new TreeSet<>();
+set.add(new Student("Peter", "Maier", 75382));
+set.add(new Student("Hans", "Müller", 65871));
+
+Iterator<Student> it = set.iterator();
+while (it.hasNext()) {
+    Student s = it.next();
+    System.out.println(s.getMatrikelNo() + " " + s.getLastName());
+}` },
+    { title: 'equals() und hashCode()', lang: 'java', code: `public class Pet {
+    private String species;
+    private int weight;
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;          // alias check
+        if (object == null) return false;         // null check
+        if (object.getClass() != this.getClass()) return false;
+        if (!this.species.equals(((Pet) object).species)) return false;
+        if (this.weight != ((Pet) object).weight) return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        // hashCode-Vertrag: equals()==true → gleicher hashCode
+        return this.species.hashCode() ^ this.weight;
+    }
+}` },
+    { title: 'Swing: JFrame mit ActionListener', lang: 'java', code: `import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+JFrame window = new JFrame("Demo");
+window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+window.getContentPane().setLayout(new FlowLayout());
+
+ActionListener listener = new ActionListener() {
+    public void actionPerformed(ActionEvent e) {
+        String event = e.getActionCommand();
+        if (event.equals("OK")) {
+            System.out.println("OK gedrückt.");
+        } else if (event.equals("Exit")) {
+            System.exit(0);
+        }
+    }
+};
+
+JButton ok = new JButton("OK");
+JButton exit = new JButton("Exit");
+ok.addActionListener(listener);
+exit.addActionListener(listener);
+
+window.getContentPane().add(ok);
+window.getContentPane().add(exit);
+window.pack();
+window.setVisible(true);` },
+    { title: 'I/O: Textdatei lesen & schreiben', lang: 'java', code: `import java.io.*;
+
+// Lesen mit try-with-resource (automatisches Schließen)
+try (BufferedReader reader = new BufferedReader(
+        new FileReader("eingabe.txt"))) {
+    String line;
+    while ((line = reader.readLine()) != null) {
+        System.out.println(line);
+    }
+} catch (IOException e) {
+    e.printStackTrace();
+}
+
+// Schreiben
+try (BufferedWriter writer = new BufferedWriter(
+        new FileWriter("ausgabe.txt"))) {
+    writer.write("Erste Zeile");
+    writer.newLine();
+    writer.write("Zweite Zeile");
+} catch (IOException e) {
+    e.printStackTrace();
+}` },
+    { title: 'Datenstrukturen: Stack & Queue', lang: 'java', code: `import java.util.ArrayDeque;
+
+// Stack (LIFO) mit ArrayDeque
+ArrayDeque<String> stack = new ArrayDeque<>();
+stack.push("Erster");    // push oben
+stack.push("Zweiter");
+System.out.println(stack.peek());  // "Zweiter" – lesen ohne entfernen
+System.out.println(stack.pop());   // "Zweiter" – entfernen
+System.out.println(stack.pop());   // "Erster"
+
+// Queue (FIFO) mit ArrayDeque
+ArrayDeque<String> queue = new ArrayDeque<>();
+queue.offer("Erster");   // hinten einreihen
+queue.offer("Zweiter");
+System.out.println(queue.peek());  // "Erster" – vorne lesen
+System.out.println(queue.poll());  // "Erster" – vorne entfernen` },
+    { title: 'Algorithmen: Fibonacci & Binäre Suche', lang: 'java', code: `// Fibonacci iterativ – O(n)
+public static int fibonacci(int n) {
+    if (n <= 1) return n;
+    int a = 0, b = 1;
+    for (int i = 2; i <= n; i++) {
+        int c = a + b; a = b; b = c;
+    }
+    return b;
+}
+System.out.println(fibonacci(10)); // 55
+
+// Binäre Suche – O(log n) – Voraussetzung: sortiertes Array
+public static int binarySearch(int[] arr, int target) {
+    int left = 0, right = arr.length - 1;
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        if (arr[mid] == target) return mid;
+        if (arr[mid] < target) left = mid + 1;
+        else right = mid - 1;
+    }
+    return -1; // nicht gefunden
+}` }
   ]
 
   app.innerHTML = `
