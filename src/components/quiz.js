@@ -1,4 +1,5 @@
 import { setQuizScore } from '../progress.js'
+import { escapeHtml } from '../escape.js'
 
 export function mountQuiz(container, questions, subject) {
   if (!questions?.length) {
@@ -16,12 +17,20 @@ export function mountQuiz(container, questions, subject) {
       return
     }
     const q = questions[idx]
+    const correctText = q.options[q.correct]
+    const shuffledOptions = [...(q.options ?? [])]
+    for (let i = shuffledOptions.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledOptions[i], shuffledOptions[j]] = [shuffledOptions[j], shuffledOptions[i]]
+    }
+    const shuffledCorrect = shuffledOptions.indexOf(correctText)
+
     container.innerHTML = `
       <div style="max-width:680px;margin:0 auto;">
         <p class="text-secondary" style="margin-bottom:12px;">Frage ${idx + 1} / ${questions.length}</p>
         <p class="quiz-question">${renderInlineLatex(q.question)}</p>
         <div class="quiz-options">
-          ${(q.options ?? []).map((opt, i) => `
+          ${shuffledOptions.map((opt, i) => `
             <button class="quiz-option" data-idx="${i}">${renderInlineLatex(opt)}</button>
           `).join('')}
         </div>
@@ -37,18 +46,20 @@ export function mountQuiz(container, questions, subject) {
         answered = true
         const chosen = parseInt(btn.dataset.idx)
         container.querySelectorAll('.quiz-option').forEach(b => b.disabled = true)
-        btn.classList.add(chosen === q.correct ? 'correct' : 'wrong')
-        if (chosen === q.correct) {
+        btn.classList.add(chosen === shuffledCorrect ? 'correct' : 'wrong')
+        if (chosen === shuffledCorrect) {
           score++
         } else {
-          container.querySelectorAll('.quiz-option')[q.correct].classList.add('correct')
+          container.querySelectorAll('.quiz-option')[shuffledCorrect].classList.add('correct')
           wrong.push(q)
         }
         if (q.explanation) {
           document.getElementById('quiz-feedback').innerHTML =
-            `<div class="quiz-explanation">💡 ${q.explanation}</div>`
+            `<div class="quiz-explanation">💡 ${renderInlineLatex(q.explanation)}</div>`
         }
-        document.getElementById('quiz-next').style.display = 'block'
+        const nextEl = document.getElementById('quiz-next')
+        nextEl.style.display = 'block'
+        nextEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
       }
     })
 
@@ -83,11 +94,17 @@ export function mountQuiz(container, questions, subject) {
 
   function renderInlineLatex(text) {
     if (!text) return ''
-    return String(text).replace(/\$(.+?)\$/g, (_, expr) => {
+    // Text-Segmente escapen, LaTeX-Formeln durch KaTeX rendern.
+    // Split am $...$-Delimiter erhält abwechselnd Text und Formel.
+    const parts = String(text).split(/\$(.+?)\$/g)
+    return parts.map((part, i) => {
+      // i gerade → normaler Text (escapen)
+      // i ungerade → LaTeX-Ausdruck (durch KaTeX rendern)
+      if (i % 2 === 0) return escapeHtml(part)
       try {
-        return window.katex?.renderToString(expr, { throwOnError: false }) ?? `$${expr}$`
-      } catch { return `$${expr}$` }
-    })
+        return window.katex?.renderToString(part, { throwOnError: false }) ?? escapeHtml(`$${part}$`)
+      } catch { return escapeHtml(`$${part}$`) }
+    }).join('')
   }
 
   if (!window.katex) {

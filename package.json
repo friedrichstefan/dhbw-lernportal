@@ -9,6 +9,7 @@
     "deploy": "vite build && firebase deploy --only hosting"
   },
   "dependencies": {
+    "dompurify": "^3.4.11",
     "firebase": "^12.15.0",
     "katex": "^0.16.11"
   },
