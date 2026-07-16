@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Probeklausur 1 – KLR I: Kostenartenrechnung</title>
+<style>
+  body { font-family: Arial, sans-serif; font-size: 11pt; margin: 40px; color: #000; background: #fafafa; }
+  h1 { font-size: 13pt; font-weight: bold; text-align: center; border-bottom: 2px solid #000; padding-bottom: 6px; }
+  .header-table { width: 100%; border-collapse: collapse; margin: 12px 0 20px 0; }
+  .header-table td { padding: 4px 8px; }
+  .question { margin-top: 22px; }
+  .question-title { font-weight: bold; }
+  .punkte { float: right; font-weight: bold; }
+
+  textarea.answer {
+    width: 100%; box-sizing: border-box; border: 1px solid #bbb;
+    border-radius: 3px; padding: 6px; font-family: Arial, sans-serif;
+    font-size: 10.5pt; resize: vertical; background: #fff;
+    transition: border-color .2s;
+  }
+  textarea.answer:focus { border-color: #1565c0; outline: none; }
+  textarea.answer.correct { border-color: #388e3c; background: #f1f8f1; }
+  textarea.answer.wrong   { border-color: #c62828; background: #fff5f5; }
+  textarea.answer.partial { border-color: #f9a825; background: #fff8e1; }
+
+  table.buchung { width: 100%; border-collapse: collapse; margin: 10px 0; }
+  table.buchung th { background: #e8eaf6; font-weight: bold; font-size: 10pt; border: 1px solid #333; padding: 5px 8px; }
+  table.buchung td { border: 1px solid #aaa; padding: 3px 4px; }
+  table.buchung td.lfd { width: 38px; font-weight: bold; background: #f5f5f5; text-align: center; font-size: 10pt; }
+  table.buchung input {
+    width: 100%; border: none; background: transparent; font-family: Arial, sans-serif;
+    font-size: 10.5pt; padding: 3px 4px; box-sizing: border-box;
+  }
+  table.buchung input:focus { outline: 1px solid #1565c0; border-radius: 2px; }
+  table.buchung input.correct { background: #e8f5e9; color: #1b5e20; }
+  table.buchung input.wrong   { background: #ffebee; color: #b71c1c; }
+  table.buchung input.partial { background: #fff8e1; color: #5d4037; }
+
+  table.calc { width: 60%; border-collapse: collapse; margin: 10px 0; }
+  table.calc td { border: 1px solid #aaa; padding: 4px 8px; font-size: 10.5pt; }
+  table.calc td.label { background: #f5f5f5; font-weight: bold; width: 60%; }
+  table.calc input { width: 100%; border: none; background: transparent; font-size: 10.5pt; padding: 2px 4px; box-sizing: border-box; }
+  table.calc input.correct { background: #e8f5e9; color: #1b5e20; }
+  table.calc input.wrong   { background: #ffebee; color: #b71c1c; }
+
+  .check-btn {
+    margin-top: 8px; padding: 7px 18px; background: #1565c0; color: #fff;
+    border: none; border-radius: 4px; cursor: pointer; font-size: 10.5pt; font-weight: bold;
+  }
+  .check-btn:hover { background: #0d47a1; }
+  .reset-btn {
+    margin-top: 8px; margin-left: 8px; padding: 7px 14px; background: #757575; color: #fff;
+    border: none; border-radius: 4px; cursor: pointer; font-size: 10.5pt;
+  }
+  .reset-btn:hover { background: #424242; }
+  .show-btn {
+    margin-top: 8px; margin-left: 8px; padding: 7px 14px; background: #6a1b9a; color: #fff;
+    border: none; border-radius: 4px; cursor: pointer; font-size: 10.5pt;
+  }
+  .show-btn:hover { background: #4a148c; }
+
+  .feedback { margin-top: 6px; font-size: 10pt; padding: 6px 10px; border-radius: 4px; display: none; }
+  .feedback.correct { background: #e8f5e9; border: 1px solid #388e3c; color: #1b5e20; }
+  .feedback.wrong   { background: #ffebee; border: 1px solid #c62828; color: #b71c1c; }
+  .feedback.partial { background: #fff8e1; border: 1px solid #f9a825; color: #5d4037; }
+
+  .solution { display: none; margin-top: 8px; background: #e3f2fd; border: 1px solid #1565c0;
+    border-radius: 4px; padding: 10px 14px; font-size: 10pt; }
+
+  .page-break { page-break-before: always; margin-top: 40px; }
+  .hinweis { font-style: italic; font-size: 10pt; color: #555; margin: 4px 0; }
+
+  #score-bar { position: sticky; top: 0; z-index: 100; background: #1565c0; color: #fff;
+    padding: 8px 20px; font-size: 11pt; font-weight: bold; display: flex; justify-content: space-between; }
+
+  @media print {
+    #score-bar, .check-btn, .reset-btn, .show-btn, .solution, .feedback { display: none !important; }
+    textarea.answer, table.buchung input, table.calc input { border: 1px solid #999 !important; background: #fff !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="score-bar">
+  <span>Probeklausur 1 – KLR I: Kostenartenrechnung</span>
+  <span id="total-score">Punkte: – / 30</span>
+</div>
+
+<h1>Probeklausur 1 – Kosten- und Leistungsrechnung I<br>Schwerpunkt: Grundlagen &amp; Kostenartenrechnung</h1>
+
+<table class="header-table">
+  <tr>
+    <td><b>Matrikel-Nr.:</b> <input type="text" style="border:none;border-bottom:1px solid #000;width:180px"></td>
+    <td style="text-align:right"><b>Datum:</b> <input type="text" style="border:none;border-bottom:1px solid #000;width:120px"></td>
+  </tr>
+  <tr>
+    <td><b>Bearbeitungszeit:</b> 30 Minuten</td>
+    <td style="text-align:right"><b>Punkte:</b> ....... / 30</td>
+  </tr>
+  <tr>
+    <td><b>Hilfsmittel:</b> nicht programmierbarer Taschenrechner</td>
+    <td style="text-align:right"><b>Note:</b> ...........................</td>
+  </tr>
+</table>
+
+<!-- ══════════════ AUFGABE 1 ══════════════ -->
+<div class="question" id="q1">
+  <p class="question-title">1. Nennen und erläutern Sie die zwei Ausprägungen des Wirtschaftlichkeitsprinzips! <span class="punkte">(2 P)</span></p>
+  <textarea class="answer" id="q1-ans" rows="4" placeholder="Ihre Antwort hier…"></textarea>
+  <br>
+  <button class="check-btn" onclick="checkText('q1')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('q1-sol')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetText('q1')">Zurücksetzen</button>
+  <div class="feedback" id="q1-fb"></div>
+  <div class="solution" id="q1-sol">
+    <b>Minimalprinzip:</b> Ein vorgegebenes Ziel (Ergebnis) wird mit dem geringstmöglichen Mitteleinsatz erreicht.<br>
+    <b>Maximalprinzip:</b> Mit einem vorgegebenen Mitteleinsatz wird das größtmögliche Ergebnis erzielt.
+  </div>
+</div>
+
+<!-- ══════════════ AUFGABE 2 ══════════════ -->
+<div class="question" id="q2">
+  <p class="question-title">2. Benennen Sie die vier Teilbereiche (Subsysteme) der KLR und formulieren Sie für jeden die typische Zielfrage! <span class="punkte">(4 P)</span></p>
+  <textarea class="answer" id="q2-ans" rows="6" placeholder="Ihre Antwort hier…"></textarea>
+  <br>
+  <button class="check-btn" onclick="checkText('q2')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('q2-sol')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetText('q2')">Zurücksetzen</button>
+  <div class="feedback" id="q2-fb"></div>
+  <div class="solution" id="q2-sol">
+    <ol>
+      <li><b>Kostenartenrechnung</b> – Welche Kosten sind angefallen?</li>
+      <li><b>Kostenstellenrechnung</b> – Wo sind die Kosten angefallen?</li>
+      <li><b>Kostenträger­stückrechnung</b> – Wofür sind die Kosten angefallen? (pro Stück/Auftrag)</li>
+      <li><b>Kostenträger­zeitrechnung</b> – Wofür sind die Kosten angefallen? (pro Periode)</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ══════════════ AUFGABE 3 ══════════════ -->
+<div class="question" id="q3">
+  <p class="question-title">3. Ordnen Sie die folgenden Fälle den Kategorien zu: (a) Kosten ohne Aufwand (Zusatzkosten), (b) Aufwand ohne Kosten (neutraler Aufwand), (c) Aufwand = Kosten (Zweckaufwand / Grundkosten). <span class="punkte">(3 P)</span></p>
+  <p class="hinweis">Fälle: (1) Kalkulatorischer Unternehmerlohn des Einzelkaufmanns | (2) Spende des Unternehmens an eine gemeinnützige Organisation | (3) Rohstoffverbrauch für die Produktion | (4) Kalkulatorische Eigenmiete für selbstgenutztes Gebäude | (5) Außerordentlicher Verlust durch Hochwasser | (6) Fertigungslöhne der Produktionsarbeiter</p>
+  <textarea class="answer" id="q3-ans" rows="5" placeholder="Ihre Antwort hier…"></textarea>
+  <br>
+  <button class="check-btn" onclick="checkText('q3')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('q3-sol')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetText('q3')">Zurücksetzen</button>
+  <div class="feedback" id="q3-fb"></div>
+  <div class="solution" id="q3-sol">
+    <b>(a) Kosten ohne Aufwand (Zusatzkosten):</b> (1) Kalk. Unternehmerlohn, (4) Kalk. Eigenmiete<br>
+    <b>(b) Aufwand ohne Kosten (neutraler Aufwand):</b> (2) Spende (betriebsfremd), (5) Hochwasserschaden (außerordentlich)<br>
+    <b>(c) Aufwand = Kosten (Zweckaufwand):</b> (3) Rohstoffverbrauch, (6) Fertigungslöhne
+  </div>
+</div>
+
+<!-- ══════════════ AUFGABE 4 ══════════════ -->
+<div class="question" id="q4">
+  <p class="question-title">4. Beurteilen Sie folgende Aussagen mit richtig (R) oder falsch (F) und begründen Sie kurz! <span class="punkte">(4 P)</span></p>
+  <p class="hinweis">
+    a) Variable Kosten sind stets Einzelkosten.<br>
+    b) Fixe Kosten sind stets Leerkosten.<br>
+    c) Gemeinkosten können sowohl fix als auch variabel sein.<br>
+    d) Kalkulatorische Anderskosten werden als Aufwand erfasst, jedoch in abweichender Höhe.
+  </p>
+  <textarea class="answer" id="q4-ans" rows="6" placeholder="Ihre Antwort hier…"></textarea>
+  <br>
+  <button class="check-btn" onclick="checkText('q4')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('q4-sol')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetText('q4')">Zurücksetzen</button>
+  <div class="feedback" id="q4-fb"></div>
+  <div class="solution" id="q4-sol">
+    <b>a) Falsch</b> – Variable Kosten können auch Gemeinkosten sein (z.B. variable Maschinengemeinkosten).<br>
+    <b>b) Falsch</b> – Leerkosten sind nur der Teil der Fixkosten, der auf ungenutzte Kapazität entfällt (K_fix × (1 − Beschäftigungsgrad)). Bei 100 % Auslastung gibt es keine Leerkosten.<br>
+    <b>c) Richtig</b> – Gemeinkosten können variabel sein (z.B. Schmierstoffe für alle Maschinen) oder fix (z.B. Miete der Fabrikhalle).<br>
+    <b>d) Richtig</b> – Anderskosten entstehen, wenn der betriebliche Kostenbegriff von der handelsrechtlichen Bewertung abweicht, z.B. kalk. Abschreibung auf Wiederbeschaffungswert statt AHK.
+  </div>
+</div>
+
+<!-- ══════════════ AUFGABE 5 ══════════════ -->
+<div class="question" id="q5">
+  <p class="question-title">5. Berechnen Sie die Nutzkosten und Leerkosten der Kostenstelle „Montage"! <span class="punkte">(3 P)</span></p>
+  <p class="hinweis">Gesamtkosten: 480.000 €/Periode | Beschäftigungsgrad: 75 % | Variable Kosten: 120.000 €/Periode</p>
+  <table class="calc" id="t5">
+    <tr><td class="label">Fixkosten (K_fix)</td><td><input data-id="5-kfix" placeholder="Betrag…"></td></tr>
+    <tr><td class="label">Variable Kosten (K_v)</td><td><input data-id="5-kv" placeholder="Betrag…"></td></tr>
+    <tr><td class="label">Nutzkosten</td><td><input data-id="5-nutz" placeholder="Betrag…"></td></tr>
+    <tr><td class="label">Leerkosten</td><td><input data-id="5-leer" placeholder="Betrag…"></td></tr>
+  </table>
+  <button class="check-btn" onclick="checkCalc('5')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol5')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetCalc('t5','fb5')">Zurücksetzen</button>
+  <div class="feedback" id="fb5"></div>
+  <div class="solution" id="sol5">
+    <b>Fixkosten:</b> K_fix = 480.000 − 120.000 = <b>360.000 €</b><br>
+    <b>Variable Kosten:</b> K_v = <b>120.000 €</b><br>
+    <b>Nutzkosten:</b> K_v + K_fix × Beschäftigungsgrad = 120.000 + 360.000 × 0,75 = 120.000 + 270.000 = <b>390.000 €</b><br>
+    <b>Leerkosten:</b> K_fix × (1 − Beschäftigungsgrad) = 360.000 × 0,25 = <b>90.000 €</b><br>
+    <i>Probe: 390.000 + 90.000 = 480.000 € ✓</i>
+  </div>
+</div>
+
+<!-- ══════════════ AUFGABE 6 ══════════════ -->
+<div class="question" id="q6">
+  <p class="question-title">6. Berechnen Sie die kalkulatorische Abschreibung (linear) auf Basis des Wiederbeschaffungswertes! <span class="punkte">(4 P)</span></p>
+  <p class="hinweis">
+    Anschaffungs- und Herstellungskosten (brutto, inkl. 19 % USt): 238.000 €<br>
+    Preisindex bei Anschaffung: 105 | Preisindex für Wiederbeschaffung: 126<br>
+    Nutzungsdauer: 10 Jahre | Restwert (netto): 0 €
+  </p>
+  <table class="calc" id="t6">
+    <tr><td class="label">AHK netto</td><td><input data-id="6-ahk" placeholder="Betrag…"></td></tr>
+    <tr><td class="label">Wiederbeschaffungswert (WBW)</td><td><input data-id="6-wbw" placeholder="Betrag…"></td></tr>
+    <tr><td class="label">Kalk. Abschreibung p.a.</td><td><input data-id="6-afa" placeholder="Betrag…"></td></tr>
+  </table>
+  <button class="check-btn" onclick="checkCalc('6')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol6')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetCalc('t6','fb6')">Zurücksetzen</button>
+  <div class="feedback" id="fb6"></div>
+  <div class="solution" id="sol6">
+    <b>AHK netto:</b> 238.000 ÷ 1,19 = <b>200.000 €</b><br>
+    <b>WBW:</b> 200.000 × (126 / 105) = 200.000 × 1,20 = <b>240.000 €</b><br>
+    <b>Kalk. AfA p.a.:</b> (240.000 − 0) ÷ 10 = <b>24.000 €/Jahr</b>
+  </div>
+</div>
+
+<!-- ══════════════ AUFGABE 7 ══════════════ -->
+<div class="question" id="q7">
+  <p class="question-title">7. Ermitteln Sie die kalkulatorischen Zinsen nach der Durchschnittswertmethode! <span class="punkte">(3 P)</span></p>
+  <p class="hinweis">
+    AHK (netto): 200.000 € | Restwert (netto): 20.000 € | Kalkulationszinssatz: 8 % p.a.
+  </p>
+  <table class="calc" id="t7">
+    <tr><td class="label">Durchschnittliches gebundenes Kapital</td><td><input data-id="7-kap" placeholder="Betrag…"></td></tr>
+    <tr><td class="label">Kalk. Zinsen p.a.</td><td><input data-id="7-zins" placeholder="Betrag…"></td></tr>
+  </table>
+  <button class="check-btn" onclick="checkCalc('7')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol7')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetCalc('t7','fb7')">Zurücksetzen</button>
+  <div class="feedback" id="fb7"></div>
+  <div class="solution" id="sol7">
+    <b>Durchschnittliches Kapital:</b> (200.000 + 20.000) ÷ 2 = <b>110.000 €</b><br>
+    <b>Kalk. Zinsen p.a.:</b> 110.000 × 0,08 = <b>8.800 €/Jahr</b>
+  </div>
+</div>
+
+<!-- ══════════════ AUFGABE 8 ══════════════ -->
+<div class="question" id="q8">
+  <p class="question-title">8. Führen Sie eine Kostenauflösung mit der Hoch-Tief-Methode durch! <span class="punkte">(4 P)</span></p>
+  <p class="hinweis">
+    Kapazität: 6.000 ME/Quartal<br>
+    Quartal 1: Beschäftigung 70 % → Gesamtkosten: 325.000 €<br>
+    Quartal 3: Beschäftigung 90 % → Gesamtkosten: 382.000 €
+  </p>
+  <table class="calc" id="t8">
+    <tr><td class="label">Menge Quartal 1 (x_tief)</td><td><input data-id="8-xt" placeholder="ME"></td></tr>
+    <tr><td class="label">Menge Quartal 3 (x_hoch)</td><td><input data-id="8-xh" placeholder="ME"></td></tr>
+    <tr><td class="label">Variable Kosten pro ME (k_v)</td><td><input data-id="8-kv" placeholder="€/ME"></td></tr>
+    <tr><td class="label">Fixkosten pro Quartal (K_fix)</td><td><input data-id="8-kfix" placeholder="€"></td></tr>
+  </table>
+  <button class="check-btn" onclick="checkCalc('8')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol8')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetCalc('t8','fb8')">Zurücksetzen</button>
+  <div class="feedback" id="fb8"></div>
+  <div class="solution" id="sol8">
+    <b>x_tief:</b> 6.000 × 0,70 = <b>4.200 ME</b><br>
+    <b>x_hoch:</b> 6.000 × 0,90 = <b>5.400 ME</b><br>
+    <b>k_v:</b> (382.000 − 325.000) ÷ (5.400 − 4.200) = 57.000 ÷ 1.200 = <b>47,50 €/ME</b><br>
+    <b>K_fix:</b> 325.000 − 47,50 × 4.200 = 325.000 − 199.500 = <b>125.500 €/Quartal</b><br>
+    <i>Probe: 125.500 + 47,50 × 5.400 = 125.500 + 256.500 = 382.000 € ✓</i>
+  </div>
+</div>
+
+<!-- ══════════════ AUFGABE 9 ══════════════ -->
+<div class="question" id="q9">
+  <p class="question-title">9. Berechnen Sie die geometrisch-degressive kalkulatorische Abschreibung für t₁, t₂ und t₃! <span class="punkte">(3 P)</span></p>
+  <p class="hinweis">
+    Brutto-Anschaffungspreis: 119.000 € (inkl. 19 % USt) | Degressionssatz: 30 % | Restwert am Ende der Nutzung: 0 €
+  </p>
+  <table class="buchung" id="t9">
+    <tr><th>Periode</th><th>Buchwert Anfang</th><th>Abschreibung</th><th>Buchwert Ende</th></tr>
+    <tr>
+      <td class="lfd">t₁</td>
+      <td><input data-id="9-bw0" placeholder="€"></td>
+      <td><input data-id="9-afa1" placeholder="€"></td>
+      <td><input data-id="9-bw1" placeholder="€"></td>
+    </tr>
+    <tr>
+      <td class="lfd">t₂</td>
+      <td><input data-id="9-bw1b" placeholder="€"></td>
+      <td><input data-id="9-afa2" placeholder="€"></td>
+      <td><input data-id="9-bw2" placeholder="€"></td>
+    </tr>
+    <tr>
+      <td class="lfd">t₃</td>
+      <td><input data-id="9-bw2b" placeholder="€"></td>
+      <td><input data-id="9-afa3" placeholder="€"></td>
+      <td><input data-id="9-bw3" placeholder="€"></td>
+    </tr>
+  </table>
+  <button class="check-btn" onclick="checkBuchung9()">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol9')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetBuchung('t9')">Zurücksetzen</button>
+  <div class="feedback" id="fb9"></div>
+  <div class="solution" id="sol9">
+    <p><i>AHK netto: 119.000 ÷ 1,19 = <b>100.000 €</b></i></p>
+    <table class="buchung">
+      <tr><th>Periode</th><th>Buchwert Anfang</th><th>Abschreibung (30 %)</th><th>Buchwert Ende</th></tr>
+      <tr><td class="lfd">t₁</td><td>100.000,00</td><td>30.000,00</td><td>70.000,00</td></tr>
+      <tr><td class="lfd">t₂</td><td>70.000,00</td><td>21.000,00</td><td>49.000,00</td></tr>
+      <tr><td class="lfd">t₃</td><td>49.000,00</td><td>14.700,00</td><td>34.300,00</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════ AUFGABE 10 ══════════════ -->
+<div class="question" id="q10">
+  <p class="question-title">10. Erläutern Sie kurz den Unterschied zwischen dem Verursachungsprinzip und dem Durchschnittsprinzip als Grundsätze der Kostenzurechnung! <span class="punkte">(2 P)</span></p>
+  <textarea class="answer" id="q10-ans" rows="4" placeholder="Ihre Antwort hier…"></textarea>
+  <br>
+  <button class="check-btn" onclick="checkText('q10')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('q10-sol')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetText('q10')">Zurücksetzen</button>
+  <div class="feedback" id="q10-fb"></div>
+  <div class="solution" id="q10-sol">
+    <b>Verursachungsprinzip (Hauptprinzip):</b> Kosten werden dem Kostenträger zugerechnet, der sie verursacht hat (kausale Zurechnung). Gilt für Einzelkosten.<br><br>
+    <b>Durchschnittsprinzip (Hilfsprinzip):</b> Gemeinkosten, die sich nicht direkt zurechnen lassen, werden auf Kostenträger nach einem Schlüssel (z.B. Zuschlagssatz) verteilt. Gilt für Gemeinkosten.
+  </div>
+</div>
+
+<script>
+// ── Berechnung: Nutz-/Leerkosten, kalk. AfA, Zinsen, Hoch-Tief ─────────────
+const calcSolutions = {
+  '5': {
+    fields: {
+      '5-kfix':  { val: '360000', label: 'Fixkosten' },
+      '5-kv':    { val: '120000', label: 'Variable Kosten' },
+      '5-nutz':  { val: '390000', label: 'Nutzkosten' },
+      '5-leer':  { val: '90000',  label: 'Leerkosten' }
+    },
+    msg: 'K_fix=360.000 €; K_v=120.000 €; Nutzkosten=120.000+360.000×0,75=390.000 €; Leerkosten=360.000×0,25=90.000 €.'
+  },
+  '6': {
+    fields: {
+      '6-ahk':  { val: '200000', label: 'AHK netto' },
+      '6-wbw':  { val: '240000', label: 'WBW' },
+      '6-afa':  { val: '24000',  label: 'Kalk. AfA p.a.' }
+    },
+    msg: 'AHK netto=200.000 €; WBW=200.000×1,20=240.000 €; AfA=24.000 €/Jahr.'
+  },
+  '7': {
+    fields: {
+      '7-kap':  { val: '110000', label: 'Durchschn. Kapital' },
+      '7-zins': { val: '8800',   label: 'Kalk. Zinsen p.a.' }
+    },
+    msg: '(200.000+20.000)/2=110.000 €; 110.000×0,08=8.800 €/Jahr.'
+  },
+  '8': {
+    fields: {
+      '8-xt':   { val: '4200',   label: 'x_tief' },
+      '8-xh':   { val: '5400',   label: 'x_hoch' },
+      '8-kv':   { val: '47.50',  label: 'k_v' },
+      '8-kfix': { val: '125500', label: 'K_fix' }
+    },
+    msg: 'k_v=57.000÷1.200=47,50 €/ME; K_fix=325.000−199.500=125.500 €.'
+  }
+};
+
+function normalizeNum(s) {
+  return parseFloat((s || '').replace(/[.,\s]/g, m => m === ',' ? '.' : '')) || 0;
+}
+function roundClose(a, b) {
+  if (b === 0) return Math.abs(a) < 1;
+  return Math.abs(a - b) / Math.abs(b) < 0.005;
+}
+
+function checkCalc(id) {
+  const sol = calcSolutions[id];
+  const fb = document.getElementById('fb' + id);
+  const table = document.getElementById('t' + id);
+  const inputs = table.querySelectorAll('input');
+  let correct = 0, total = 0;
+
+  inputs.forEach(inp => {
+    const key = inp.getAttribute('data-id');
+    if (!sol.fields[key]) return;
+    total++;
+    const expected = parseFloat(sol.fields[key].val.replace(',','.'));
+    const entered = normalizeNum(inp.value);
+    inp.classList.remove('correct','wrong');
+    if (inp.value.trim() === '') return;
+    if (roundClose(entered, expected)) {
+      inp.classList.add('correct'); correct++;
+    } else {
+      inp.classList.add('wrong');
+    }
+  });
+
+  fb.style.display = 'block';
+  if (correct === total && total > 0) {
+    fb.className = 'feedback correct';
+    fb.innerHTML = '✓ Alle Werte korrekt!';
+  } else if (correct > 0) {
+    fb.className = 'feedback partial';
+    fb.innerHTML = '~ Teilweise richtig (' + correct + '/' + total + '). <b>Hinweis:</b> ' + sol.msg;
+  } else {
+    fb.className = 'feedback wrong';
+    fb.innerHTML = '✗ Nicht korrekt. <b>Hinweis:</b> ' + sol.msg;
+  }
+  updateScore();
+}
+
+function resetCalc(tableId, fbId) {
+  document.getElementById(tableId).querySelectorAll('input').forEach(i => { i.value = ''; i.className = ''; });
+  const fb = document.getElementById(fbId);
+  if (fb) fb.style.display = 'none';
+  updateScore();
+}
+
+// ── Degressive AfA-Tabelle ────────────────────────────────────────────────
+function checkBuchung9() {
+  const expected = {
+    '9-bw0':  100000, '9-afa1': 30000,  '9-bw1':  70000,
+    '9-bw1b': 70000,  '9-afa2': 21000,  '9-bw2':  49000,
+    '9-bw2b': 49000,  '9-afa3': 14700,  '9-bw3':  34300
+  };
+  const table = document.getElementById('t9');
+  const fb = document.getElementById('fb9');
+  let correct = 0, total = 0;
+  table.querySelectorAll('input').forEach(inp => {
+    const key = inp.getAttribute('data-id');
+    if (!(key in expected)) return;
+    total++;
+    inp.classList.remove('correct','wrong');
+    if (inp.value.trim() === '') return;
+    if (roundClose(normalizeNum(inp.value), expected[key])) {
+      inp.classList.add('correct'); correct++;
+    } else {
+      inp.classList.add('wrong');
+    }
+  });
+  fb.style.display = 'block';
+  if (correct === total && total > 0) {
+    fb.className = 'feedback correct';
+    fb.innerHTML = '✓ Alle Werte korrekt!';
+  } else if (correct > 0) {
+    fb.className = 'feedback partial';
+    fb.innerHTML = '~ ' + correct + '/' + total + ' Werte korrekt. Netto-AHK=100.000 €, AfA_t1=30.000, AfA_t2=21.000, AfA_t3=14.700 €.';
+  } else {
+    fb.className = 'feedback wrong';
+    fb.innerHTML = '✗ Nicht korrekt. Netto-AHK = 119.000 ÷ 1,19 = 100.000 €; dann jeweils Buchwert × 30 %.';
+  }
+  updateScore();
+}
+
+function resetBuchung(tableId) {
+  const table = document.getElementById(tableId);
+  table.querySelectorAll('input').forEach(i => { i.value = ''; i.className = ''; });
+  const fbId = 'fb' + tableId.replace('t','');
+  const fb = document.getElementById(fbId);
+  if (fb) fb.style.display = 'none';
+  updateScore();
+}
+
+// ── Theorie-Prüfung ────────────────────────────────────────────────────────
+const textKeywords = {
+  q1:  ['minimal','maximal','ziel','mittel','einsatz','ergebnis'],
+  q2:  ['kostenartenrechnung','kostenstellenrechnung','kostenträger','zeitrechnung','welche','wo','wofür','periode','stück'],
+  q3:  ['zusatzkosten','neutraler aufwand','zweckaufwand','unternehmerlohn','eigenmiete','spende','hochwasser','rohstoff','fertigungslöhne'],
+  q4:  ['falsch','richtig','leerkosten','gemeinkosten','anderskosten','einzelkosten','wiederbeschaffung'],
+  q10: ['verursachung','durchschnitt','einzelkosten','gemeinkosten','schlüssel','zurechnen','kausal']
+};
+
+function checkText(id) {
+  const val = document.getElementById(id + '-ans').value.toLowerCase();
+  const keys = textKeywords[id];
+  const hits = keys.filter(k => val.includes(k)).length;
+  const ratio = hits / keys.length;
+  const ta = document.getElementById(id + '-ans');
+  const fb = document.getElementById(id + '-fb');
+  fb.style.display = 'block';
+  ta.classList.remove('correct','wrong','partial');
+  if (ratio >= 0.5) {
+    fb.className = 'feedback correct';
+    fb.innerHTML = '✓ Gut! Die wesentlichen Begriffe sind enthalten. Vergleiche mit der Musterlösung.';
+    ta.classList.add('correct');
+  } else if (ratio >= 0.25) {
+    fb.className = 'feedback partial';
+    fb.innerHTML = '~ Ansatzweise richtig, aber noch unvollständig. Klicke auf „Musterlösung".';
+    ta.classList.add('partial');
+  } else {
+    fb.className = 'feedback wrong';
+    fb.innerHTML = '✗ Wichtige Inhalte fehlen. Klicke auf „Musterlösung".';
+    ta.classList.add('wrong');
+  }
+  updateScore();
+}
+
+function resetText(id) {
+  document.getElementById(id + '-ans').value = '';
+  document.getElementById(id + '-ans').className = 'answer';
+  document.getElementById(id + '-fb').style.display = 'none';
+  updateScore();
+}
+
+function toggleSolution(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'none' || el.style.display === '' ? 'block' : 'none';
+}
+
+function updateScore() {
+  const correctInputs = document.querySelectorAll('input.correct').length;
+  const correctTexts  = document.querySelectorAll('textarea.correct').length;
+  const partialInputs = document.querySelectorAll('input.partial').length;
+  const est = correctInputs + correctTexts * 2 + Math.round(partialInputs * 0.5);
+  document.getElementById('total-score').textContent = 'Punkte (ca.): ' + Math.min(est, 30) + ' / 30';
+}
+</script>
+</body>
+</html>

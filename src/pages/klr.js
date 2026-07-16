@@ -55,6 +55,7 @@ registerPage('klr', async (app) => {
         <button class="sub-tab" data-tab="quiz">Quiz</button>
         <button class="sub-tab" data-tab="rechnen">Rechenaufgaben</button>
         <button class="sub-tab" data-tab="aufgaben">Aufgaben</button>
+        <button class="sub-tab" data-tab="probeklausuren">Probeklausuren</button>
       </div>
       <div id="tab-content"></div>
       <div class="downloads-section">
@@ -82,7 +83,7 @@ registerPage('klr', async (app) => {
       </div>
     </div>`
 
-  setupTabs(app, { flashcards: cards, quiz: questions, rechnen: exercises, aufgaben: textExercises })
+  setupTabs(app, { flashcards: cards, quiz: questions, rechnen: exercises, aufgaben: textExercises, baseUrl: import.meta.env.BASE_URL })
   renderPdfs(app.querySelector('#pdf-list'), app.querySelector('#pdf-section'), pdfs, import.meta.env.BASE_URL + 'downloads/klr/')
 
   window.addEventListener('progress-updated', renderProgressBars)
@@ -120,6 +121,7 @@ function setupTabs(app, data) {
 
   function tabSkeleton(name) {
     if (name === 'flashcards') return `<div class="skeleton skeleton-fc"></div>`
+    if (name === 'probeklausuren') return `<div class="skeleton skeleton-text" style="width:60%;height:32px;margin-bottom:var(--space-md)"></div><div class="skeleton" style="width:100%;height:60vh;border-radius:var(--radius-md)"></div>`
     if (name === 'quiz') return Array(3).fill(`
       <div class="skeleton-card" style="margin-bottom:var(--space-md)">
         <div class="skeleton skeleton-text" style="width:80%;margin-bottom:var(--space-lg)"></div>
@@ -142,6 +144,7 @@ function setupTabs(app, data) {
     if (name === 'quiz') mountQuiz(content, data.quiz, 'klr')
     if (name === 'rechnen') mountCalculator(content, data.rechnen)
     if (name === 'aufgaben') mountTextExercises(content, data.aufgaben)
+    if (name === 'probeklausuren') mountProbeklausuren(content, data.baseUrl)
   }
 
   tabs.forEach(t => { t.onclick = () => activate(t.dataset.tab) })
@@ -162,4 +165,56 @@ function renderPdfs(list, section, pdfs, baseUrl) {
       `<a class="download-btn" href="${baseUrl}${p.file}" download="${p.file}">${p.name}</a>`
     ).join('')
   }
+}
+
+function mountProbeklausuren(container, baseUrl) {
+  const klausuren = [
+    { label: 'Probeklausur 1', file: 'Probeklausur_KLR_1.html' },
+    { label: 'Probeklausur 2', file: 'Probeklausur_KLR_2.html' },
+    { label: 'Probeklausur 3', file: 'Probeklausur_KLR_3.html' },
+  ]
+  const downloadsBase = `${baseUrl}downloads/klr/`
+
+  container.innerHTML = `
+    <div style="margin-bottom:var(--space-md);display:flex;gap:var(--space-sm);flex-wrap:wrap;align-items:center">
+      ${klausuren.map((k, i) =>
+        `<button class="pk-select-btn${i === 0 ? ' active' : ''}" data-idx="${i}">${k.label}</button>`
+      ).join('')}
+      ${isGuest()
+        ? `<span class="download-btn download-btn--locked" style="margin-left:auto" title="Anmeldung erforderlich">Herunterladen</span>`
+        : `<a id="pk-download-link" class="download-btn" style="margin-left:auto"
+             href="${downloadsBase}${klausuren[0].file}" download="${klausuren[0].file}">Herunterladen</a>`
+      }
+    </div>
+    <iframe id="pk-frame"
+      src="${downloadsBase}${klausuren[0].file}"
+      style="width:100%;height:80vh;border:1px solid var(--color-border);border-radius:var(--radius-md);background:#fff"
+      title="${klausuren[0].label}">
+    </iframe>
+    <style>
+      .pk-select-btn {
+        padding: 6px 14px; border-radius: var(--radius-pill); border: 1.5px solid var(--color-border);
+        background: var(--color-surface); color: var(--color-text); cursor: pointer;
+        font-size: 13px; font-weight: 500; transition: background .15s, border-color .15s;
+      }
+      .pk-select-btn.active, .pk-select-btn:hover {
+        background: var(--color-primary); color: #fff; border-color: var(--color-primary);
+      }
+    </style>`
+
+  const frame = container.querySelector('#pk-frame')
+  const downloadLink = container.querySelector('#pk-download-link')
+  container.querySelectorAll('.pk-select-btn').forEach(btn => {
+    btn.onclick = () => {
+      container.querySelectorAll('.pk-select-btn').forEach(b => b.classList.remove('active'))
+      btn.classList.add('active')
+      const k = klausuren[Number(btn.dataset.idx)]
+      frame.src = downloadsBase + k.file
+      frame.title = k.label
+      if (downloadLink) {
+        downloadLink.href = downloadsBase + k.file
+        downloadLink.download = k.file
+      }
+    }
+  })
 }

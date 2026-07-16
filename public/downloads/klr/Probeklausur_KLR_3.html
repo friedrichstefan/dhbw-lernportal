@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Probeklausur 3 – KLR I: Teilkostenrechnung &amp; Kostentragerzeitrechnung</title>
+<style>
+  body { font-family: Arial, sans-serif; font-size: 11pt; margin: 40px; color: #000; background: #fafafa; }
+  h1 { font-size: 13pt; font-weight: bold; text-align: center; border-bottom: 2px solid #000; padding-bottom: 6px; }
+  .header-table { width: 100%; border-collapse: collapse; margin: 12px 0 20px 0; }
+  .header-table td { padding: 4px 8px; }
+  .question { margin-top: 22px; }
+  .question-title { font-weight: bold; }
+  .punkte { float: right; font-weight: bold; }
+
+  textarea.answer {
+    width: 100%; box-sizing: border-box; border: 1px solid #bbb;
+    border-radius: 3px; padding: 6px; font-family: Arial, sans-serif;
+    font-size: 10.5pt; resize: vertical; background: #fff; transition: border-color .2s;
+  }
+  textarea.answer:focus { border-color: #1565c0; outline: none; }
+  textarea.answer.correct { border-color: #388e3c; background: #f1f8f1; }
+  textarea.answer.wrong   { border-color: #c62828; background: #fff5f5; }
+  textarea.answer.partial { border-color: #f9a825; background: #fff8e1; }
+
+  table.buchung { width: 100%; border-collapse: collapse; margin: 10px 0; }
+  table.buchung th { background: #e8eaf6; font-weight: bold; font-size: 10pt; border: 1px solid #333; padding: 5px 8px; }
+  table.buchung td { border: 1px solid #aaa; padding: 3px 6px; }
+  table.buchung td.lfd { width: 110px; font-weight: bold; background: #f5f5f5; font-size: 10pt; }
+  table.buchung input { width: 100%; border: none; background: transparent; font-family: Arial, sans-serif; font-size: 10.5pt; padding: 3px 4px; box-sizing: border-box; }
+  table.buchung input:focus { outline: 1px solid #1565c0; border-radius: 2px; }
+  table.buchung input.correct { background: #e8f5e9; color: #1b5e20; }
+  table.buchung input.wrong   { background: #ffebee; color: #b71c1c; }
+
+  table.calc { width: 65%; border-collapse: collapse; margin: 10px 0; }
+  table.calc td { border: 1px solid #aaa; padding: 4px 8px; font-size: 10.5pt; }
+  table.calc td.label { background: #f5f5f5; font-weight: bold; width: 65%; }
+  table.calc td.subtotal { background: #e8eaf6; font-weight: bold; }
+  table.calc td.total { background: #bbdefb; font-weight: bold; font-size: 11pt; }
+  table.calc input { width: 100%; border: none; background: transparent; font-size: 10.5pt; padding: 2px 4px; box-sizing: border-box; }
+  table.calc input.correct { background: #e8f5e9; color: #1b5e20; }
+  table.calc input.wrong   { background: #ffebee; color: #b71c1c; }
+
+  .check-btn { margin-top: 8px; padding: 7px 18px; background: #1565c0; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 10.5pt; font-weight: bold; }
+  .check-btn:hover { background: #0d47a1; }
+  .reset-btn { margin-top: 8px; margin-left: 8px; padding: 7px 14px; background: #757575; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 10.5pt; }
+  .reset-btn:hover { background: #424242; }
+  .show-btn { margin-top: 8px; margin-left: 8px; padding: 7px 14px; background: #6a1b9a; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 10.5pt; }
+  .show-btn:hover { background: #4a148c; }
+
+  .feedback { margin-top: 6px; font-size: 10pt; padding: 6px 10px; border-radius: 4px; display: none; }
+  .feedback.correct { background: #e8f5e9; border: 1px solid #388e3c; color: #1b5e20; }
+  .feedback.wrong   { background: #ffebee; border: 1px solid #c62828; color: #b71c1c; }
+  .feedback.partial { background: #fff8e1; border: 1px solid #f9a825; color: #5d4037; }
+
+  .solution { display: none; margin-top: 8px; background: #e3f2fd; border: 1px solid #1565c0; border-radius: 4px; padding: 10px 14px; font-size: 10pt; }
+
+  .page-break { page-break-before: always; margin-top: 40px; }
+  .hinweis { font-style: italic; font-size: 10pt; color: #555; margin: 4px 0; }
+
+  #score-bar { position: sticky; top: 0; z-index: 100; background: #1565c0; color: #fff;
+    padding: 8px 20px; font-size: 11pt; font-weight: bold; display: flex; justify-content: space-between; }
+
+  @media print {
+    #score-bar, .check-btn, .reset-btn, .show-btn, .solution, .feedback { display: none !important; }
+    textarea.answer, table.buchung input, table.calc input { border: 1px solid #999 !important; background: #fff !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="score-bar">
+  <span>Probeklausur 3 – KLR I: Teilkostenrechnung &amp; Zeitrechnung</span>
+  <span id="total-score">Punkte: – / 32</span>
+</div>
+
+<h1>Probeklausur 3 – Kosten- und Leistungsrechnung I<br>Schwerpunkt: Teilkostenrechnung &amp; Kostentragerzeitrechnung</h1>
+
+<table class="header-table">
+  <tr>
+    <td><b>Matrikel-Nr.:</b> <input type="text" style="border:none;border-bottom:1px solid #000;width:180px"></td>
+    <td style="text-align:right"><b>Datum:</b> <input type="text" style="border:none;border-bottom:1px solid #000;width:120px"></td>
+  </tr>
+  <tr>
+    <td><b>Bearbeitungszeit:</b> 32 Minuten</td>
+    <td style="text-align:right"><b>Punkte:</b> ....... / 32</td>
+  </tr>
+  <tr>
+    <td><b>Hilfsmittel:</b> nicht programmierbarer Taschenrechner</td>
+    <td style="text-align:right"><b>Note:</b> ...........................</td>
+  </tr>
+</table>
+
+<!-- ══════════════ AUFGABE 1 ══════════════ -->
+<div class="question" id="q1">
+  <p class="question-title">1. Erläutern Sie den grundlegenden Unterschied zwischen Vollkostenrechnung und Teilkostenrechnung! <span class="punkte">(2 P)</span></p>
+  <textarea class="answer" id="q1-ans" rows="4" placeholder="Ihre Antwort hier…"></textarea>
+  <br>
+  <button class="check-btn" onclick="checkText('q1')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('q1-sol')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetText('q1')">Zurücksetzen</button>
+  <div class="feedback" id="q1-fb"></div>
+  <div class="solution" id="q1-sol">
+    Bei der <b>Vollkostenrechnung</b> werden alle Kosten (variable und fixe) den Kostenträgern zugerechnet. Bei der <b>Teilkostenrechnung</b> werden nur die <b>variablen Kosten</b> den Kostenträgern zugerechnet; die fixen Kosten werden als Periodenkosten behandelt und nicht auf Produkte verteilt. Dadurch entfällt die willkürliche Fixkostenschlüsselung, und kurzfristige Entscheidungen können besser getroffen werden.
+  </div>
+</div>
+
+<!-- ══════════════ AUFGABE 2 ══════════════ -->
+<div class="question" id="q2">
+  <p class="question-title">2. Deckungsbeitragsrechnung – Omega AG (Mehrproduktunternehmen) <span class="punkte">(6 P)</span></p>
+  <p class="hinweis">
+    Produkt X: Erlös je ME = 24,00 € | variable Kosten je ME = 15,60 € | Absatzmenge = 180.000 ME<br>
+    Produkt Y: Erlös je ME = 8,50 € | variable Kosten je ME = 6,70 € | Absatzmenge = 320.000 ME<br>
+    Produkt Z: Erlös je ME = 35,00 € | variable Kosten je ME = 38,50 € | Absatzmenge = 50.000 ME<br>
+    Gesamte Fixkosten: 1.200.000 €
+  </p>
+  <table class="buchung" id="t2">
+    <tr><th>Produkt</th><th>e (€/ME)</th><th>k_v (€/ME)</th><th>db (€/ME)</th><th>Menge (ME)</th><th>DB (€)</th></tr>
+    <tr>
+      <td class="lfd">X</td><td>24,00</td><td>15,60</td>
+      <td><input data-id="2-db-x" placeholder="€"></td><td>180.000</td>
+      <td><input data-id="2-DB-x" placeholder="€"></td>
+    </tr>
+    <tr>
+      <td class="lfd">Y</td><td>8,50</td><td>6,70</td>
+      <td><input data-id="2-db-y" placeholder="€"></td><td>320.000</td>
+      <td><input data-id="2-DB-y" placeholder="€"></td>
+    </tr>
+    <tr>
+      <td class="lfd">Z</td><td>35,00</td><td>38,50</td>
+      <td><input data-id="2-db-z" placeholder="€"></td><td>50.000</td>
+      <td><input data-id="2-DB-z" placeholder="€"></td>
+    </tr>
+    <tr>
+      <td class="lfd" colspan="5"><b>Gesamt-DB</b></td>
+      <td><input data-id="2-sumDB" placeholder="€"></td>
+    </tr>
+    <tr>
+      <td class="lfd" colspan="5">− Fixkosten</td>
+      <td>1.200.000 €</td>
+    </tr>
+    <tr>
+      <td class="lfd" colspan="5"><b>Betriebsergebnis (BE)</b></td>
+      <td><input data-id="2-be" placeholder="€"></td>
+    </tr>
+  </table>
+  <p class="question-title" style="margin-top:10px">Empfehlen Sie auf Basis der Rechnung: Soll Produkt Z weiterhin produziert werden? Begründen Sie kurz! <span class="punkte"></span></p>
+  <textarea class="answer" id="q2-empf" rows="3" placeholder="Ihre Empfehlung hier…"></textarea>
+  <button class="check-btn" onclick="checkDB()">Prüfen (Rechnung)</button>
+  <button class="show-btn" onclick="toggleSolution('sol2')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetDB()">Zurücksetzen</button>
+  <div class="feedback" id="fb2"></div>
+  <div class="solution" id="sol2">
+    <b>db_X</b> = 24,00 − 15,60 = 8,40 € | <b>DB_X</b> = 8,40 × 180.000 = <b>1.512.000 €</b><br>
+    <b>db_Y</b> = 8,50 − 6,70 = 1,80 € | <b>DB_Y</b> = 1,80 × 320.000 = <b>576.000 €</b><br>
+    <b>db_Z</b> = 35,00 − 38,50 = <b>−3,50 €</b> | <b>DB_Z</b> = −3,50 × 50.000 = <b>−175.000 €</b><br>
+    <b>Gesamt-DB</b> = 1.512.000 + 576.000 − 175.000 = <b>1.913.000 €</b><br>
+    <b>BE</b> = 1.913.000 − 1.200.000 = <b>713.000 €</b><br><br>
+    <b>Empfehlung Produkt Z:</b> Produkt Z hat einen negativen Stückdeckungsbeitrag (−3,50 €). Jede produzierte ME verschlechtert das Betriebsergebnis. Aus rein quantitativer Sicht sollte Z <b>kurzfristig aus dem Sortiment genommen</b> werden. Qualitative Faktoren (Komplementärwirkung auf X oder Y, Kundenbindung) sollten jedoch zusätzlich geprüft werden.
+  </div>
+</div>
+
+<!-- ══════════════ AUFGABE 3 ══════════════ -->
+<div class="question" id="q3">
+  <p class="question-title">3. Zusatzauftrag bei freien Kapazitäten – T-Metallbau GmbH <span class="punkte">(5 P)</span></p>
+  <p class="hinweis">
+    Normale Kapazität: 80.000 Stück/Monat | aktuelle Auslastung: 75 %<br>
+    Variable Kosten je ME: 18,50 € | bestehender Verkaufspreis: 26,00 €/ME<br><br>
+    Es liegen drei Zusatzanfragen vor:<br>
+    Auftrag A: 15.000 ME zu 20,00 €/ME<br>
+    Auftrag B: 8.000 ME zu 17,80 €/ME<br>
+    Auftrag C: 25.000 ME zu 22,50 €/ME
+  </p>
+  <table class="buchung" id="t3">
+    <tr><th>Auftrag</th><th>Menge (ME)</th><th>Angebotspreis (€/ME)</th><th>k_v (€/ME)</th><th>db (€/ME)</th><th>DB (€)</th><th>Entscheidung</th></tr>
+    <tr>
+      <td class="lfd">A</td><td>15.000</td><td>20,00</td><td>18,50</td>
+      <td><input data-id="3-db-a" placeholder="€"></td>
+      <td><input data-id="3-DB-a" placeholder="€"></td>
+      <td><input data-id="3-ent-a" placeholder="annehmen/ablehnen"></td>
+    </tr>
+    <tr>
+      <td class="lfd">B</td><td>8.000</td><td>17,80</td><td>18,50</td>
+      <td><input data-id="3-db-b" placeholder="€"></td>
+      <td><input data-id="3-DB-b" placeholder="€"></td>
+      <td><input data-id="3-ent-b" placeholder="annehmen/ablehnen"></td>
+    </tr>
+    <tr>
+      <td class="lfd">C</td><td>25.000</td><td>22,50</td><td>18,50</td>
+      <td><input data-id="3-db-c" placeholder="€"></td>
+      <td><input data-id="3-DB-c" placeholder="€"></td>
+      <td><input data-id="3-ent-c" placeholder="annehmen/ablehnen"></td>
+    </tr>
+  </table>
+  <p class="hinweis" style="margin-top:6px">Hinweis: Prüfen Sie zuerst die verfügbare Restkapazität!</p>
+  <button class="check-btn" onclick="checkZusatz()">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol3')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetBuchung('t3')">Zurücksetzen</button>
+  <div class="feedback" id="fb3"></div>
+  <div class="solution" id="sol3">
+    <b>Restkapazität:</b> 80.000 × (1 − 0,75) = 80.000 × 0,25 = <b>20.000 ME</b><br><br>
+    <b>Auftrag A (15.000 ME):</b> db = 20,00 − 18,50 = 1,50 € | DB = +22.500 € → <b>annehmen</b> (passt in Kapazität)<br>
+    <b>Auftrag B (8.000 ME):</b> db = 17,80 − 18,50 = −0,70 € | DB = −5.600 € → <b>ablehnen</b> (negativer db)<br>
+    <b>Auftrag C (25.000 ME):</b> db = 22,50 − 18,50 = 4,00 € | DB = +100.000 € → <b>ablehnen</b>, da benötigte Menge (25.000) die Restkapazität (20.000) übersteigt. Teilannahme bis 20.000 ME wäre möglich (DB = +80.000 €), aber qualitative Faktoren beachten.<br><br>
+    <i>Qualitative Hinweise: Preiserosion beim Bestandskundenpreis 26 €? Kundenbindungseffekte? Markteintritt Wettbewerb?</i>
+  </div>
+</div>
+
+<!-- ══════════════ AUFGABE 4 ══════════════ -->
+<div class="question page-break" id="q4">
+  <p class="question-title">4. Gesamtkostenverfahren (GKV) vs. Umsatzkostenverfahren (UKV) – Polaris GmbH <span class="punkte">(8 P)</span></p>
+  <p class="hinweis">
+    Umsatzerlöse: 950.000 € | Produktionsmenge: 12.000 ME | Absatzmenge: 11.000 ME<br>
+    Herstellkosten gesamt (für 12.000 ME produzierte Menge): 720.000 €<br>
+    Verwaltungskosten: 48.000 € | Vertriebskosten: 62.000 €<br>
+    (Keine Anfangsbestände; alle produzierten und nicht abgesetzten ME bleiben als Fertigerzeugnisse.)
+  </p>
+
+  <p class="question-title" style="margin-top:12px">4a) Erstellen Sie die kurzfristige Erfolgsrechnung nach dem <u>Gesamtkostenverfahren</u>! <span class="punkte">(4 P)</span></p>
+  <table class="calc" id="t4a">
+    <tr><td class="label">Umsatzerlöse</td><td><input data-id="4a-ue" placeholder="€"></td></tr>
+    <tr><td class="label">+/− Bestandsveränderung Fertigerzeugnisse</td><td><input data-id="4a-bv" placeholder="€"></td></tr>
+    <tr><td class="label subtotal">= Gesamtleistung</td><td><input data-id="4a-gl" placeholder="€"></td></tr>
+    <tr><td class="label">− Herstellkosten (gesamt, 12.000 ME)</td><td><input data-id="4a-hk" placeholder="€"></td></tr>
+    <tr><td class="label">− Verwaltungskosten</td><td><input data-id="4a-vw" placeholder="€"></td></tr>
+    <tr><td class="label">− Vertriebskosten</td><td><input data-id="4a-vt" placeholder="€"></td></tr>
+    <tr><td class="label total">= Betriebsergebnis (GKV)</td><td><input data-id="4a-be" placeholder="€"></td></tr>
+  </table>
+  <button class="check-btn" onclick="checkCalcTable('4a')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol4a')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetCalcTable('t4a','fb4a')">Zurücksetzen</button>
+  <div class="feedback" id="fb4a"></div>
+  <div class="solution" id="sol4a">
+    <b>HK/ME = 720.000 ÷ 12.000 = 60 €/ME</b><br>
+    <b>Bestandserhöhung = (12.000 − 11.000) × 60 = 1.000 × 60 = +60.000 €</b><br>
+    <table class="calc">
+      <tr><td class="label">Umsatzerlöse</td><td>950.000 €</td></tr>
+      <tr><td class="label">+ Bestandserhöhung FE</td><td>+60.000 €</td></tr>
+      <tr><td class="label subtotal">= Gesamtleistung</td><td><b>1.010.000 €</b></td></tr>
+      <tr><td class="label">− HK (12.000 ME)</td><td>−720.000 €</td></tr>
+      <tr><td class="label">− Verwaltungskosten</td><td>−48.000 €</td></tr>
+      <tr><td class="label">− Vertriebskosten</td><td>−62.000 €</td></tr>
+      <tr><td class="label total">= BE (GKV)</td><td><b>180.000 €</b></td></tr>
+    </table>
+  </div>
+
+  <p class="question-title" style="margin-top:16px">4b) Erstellen Sie die kurzfristige Erfolgsrechnung nach dem <u>Umsatzkostenverfahren</u>! <span class="punkte">(4 P)</span></p>
+  <p class="hinweis">Hinweis: HK des Umsatzes = HK/ME × abgesetzte Menge. Bestandsveränderungen werden beim UKV nicht separat ausgewiesen.</p>
+  <table class="calc" id="t4b">
+    <tr><td class="label">Umsatzerlöse</td><td><input data-id="4b-ue" placeholder="€"></td></tr>
+    <tr><td class="label">− HK des Umsatzes (11.000 ME × HK/ME)</td><td><input data-id="4b-hku" placeholder="€"></td></tr>
+    <tr><td class="label subtotal">= Bruttoergebnis vom Umsatz</td><td><input data-id="4b-brug" placeholder="€"></td></tr>
+    <tr><td class="label">− Verwaltungskosten</td><td><input data-id="4b-vw" placeholder="€"></td></tr>
+    <tr><td class="label">− Vertriebskosten</td><td><input data-id="4b-vt" placeholder="€"></td></tr>
+    <tr><td class="label total">= Betriebsergebnis (UKV)</td><td><input data-id="4b-be" placeholder="€"></td></tr>
+  </table>
+  <button class="check-btn" onclick="checkCalcTable('4b')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol4b')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetCalcTable('t4b','fb4b')">Zurücksetzen</button>
+  <div class="feedback" id="fb4b"></div>
+  <div class="solution" id="sol4b">
+    <b>HK des Umsatzes = 11.000 × 60 = 660.000 €</b><br>
+    <table class="calc">
+      <tr><td class="label">Umsatzerlöse</td><td>950.000 €</td></tr>
+      <tr><td class="label">− HK des Umsatzes</td><td>−660.000 €</td></tr>
+      <tr><td class="label subtotal">= Bruttoergebnis</td><td><b>290.000 €</b></td></tr>
+      <tr><td class="label">− Verwaltungskosten</td><td>−48.000 €</td></tr>
+      <tr><td class="label">− Vertriebskosten</td><td>−62.000 €</td></tr>
+      <tr><td class="label total">= BE (UKV)</td><td><b>180.000 €</b></td></tr>
+    </table>
+    <i>Probe: GKV und UKV liefern dasselbe BE = 180.000 € ✓</i>
+  </div>
+</div>
+
+<!-- ══════════════ AUFGABE 5 ══════════════ -->
+<div class="question" id="q5">
+  <p class="question-title">5. Erläutern Sie zwei wesentliche Unterschiede zwischen GKV und UKV hinsichtlich der Kostengliederung und des Informationsgehalts! <span class="punkte">(4 P)</span></p>
+  <textarea class="answer" id="q5-ans" rows="5" placeholder="Ihre Antwort hier…"></textarea>
+  <br>
+  <button class="check-btn" onclick="checkText('q5')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('q5-sol')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetText('q5')">Zurücksetzen</button>
+  <div class="feedback" id="q5-fb"></div>
+  <div class="solution" id="q5-sol">
+    <b>1. Kostengliederung:</b><br>
+    GKV gliedert Kosten <b>primär</b> nach Kostenarten (Materialkosten, Lohnkosten, Abschreibungen usw.). UKV gliedert <b>sekundär</b> nach Kostenstellen/Funktionsbereichen (Herstellkosten des Umsatzes, Verwaltungskosten, Vertriebskosten).<br><br>
+    <b>2. Ausweis von Bestandsveränderungen:</b><br>
+    Das GKV weist <b>Bestandsveränderungen explizit aus</b> (Produktionsmenge ist Ausgangspunkt). Das UKV weist Bestandsveränderungen <b>nicht separat aus</b> (nur die abgesetzten Mengen fließen über die HK des Umsatzes ein). Dafür zeigt das UKV das <b>Bruttoergebnis vom Umsatz</b>, das für die operative Profitabilitätsanalyse nach Produktgruppen besonders geeignet ist.<br><br>
+    <i>Beide Verfahren liefern dasselbe Betriebsergebnis!</i>
+  </div>
+</div>
+
+<!-- ══════════════ AUFGABE 6 ══════════════ -->
+<div class="question" id="q6">
+  <p class="question-title">6. Maschinenstundensatzkalkulation – Kostenstelle M-2 <span class="punkte">(7 P)</span></p>
+  <p class="hinweis">
+    Brutto-Maschinenlaufzeit: 4.200 Maschinenstunden (M-h)<br>
+    Geplante Ausfallzeiten (Wartung, Rüsten): 420 M-h<br>
+    Maschinenabhängige FGK: 1.260.000 € | Maschinenunabhängige FGK: 378.000 €<br>
+    Fertigungseinzelkosten (FEK): 540.000 €
+  </p>
+
+  <p class="question-title" style="margin-top:10px">6a) Berechnen Sie den Maschinenstundensatz und den Rest-FGK-Zuschlagssatz! <span class="punkte">(3 P)</span></p>
+  <table class="calc" id="t6a">
+    <tr><td class="label">Netto-Maschinenlaufzeit (M-h)</td><td><input data-id="6a-nmlz" placeholder="M-h"></td></tr>
+    <tr><td class="label">Maschinenstundensatz (MSS) in €/M-h</td><td><input data-id="6a-mss" placeholder="€/M-h"></td></tr>
+    <tr><td class="label">Rest-FGK-Zuschlagssatz (%)</td><td><input data-id="6a-rfgk" placeholder="%"></td></tr>
+  </table>
+  <button class="check-btn" onclick="checkCalcTable('6a')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol6a')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetCalcTable('t6a','fb6a')">Zurücksetzen</button>
+  <div class="feedback" id="fb6a"></div>
+  <div class="solution" id="sol6a">
+    <b>Netto-MLZ:</b> 4.200 − 420 = <b>3.780 M-h</b><br>
+    <b>MSS:</b> 1.260.000 ÷ 3.780 = <b>333,33 €/M-h</b><br>
+    <b>Rest-FGK-Zuschlag:</b> 378.000 ÷ 540.000 × 100 = <b>70 %</b>
+  </div>
+
+  <p class="question-title" style="margin-top:14px">6b) Kalkulieren Sie die Herstellkosten eines Auftrags! <span class="punkte">(4 P)</span></p>
+  <p class="hinweis">
+    MEK: 850 € | FEK: 480 € | SEKF: 120 €<br>
+    Bearbeitungszeit in Kostenstelle M-2: 2,5 Maschinenstunden<br>
+    GK-Sätze übrige Stellen: MGK 6 %, VwGK 8 %, VtGK 12 %
+  </p>
+  <table class="calc" id="t6b">
+    <tr><td class="label">MEK</td><td><input data-id="6b-mek" placeholder="€"></td></tr>
+    <tr><td class="label">+ MGK (6 % auf MEK)</td><td><input data-id="6b-mgk" placeholder="€"></td></tr>
+    <tr><td class="label">+ FEK</td><td><input data-id="6b-fek" placeholder="€"></td></tr>
+    <tr><td class="label">+ Rest-FGK (70 % auf FEK)</td><td><input data-id="6b-rfgk" placeholder="€"></td></tr>
+    <tr><td class="label">+ Maschinenkosten (MSS × 2,5 M-h)</td><td><input data-id="6b-mk" placeholder="€"></td></tr>
+    <tr><td class="label">+ SEKF</td><td><input data-id="6b-sekf" placeholder="€"></td></tr>
+    <tr><td class="label subtotal">= Herstellkosten (HK)</td><td><input data-id="6b-hk" placeholder="€"></td></tr>
+    <tr><td class="label">+ VwGK (8 % auf HK)</td><td><input data-id="6b-vwgk" placeholder="€"></td></tr>
+    <tr><td class="label">+ VtGK (12 % auf HK)</td><td><input data-id="6b-vtgk" placeholder="€"></td></tr>
+    <tr><td class="label total">= Selbstkosten (SK)</td><td><input data-id="6b-sk" placeholder="€"></td></tr>
+  </table>
+  <button class="check-btn" onclick="checkCalcTable('6b')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol6b')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetCalcTable('t6b','fb6b')">Zurücksetzen</button>
+  <div class="feedback" id="fb6b"></div>
+  <div class="solution" id="sol6b">
+    <table class="calc">
+      <tr><td class="label">MEK</td><td>850,00 €</td></tr>
+      <tr><td class="label">+ MGK (6 %)</td><td>51,00 €</td></tr>
+      <tr><td class="label">+ FEK</td><td>480,00 €</td></tr>
+      <tr><td class="label">+ Rest-FGK (70 %)</td><td>336,00 €</td></tr>
+      <tr><td class="label">+ Maschinenkosten (333,33 × 2,5)</td><td>833,33 €</td></tr>
+      <tr><td class="label">+ SEKF</td><td>120,00 €</td></tr>
+      <tr><td class="label subtotal">= HK</td><td><b>2.670,33 €</b></td></tr>
+      <tr><td class="label">+ VwGK (8 %)</td><td>213,63 €</td></tr>
+      <tr><td class="label">+ VtGK (12 %)</td><td>320,44 €</td></tr>
+      <tr><td class="label total">= SK</td><td><b>3.204,40 €</b></td></tr>
+    </table>
+  </div>
+</div>
+
+<script>
+// ── Lösung-Tabellen ─────────────────────────────────────────────────────────
+const tableCalcSolutions = {
+  '4a': {
+    fields: { '4a-ue': 950000, '4a-bv': 60000, '4a-gl': 1010000, '4a-hk': 720000, '4a-vw': 48000, '4a-vt': 62000, '4a-be': 180000 },
+    msg: 'Bestandserhöhung = 1.000 ME × 60 €/ME = 60.000 €; Gesamtleistung = 1.010.000 €; BE = 180.000 €.'
+  },
+  '4b': {
+    fields: { '4b-ue': 950000, '4b-hku': 660000, '4b-brug': 290000, '4b-vw': 48000, '4b-vt': 62000, '4b-be': 180000 },
+    msg: 'HK Umsatz = 11.000 × 60 = 660.000 €; Bruttoergebnis = 290.000 €; BE = 180.000 €.'
+  },
+  '6a': {
+    fields: { '6a-nmlz': 3780, '6a-mss': 333.33, '6a-rfgk': 70 },
+    msg: 'Netto-MLZ=4.200−420=3.780 M-h; MSS=1.260.000÷3.780=333,33 €/M-h; Rest-FGK=378.000÷540.000×100=70%.'
+  },
+  '6b': {
+    fields: { '6b-mek': 850, '6b-mgk': 51, '6b-fek': 480, '6b-rfgk': 336, '6b-mk': 833.33, '6b-sekf': 120, '6b-hk': 2670.33, '6b-vwgk': 213.63, '6b-vtgk': 320.44, '6b-sk': 3204.40 },
+    msg: 'MSS×2,5=833,33; HK=2.670,33; VwGK=213,63; VtGK=320,44; SK=3.204,40 €.'
+  }
+};
+
+function normalizeNum(s) {
+  const cleaned = (s || '').replace(/\s/g,'').replace(',','.');
+  return parseFloat(cleaned) || 0;
+}
+function roundClose(a, b) {
+  if (Math.abs(b) < 0.001) return Math.abs(a) < 0.01;
+  return Math.abs(a - b) / Math.abs(b) < 0.015;
+}
+
+function checkCalcTable(id) {
+  const sol = tableCalcSolutions[id];
+  const fb = document.getElementById('fb' + id);
+  const table = document.getElementById('t' + id);
+  let correct = 0, total = 0;
+  table.querySelectorAll('input[data-id]').forEach(inp => {
+    const key = inp.getAttribute('data-id');
+    if (!(key in sol.fields)) return;
+    total++;
+    inp.classList.remove('correct','wrong');
+    if (inp.value.trim() === '') return;
+    if (roundClose(normalizeNum(inp.value), sol.fields[key])) {
+      inp.classList.add('correct'); correct++;
+    } else {
+      inp.classList.add('wrong');
+    }
+  });
+  fb.style.display = 'block';
+  if (correct === total && total > 0) {
+    fb.className = 'feedback correct';
+    fb.innerHTML = '✓ Alle Werte korrekt!';
+  } else if (correct > 0) {
+    fb.className = 'feedback partial';
+    fb.innerHTML = '~ Teilweise richtig (' + correct + '/' + total + '). <b>Hinweis:</b> ' + sol.msg;
+  } else {
+    fb.className = 'feedback wrong';
+    fb.innerHTML = '✗ Nicht korrekt. <b>Hinweis:</b> ' + sol.msg;
+  }
+  updateScore();
+}
+
+function resetCalcTable(tableId, fbId) {
+  document.getElementById(tableId).querySelectorAll('input[data-id]').forEach(i => { i.value = ''; i.className = ''; });
+  const fb = document.getElementById(fbId);
+  if (fb) fb.style.display = 'none';
+  updateScore();
+}
+
+// ── Deckungsbeitragsrechnung (Aufgabe 2) ───────────────────────────────────
+function checkDB() {
+  const expected = {
+    '2-db-x':  8.40, '2-DB-x': 1512000,
+    '2-db-y':  1.80, '2-DB-y': 576000,
+    '2-db-z': -3.50, '2-DB-z': -175000,
+    '2-sumDB': 1913000, '2-be': 713000
+  };
+  const fb = document.getElementById('fb2');
+  const table = document.getElementById('t2');
+  let correct = 0, total = 0;
+  table.querySelectorAll('input[data-id]').forEach(inp => {
+    const key = inp.getAttribute('data-id');
+    if (!(key in expected)) return;
+    total++;
+    inp.classList.remove('correct','wrong');
+    if (inp.value.trim() === '') return;
+    if (roundClose(normalizeNum(inp.value), expected[key])) {
+      inp.classList.add('correct'); correct++;
+    } else {
+      inp.classList.add('wrong');
+    }
+  });
+  fb.style.display = 'block';
+  if (correct === total && total > 0) {
+    fb.className = 'feedback correct';
+    fb.innerHTML = '✓ Alle Werte korrekt! Denke auch an die schriftliche Empfehlung zu Produkt Z.';
+  } else if (correct > 0) {
+    fb.className = 'feedback partial';
+    fb.innerHTML = '~ ' + correct + '/' + total + ' richtig. db_X=8,40; db_Y=1,80; db_Z=−3,50 €; Gesamt-DB=1.913.000; BE=713.000 €.';
+  } else {
+    fb.className = 'feedback wrong';
+    fb.innerHTML = '✗ db = e − k_v; DB = db × Menge; BE = Gesamt-DB − K_fix.';
+  }
+  updateScore();
+}
+
+function resetDB() {
+  document.getElementById('t2').querySelectorAll('input').forEach(i => { i.value = ''; i.className = ''; });
+  document.getElementById('q2-empf').value = '';
+  document.getElementById('q2-empf').className = 'answer';
+  document.getElementById('fb2').style.display = 'none';
+  updateScore();
+}
+
+// ── Zusatzauftrag (Aufgabe 3) ──────────────────────────────────────────────
+function checkZusatz() {
+  const expected = {
+    '3-db-a':  1.50, '3-DB-a':  22500, '3-ent-a': 'annehmen',
+    '3-db-b': -0.70, '3-DB-b': -5600,  '3-ent-b': 'ablehnen',
+    '3-db-c':  4.00, '3-DB-c': 100000, '3-ent-c': 'ablehnen'
+  };
+  const fb = document.getElementById('fb3');
+  const table = document.getElementById('t3');
+  let correct = 0, total = 0;
+  table.querySelectorAll('input[data-id]').forEach(inp => {
+    const key = inp.getAttribute('data-id');
+    if (!(key in expected)) return;
+    total++;
+    inp.classList.remove('correct','wrong');
+    if (inp.value.trim() === '') return;
+    const expVal = expected[key];
+    let isCorrect;
+    if (typeof expVal === 'string') {
+      isCorrect = inp.value.trim().toLowerCase().includes(expVal);
+    } else {
+      isCorrect = roundClose(normalizeNum(inp.value), expVal);
+    }
+    if (isCorrect) { inp.classList.add('correct'); correct++; }
+    else { inp.classList.add('wrong'); }
+  });
+  fb.style.display = 'block';
+  if (correct === total && total > 0) {
+    fb.className = 'feedback correct';
+    fb.innerHTML = '✓ Alle Werte und Entscheidungen korrekt!';
+  } else if (correct > 0) {
+    fb.className = 'feedback partial';
+    fb.innerHTML = '~ ' + correct + '/' + total + ' richtig. Restkapazität = 20.000 ME. A: db=1,50 → annehmen; B: db=−0,70 → ablehnen; C: db=4,00 aber Menge > Restkapazität → ablehnen.';
+  } else {
+    fb.className = 'feedback wrong';
+    fb.innerHTML = '✗ Zuerst Restkapazität prüfen: 80.000 × 25 % = 20.000 ME. Dann: db = Preis − k_v; positiver db + freie Kapazität → annehmen.';
+  }
+  updateScore();
+}
+
+function resetBuchung(tableId) {
+  document.getElementById(tableId).querySelectorAll('input').forEach(i => { i.value = ''; i.className = ''; });
+  const fbId = 'fb' + tableId.replace('t','');
+  const fb = document.getElementById(fbId);
+  if (fb) fb.style.display = 'none';
+  updateScore();
+}
+
+const textKeywords = {
+  q1:  ['variable','fixe','vollkosten','teilkosten','periode','kostenträger','zurechnen','schlüssel','entscheidung'],
+  q5:  ['primär','sekundär','kostenartenrechnung','kostenstellen','bestandsveränderung','bruttoergebnis','informationsgehalt','umsatz','identisch']
+};
+
+function checkText(id) {
+  const val = document.getElementById(id + '-ans').value.toLowerCase();
+  const keys = textKeywords[id];
+  const hits = keys.filter(k => val.includes(k)).length;
+  const ratio = hits / keys.length;
+  const ta = document.getElementById(id + '-ans');
+  const fb = document.getElementById(id + '-fb');
+  fb.style.display = 'block';
+  ta.classList.remove('correct','wrong','partial');
+  if (ratio >= 0.5) {
+    fb.className = 'feedback correct';
+    fb.innerHTML = '✓ Gut! Die wesentlichen Begriffe sind enthalten. Vergleiche mit der Musterlösung.';
+    ta.classList.add('correct');
+  } else if (ratio >= 0.25) {
+    fb.className = 'feedback partial';
+    fb.innerHTML = '~ Ansatzweise richtig, aber noch unvollständig.';
+    ta.classList.add('partial');
+  } else {
+    fb.className = 'feedback wrong';
+    fb.innerHTML = '✗ Wichtige Inhalte fehlen. Klicke auf „Musterlösung".';
+    ta.classList.add('wrong');
+  }
+  updateScore();
+}
+
+function resetText(id) {
+  document.getElementById(id + '-ans').value = '';
+  document.getElementById(id + '-ans').className = 'answer';
+  document.getElementById(id + '-fb').style.display = 'none';
+  updateScore();
+}
+
+function toggleSolution(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'none' || el.style.display === '' ? 'block' : 'none';
+}
+
+function updateScore() {
+  const correctInputs = document.querySelectorAll('input.correct').length;
+  const correctTexts  = document.querySelectorAll('textarea.correct').length;
+  const partialInputs = document.querySelectorAll('input.partial').length;
+  const est = correctInputs + correctTexts * 2 + Math.round(partialInputs * 0.5);
+  document.getElementById('total-score').textContent = 'Punkte (ca.): ' + Math.min(est, 32) + ' / 32';
+}
+</script>
+</body>
+</html>

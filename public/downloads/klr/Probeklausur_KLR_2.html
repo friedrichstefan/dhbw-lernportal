@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Probeklausur 2 – KLR I: BAB &amp; Kalkulation</title>
+<style>
+  body { font-family: Arial, sans-serif; font-size: 11pt; margin: 40px; color: #000; background: #fafafa; }
+  h1 { font-size: 13pt; font-weight: bold; text-align: center; border-bottom: 2px solid #000; padding-bottom: 6px; }
+  .header-table { width: 100%; border-collapse: collapse; margin: 12px 0 20px 0; }
+  .header-table td { padding: 4px 8px; }
+  .question { margin-top: 22px; }
+  .question-title { font-weight: bold; }
+  .punkte { float: right; font-weight: bold; }
+
+  textarea.answer {
+    width: 100%; box-sizing: border-box; border: 1px solid #bbb;
+    border-radius: 3px; padding: 6px; font-family: Arial, sans-serif;
+    font-size: 10.5pt; resize: vertical; background: #fff; transition: border-color .2s;
+  }
+  textarea.answer:focus { border-color: #1565c0; outline: none; }
+  textarea.answer.correct { border-color: #388e3c; background: #f1f8f1; }
+  textarea.answer.wrong   { border-color: #c62828; background: #fff5f5; }
+  textarea.answer.partial { border-color: #f9a825; background: #fff8e1; }
+
+  table.buchung { width: 100%; border-collapse: collapse; margin: 10px 0; }
+  table.buchung th { background: #e8eaf6; font-weight: bold; font-size: 10pt; border: 1px solid #333; padding: 5px 8px; }
+  table.buchung td { border: 1px solid #aaa; padding: 3px 4px; }
+  table.buchung td.lfd { width: 100px; font-weight: bold; background: #f5f5f5; padding: 4px 6px; font-size: 10pt; }
+  table.buchung input {
+    width: 100%; border: none; background: transparent; font-family: Arial, sans-serif;
+    font-size: 10.5pt; padding: 3px 4px; box-sizing: border-box;
+  }
+  table.buchung input:focus { outline: 1px solid #1565c0; border-radius: 2px; }
+  table.buchung input.correct { background: #e8f5e9; color: #1b5e20; }
+  table.buchung input.wrong   { background: #ffebee; color: #b71c1c; }
+
+  table.calc { width: 62%; border-collapse: collapse; margin: 10px 0; }
+  table.calc td { border: 1px solid #aaa; padding: 4px 8px; font-size: 10.5pt; }
+  table.calc td.label { background: #f5f5f5; font-weight: bold; width: 65%; }
+  table.calc td.subtotal { background: #e8eaf6; font-weight: bold; }
+  table.calc input { width: 100%; border: none; background: transparent; font-size: 10.5pt; padding: 2px 4px; box-sizing: border-box; }
+  table.calc input.correct { background: #e8f5e9; color: #1b5e20; }
+  table.calc input.wrong   { background: #ffebee; color: #b71c1c; }
+
+  .check-btn { margin-top: 8px; padding: 7px 18px; background: #1565c0; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 10.5pt; font-weight: bold; }
+  .check-btn:hover { background: #0d47a1; }
+  .reset-btn { margin-top: 8px; margin-left: 8px; padding: 7px 14px; background: #757575; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 10.5pt; }
+  .reset-btn:hover { background: #424242; }
+  .show-btn { margin-top: 8px; margin-left: 8px; padding: 7px 14px; background: #6a1b9a; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 10.5pt; }
+  .show-btn:hover { background: #4a148c; }
+
+  .feedback { margin-top: 6px; font-size: 10pt; padding: 6px 10px; border-radius: 4px; display: none; }
+  .feedback.correct { background: #e8f5e9; border: 1px solid #388e3c; color: #1b5e20; }
+  .feedback.wrong   { background: #ffebee; border: 1px solid #c62828; color: #b71c1c; }
+  .feedback.partial { background: #fff8e1; border: 1px solid #f9a825; color: #5d4037; }
+
+  .solution { display: none; margin-top: 8px; background: #e3f2fd; border: 1px solid #1565c0; border-radius: 4px; padding: 10px 14px; font-size: 10pt; }
+
+  .page-break { page-break-before: always; margin-top: 40px; }
+  .hinweis { font-style: italic; font-size: 10pt; color: #555; margin: 4px 0; }
+
+  #score-bar { position: sticky; top: 0; z-index: 100; background: #1565c0; color: #fff;
+    padding: 8px 20px; font-size: 11pt; font-weight: bold; display: flex; justify-content: space-between; }
+
+  @media print {
+    #score-bar, .check-btn, .reset-btn, .show-btn, .solution, .feedback { display: none !important; }
+    textarea.answer, table.buchung input, table.calc input { border: 1px solid #999 !important; background: #fff !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="score-bar">
+  <span>Probeklausur 2 – KLR I: BAB &amp; Kalkulation</span>
+  <span id="total-score">Punkte: – / 32</span>
+</div>
+
+<h1>Probeklausur 2 – Kosten- und Leistungsrechnung I<br>Schwerpunkt: Kostenstellenrechnung &amp; Kalkulation</h1>
+
+<table class="header-table">
+  <tr>
+    <td><b>Matrikel-Nr.:</b> <input type="text" style="border:none;border-bottom:1px solid #000;width:180px"></td>
+    <td style="text-align:right"><b>Datum:</b> <input type="text" style="border:none;border-bottom:1px solid #000;width:120px"></td>
+  </tr>
+  <tr>
+    <td><b>Bearbeitungszeit:</b> 32 Minuten</td>
+    <td style="text-align:right"><b>Punkte:</b> ....... / 32</td>
+  </tr>
+  <tr>
+    <td><b>Hilfsmittel:</b> nicht programmierbarer Taschenrechner</td>
+    <td style="text-align:right"><b>Note:</b> ...........................</td>
+  </tr>
+</table>
+
+<!-- ══════════════ AUFGABE 1 ══════════════ -->
+<div class="question" id="q1">
+  <p class="question-title">1. Erläutern Sie kurz: Was ist der Betriebsabrechnungsbogen (BAB) und welche Aufgabe erfüllt er? <span class="punkte">(2 P)</span></p>
+  <textarea class="answer" id="q1-ans" rows="4" placeholder="Ihre Antwort hier…"></textarea>
+  <br>
+  <button class="check-btn" onclick="checkText('q1')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('q1-sol')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetText('q1')">Zurücksetzen</button>
+  <div class="feedback" id="q1-fb"></div>
+  <div class="solution" id="q1-sol">
+    Der <b>Betriebsabrechnungsbogen (BAB)</b> ist ein tabellarisches Instrument der Kostenstellenrechnung. Er verteilt die Gemeinkosten einer Periode zunächst auf die Hilfskostenstellen und von dort auf die Hauptkostenstellen (Material, Fertigung, Verwaltung, Vertrieb). Ziel ist die Ermittlung von Gemeinkostenzuschlagssätzen, die in der Kalkulation verwendet werden.
+  </div>
+</div>
+
+<!-- ══════════════ AUFGABE 2 ══════════════ -->
+<div class="question" id="q2">
+  <p class="question-title">2. Berechnen Sie die Gemeinkostenzuschlagssätze aus folgenden BAB-Daten! <span class="punkte">(4 P)</span></p>
+  <p class="hinweis">
+    Materialeinzelkosten (MEK): 30.000 € | Material-GK (MGK): 2.400 €<br>
+    Fertigungseinzelkosten (FEK): 75.000 € | Fertigungs-GK (FGK): 168.750 €<br>
+    Herstellkosten (HK): 276.150 € | Verwaltungs-GK (VwGK): 27.615 € | Vertriebs-GK (VtGK): 41.422,50 €
+  </p>
+  <p class="hinweis">Hinweis: Prüfen Sie zuerst, ob sich die HK aus den obigen Werten nachvollziehen lassen (keine Sondereinzelkosten).</p>
+  <table class="buchung" id="t2">
+    <tr><th>Zuschlagsart</th><th>Bezugsgröße</th><th>GK-Betrag (€)</th><th>Zuschlagssatz (%)</th></tr>
+    <tr><td class="lfd">MGK-Zuschlag</td><td>MEK = 30.000 €</td><td>2.400 €</td><td><input data-id="2-mgk" placeholder="%"></td></tr>
+    <tr><td class="lfd">FGK-Zuschlag</td><td>FEK = 75.000 €</td><td>168.750 €</td><td><input data-id="2-fgk" placeholder="%"></td></tr>
+    <tr><td class="lfd">VwGK-Zuschlag</td><td>HK = 276.150 €</td><td>27.615 €</td><td><input data-id="2-vwgk" placeholder="%"></td></tr>
+    <tr><td class="lfd">VtGK-Zuschlag</td><td>HK = 276.150 €</td><td>41.422,50 €</td><td><input data-id="2-vtgk" placeholder="%"></td></tr>
+  </table>
+  <button class="check-btn" onclick="checkCalcTable('2')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol2')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetBuchung('t2')">Zurücksetzen</button>
+  <div class="feedback" id="fb2"></div>
+  <div class="solution" id="sol2">
+    <b>MGK-Zuschlag:</b> 2.400 / 30.000 × 100 = <b>8 %</b><br>
+    <b>FGK-Zuschlag:</b> 168.750 / 75.000 × 100 = <b>225 %</b><br>
+    <b>VwGK-Zuschlag:</b> 27.615 / 276.150 × 100 = <b>10 %</b><br>
+    <b>VtGK-Zuschlag:</b> 41.422,50 / 276.150 × 100 = <b>15 %</b><br>
+    <i>HK-Probe: 30.000 + 2.400 + 75.000 + 168.750 = 276.150 € ✓</i>
+  </div>
+</div>
+
+<!-- ══════════════ AUFGABE 3 ══════════════ -->
+<div class="question" id="q3">
+  <p class="question-title">3. Differenzierende Zuschlagskalkulation – Ermitteln Sie die Selbstkosten des Produkts „Alpha 7"! <span class="punkte">(5 P)</span></p>
+  <p class="hinweis">
+    GK-Zuschlagssätze: MGK 8 % | FGK 225 % | VwGK 10 % | VtGK 15 %<br>
+    Einzelkosten Alpha 7: MEK = 45,00 €/ME | FEK = 80,00 €/ME | Sondereinzelkosten Fertigung (SEKF) = 12,00 €/ME
+  </p>
+  <table class="calc" id="t3">
+    <tr><td class="label">Materialeinzelkosten (MEK)</td><td><input data-id="3-mek" placeholder="€/ME"></td></tr>
+    <tr><td class="label">+ Materialgemeinkosten (MGK) 8 %</td><td><input data-id="3-mgk" placeholder="€/ME"></td></tr>
+    <tr><td class="label">+ Fertigungseinzelkosten (FEK)</td><td><input data-id="3-fek" placeholder="€/ME"></td></tr>
+    <tr><td class="label">+ Fertigungsgemeinkosten (FGK) 225 %</td><td><input data-id="3-fgk" placeholder="€/ME"></td></tr>
+    <tr><td class="label">+ Sondereinzelkosten Fertigung (SEKF)</td><td><input data-id="3-sekf" placeholder="€/ME"></td></tr>
+    <tr><td class="label subtotal">= Herstellkosten (HK)</td><td><input data-id="3-hk" placeholder="€/ME"></td></tr>
+    <tr><td class="label">+ Verwaltungsgemeinkosten (VwGK) 10 %</td><td><input data-id="3-vwgk" placeholder="€/ME"></td></tr>
+    <tr><td class="label">+ Vertriebsgemeinkosten (VtGK) 15 %</td><td><input data-id="3-vtgk" placeholder="€/ME"></td></tr>
+    <tr><td class="label subtotal">= Selbstkosten (SK)</td><td><input data-id="3-sk" placeholder="€/ME"></td></tr>
+  </table>
+  <button class="check-btn" onclick="checkCalcTable('3')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol3')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetCalcTable('t3','fb3')">Zurücksetzen</button>
+  <div class="feedback" id="fb3"></div>
+  <div class="solution" id="sol3">
+    <table class="calc">
+      <tr><td class="label">MEK</td><td>45,00 €</td></tr>
+      <tr><td class="label">+ MGK (8 %)</td><td>3,60 €</td></tr>
+      <tr><td class="label">+ FEK</td><td>80,00 €</td></tr>
+      <tr><td class="label">+ FGK (225 %)</td><td>180,00 €</td></tr>
+      <tr><td class="label">+ SEKF</td><td>12,00 €</td></tr>
+      <tr><td class="label subtotal">= HK</td><td><b>320,60 €</b></td></tr>
+      <tr><td class="label">+ VwGK (10 %)</td><td>32,06 €</td></tr>
+      <tr><td class="label">+ VtGK (15 %)</td><td>48,09 €</td></tr>
+      <tr><td class="label subtotal">= SK</td><td><b>400,75 €/ME</b></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════ AUFGABE 4 ══════════════ -->
+<div class="question" id="q4">
+  <p class="question-title">4. Ermitteln Sie den Brutto-Angebotspreis! <span class="punkte">(4 P)</span></p>
+  <p class="hinweis">
+    Selbstkosten: 400,75 €/ME | Gewinnzuschlag: 15 % auf SK<br>
+    Kundenskonto: 2 % | Händlerrabatt: 10 % | Umsatzsteuer: 19 %
+  </p>
+  <table class="calc" id="t4">
+    <tr><td class="label">Selbstkosten (SK)</td><td>400,75 €</td></tr>
+    <tr><td class="label">+ Gewinnzuschlag (15 % auf SK)</td><td><input data-id="4-gew" placeholder="€/ME"></td></tr>
+    <tr><td class="label subtotal">= Netto-Barverkaufspreis (NBV)</td><td><input data-id="4-nbv" placeholder="€/ME"></td></tr>
+    <tr><td class="label">+ Skonto-Aufschlag (2 %)</td><td><input data-id="4-sko" placeholder="€/ME"></td></tr>
+    <tr><td class="label subtotal">= Netto-Zielverkaufspreis (NZV)</td><td><input data-id="4-nzv" placeholder="€/ME"></td></tr>
+    <tr><td class="label">+ Rabatt-Aufschlag (10 %)</td><td><input data-id="4-rab" placeholder="€/ME"></td></tr>
+    <tr><td class="label subtotal">= Netto-Angebotspreis (NAP)</td><td><input data-id="4-nap" placeholder="€/ME"></td></tr>
+    <tr><td class="label">+ USt (19 %)</td><td><input data-id="4-ust" placeholder="€/ME"></td></tr>
+    <tr><td class="label subtotal">= Brutto-Angebotspreis</td><td><input data-id="4-bap" placeholder="€/ME"></td></tr>
+  </table>
+  <button class="check-btn" onclick="checkCalcTable('4')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol4')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetCalcTable('t4','fb4')">Zurücksetzen</button>
+  <div class="feedback" id="fb4"></div>
+  <div class="solution" id="sol4">
+    <p><i>Skonto und Rabatt werden als Division berechnet, da der Kunde den Abzug vom höheren Preis berechnet!</i></p>
+    <table class="calc">
+      <tr><td class="label">SK</td><td>400,75 €</td></tr>
+      <tr><td class="label">+ Gewinn (15 %)</td><td>60,11 €</td></tr>
+      <tr><td class="label subtotal">= NBV</td><td><b>460,86 €</b></td></tr>
+      <tr><td class="label">+ Skonto (460,86 ÷ 98 × 2)</td><td>9,41 €</td></tr>
+      <tr><td class="label subtotal">= NZV</td><td><b>470,27 €</b></td></tr>
+      <tr><td class="label">+ Rabatt (470,27 ÷ 90 × 10)</td><td>52,25 €</td></tr>
+      <tr><td class="label subtotal">= NAP</td><td><b>522,52 €</b></td></tr>
+      <tr><td class="label">+ USt (19 %)</td><td>99,28 €</td></tr>
+      <tr><td class="label subtotal">= Brutto-Angebotspreis</td><td><b>621,80 €/ME</b></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════ AUFGABE 5 ══════════════ -->
+<div class="question page-break" id="q5">
+  <p class="question-title">5. Äquivalenzziffernkalkulation – Diverso GmbH produziert drei Sorten! <span class="punkte">(6 P)</span></p>
+  <p class="hinweis">
+    Gesamtkosten der Periode: 192.780 €<br>
+    Sorte A: Äquivalenzziffer 1,00 | Produktionsmenge: 6.000 ME<br>
+    Sorte B: Äquivalenzziffer 1,50 | Produktionsmenge: 4.000 ME<br>
+    Sorte C: Äquivalenzziffer 0,60 | Produktionsmenge: 8.000 ME
+  </p>
+  <table class="buchung" id="t5">
+    <tr><th>Sorte</th><th>Ä-Ziffer</th><th>Menge (ME)</th><th>Recheneinheiten (RE)</th><th>Kosten/RE (€)</th><th>SK/ME (€)</th></tr>
+    <tr>
+      <td class="lfd">A</td>
+      <td>1,00</td>
+      <td>6.000</td>
+      <td><input data-id="5-re-a" placeholder="RE"></td>
+      <td rowspan="3"><input data-id="5-kre" placeholder="€/RE" style="height:60px"></td>
+      <td><input data-id="5-sk-a" placeholder="€/ME"></td>
+    </tr>
+    <tr>
+      <td class="lfd">B</td>
+      <td>1,50</td>
+      <td>4.000</td>
+      <td><input data-id="5-re-b" placeholder="RE"></td>
+      <td><input data-id="5-sk-b" placeholder="€/ME"></td>
+    </tr>
+    <tr>
+      <td class="lfd">C</td>
+      <td>0,60</td>
+      <td>8.000</td>
+      <td><input data-id="5-re-c" placeholder="RE"></td>
+      <td><input data-id="5-sk-c" placeholder="€/ME"></td>
+    </tr>
+    <tr>
+      <td class="lfd" colspan="3"><b>Summe RE</b></td>
+      <td><input data-id="5-re-sum" placeholder="RE"></td>
+      <td colspan="2"></td>
+    </tr>
+  </table>
+  <button class="check-btn" onclick="checkAeq()">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol5')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetBuchung('t5')">Zurücksetzen</button>
+  <div class="feedback" id="fb5"></div>
+  <div class="solution" id="sol5">
+    <b>Schritt 1 – Recheneinheiten:</b><br>
+    RE_A = 1,00 × 6.000 = 6.000 | RE_B = 1,50 × 4.000 = 6.000 | RE_C = 0,60 × 8.000 = 4.800<br>
+    Summe RE = <b>16.800</b><br><br>
+    <b>Schritt 2 – Kosten je RE:</b> 192.780 ÷ 16.800 = <b>11,475 €/RE</b><br><br>
+    <b>Schritt 3 – SK je ME:</b><br>
+    SK_A = 11,475 × 1,00 = <b>11,48 €/ME</b><br>
+    SK_B = 11,475 × 1,50 = <b>17,21 €/ME</b><br>
+    SK_C = 11,475 × 0,60 = <b>6,89 €/ME</b>
+  </div>
+</div>
+
+<!-- ══════════════ AUFGABE 6 ══════════════ -->
+<div class="question" id="q6">
+  <p class="question-title">6. Zweistufige Divisionskalkulation – Sigma KG <span class="punkte">(5 P)</span></p>
+  <p class="hinweis">
+    Herstellkosten der Periode: 875.000 € | Produktionsmenge: 35.000 ME<br>
+    Verwaltungs- und Vertriebskosten: 108.000 € | Anfangsbestand: 4.000 ME | Endbestand: 6.000 ME
+  </p>
+  <table class="calc" id="t6">
+    <tr><td class="label">Absatzmenge (ME)</td><td><input data-id="6-abs" placeholder="ME"></td></tr>
+    <tr><td class="label">Herstellkosten pro ME (hk)</td><td><input data-id="6-hk" placeholder="€/ME"></td></tr>
+    <tr><td class="label">Vw/Vt-Kosten pro ME</td><td><input data-id="6-vwvt" placeholder="€/ME"></td></tr>
+    <tr><td class="label subtotal">Selbstkosten pro ME (sk)</td><td><input data-id="6-sk" placeholder="€/ME"></td></tr>
+    <tr><td class="label">Wertm. Lagerbestandsveränderung (€)</td><td><input data-id="6-lager" placeholder="€"></td></tr>
+  </table>
+  <button class="check-btn" onclick="checkCalcTable('6')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol6')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetCalcTable('t6','fb6')">Zurücksetzen</button>
+  <div class="feedback" id="fb6"></div>
+  <div class="solution" id="sol6">
+    <b>Absatzmenge:</b> 4.000 + 35.000 − 6.000 = <b>33.000 ME</b><br>
+    <b>hk:</b> 875.000 ÷ 35.000 = <b>25,00 €/ME</b><br>
+    <b>Vw/Vt je ME:</b> 108.000 ÷ 33.000 = <b>3,27 €/ME</b> (gerundet)<br>
+    <b>sk:</b> 25,00 + 3,27 = <b>28,27 €/ME</b><br>
+    <b>Wertm. Lagerbestandsveränderung:</b> 25,00 × (35.000 − 33.000) = 25,00 × 2.000 = <b>50.000 € (Erhöhung)</b>
+  </div>
+</div>
+
+<!-- ══════════════ AUFGABE 7 ══════════════ -->
+<div class="question" id="q7">
+  <p class="question-title">7. Nennen Sie drei verfahrensbedingte Schwächen der differenzierenden Zuschlagskalkulation! <span class="punkte">(3 P)</span></p>
+  <textarea class="answer" id="q7-ans" rows="5" placeholder="Ihre Antwort hier…"></textarea>
+  <br>
+  <button class="check-btn" onclick="checkText('q7')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('q7-sol')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetText('q7')">Zurücksetzen</button>
+  <div class="feedback" id="q7-fb"></div>
+  <div class="solution" id="q7-sol">
+    <ol>
+      <li><b>Klein- und Großserien erscheinen gleich wirtschaftlich</b>, da der Rüstaufwand (Rüstumfang) in der Zuschlagskalkulation nicht abgebildet wird.</li>
+      <li><b>Wertunterschiede bei den MEK</b> führen zu überproportional hohen Selbstkosten für teure Materialien, da die GK-Zuschläge auf den MEK-Wert aufgeschlagen werden (auch wenn die Gemeinkosten nicht materialwertabhängig sind).</li>
+      <li><b>Hohe FGK-Zuschlagssätze erzeugen Hebelwirkung</b>: Geringe Kalkulationsungenauigkeiten bei den FEK potenzieren sich, da der FGK-Satz hunderte Prozent betragen kann (historisch: über 1.000 % in der Elektroindustrie).</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ══════════════ AUFGABE 8 ══════════════ -->
+<div class="question" id="q8">
+  <p class="question-title">8. Ordnen Sie die Fertigungsverfahren den passenden Kalkulationsverfahren zu! <span class="punkte">(3 P)</span></p>
+  <textarea class="answer" id="q8-ans" rows="5" placeholder="Ihre Antwort hier…"></textarea>
+  <br>
+  <button class="check-btn" onclick="checkText('q8')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('q8-sol')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetText('q8')">Zurücksetzen</button>
+  <div class="feedback" id="q8-fb"></div>
+  <div class="solution" id="q8-sol">
+    <table class="buchung">
+      <tr><th>Fertigungsverfahren</th><th>Kalkulationsverfahren</th></tr>
+      <tr><td>Massenfertigung (ein einheitliches Erzeugnis)</td><td>Divisionskalkulation</td></tr>
+      <tr><td>Sortenfertigung (mehrere ähnliche Erzeugnisse)</td><td>Äquivalenzziffernkalkulation</td></tr>
+      <tr><td>Einzel- und Serienfertigung (verschiedenartige Erzeugnisse)</td><td>Zuschlagskalkulation / Maschinenstundensatzkalkulation</td></tr>
+      <tr><td>Kuppelfertigung (technologisch zwangsweise verbundene Produkte)</td><td>Kuppelkalkulation</td></tr>
+    </table>
+  </div>
+</div>
+
+<script>
+// ── Berechnung GK-Zuschlagssätze (Aufgabe 2) ─────────────────────────────
+const tableCalcSolutions = {
+  '2': {
+    fields: { '2-mgk': 8, '2-fgk': 225, '2-vwgk': 10, '2-vtgk': 15 },
+    msg: 'MGK: 2.400/30.000×100=8%; FGK: 168.750/75.000×100=225%; VwGK: 27.615/276.150×100=10%; VtGK: 15%.'
+  },
+  '3': {
+    fields: { '3-mek': 45, '3-mgk': 3.60, '3-fek': 80, '3-fgk': 180, '3-sekf': 12, '3-hk': 320.60, '3-vwgk': 32.06, '3-vtgk': 48.09, '3-sk': 400.75 },
+    msg: 'MEK 45 + MGK 3,60 + FEK 80 + FGK 180 + SEKF 12 = HK 320,60; VwGK 32,06 + VtGK 48,09 → SK 400,75 €/ME.'
+  },
+  '4': {
+    fields: { '4-gew': 60.11, '4-nbv': 460.86, '4-sko': 9.41, '4-nzv': 470.27, '4-rab': 52.25, '4-nap': 522.52, '4-ust': 99.28, '4-bap': 621.80 },
+    msg: 'Gewinn=60,11; NBV=460,86; Skonto (÷98×2)=9,41; NZV=470,27; Rabatt (÷90×10)=52,25; NAP=522,52; USt=99,28 → Brutto=621,80 €.'
+  },
+  '6': {
+    fields: { '6-abs': 33000, '6-hk': 25, '6-vwvt': 3.27, '6-sk': 28.27, '6-lager': 50000 },
+    msg: 'Absatz=4.000+35.000−6.000=33.000; hk=25; VwVt=108.000/33.000≈3,27; sk≈28,27; Lager=25×2.000=50.000 €.'
+  }
+};
+
+function normalizeNum(s) {
+  const cleaned = (s || '').replace(/\s/g,'').replace(',','.');
+  return parseFloat(cleaned) || 0;
+}
+function roundClose(a, b) {
+  if (Math.abs(b) < 0.001) return Math.abs(a) < 0.01;
+  return Math.abs(a - b) / Math.abs(b) < 0.01;
+}
+
+function checkCalcTable(id) {
+  const sol = tableCalcSolutions[id];
+  const fb = document.getElementById('fb' + id);
+  const table = document.getElementById('t' + id);
+  let correct = 0, total = 0;
+
+  table.querySelectorAll('input[data-id]').forEach(inp => {
+    const key = inp.getAttribute('data-id');
+    if (!(key in sol.fields)) return;
+    total++;
+    inp.classList.remove('correct','wrong');
+    if (inp.value.trim() === '') return;
+    if (roundClose(normalizeNum(inp.value), sol.fields[key])) {
+      inp.classList.add('correct'); correct++;
+    } else {
+      inp.classList.add('wrong');
+    }
+  });
+
+  fb.style.display = 'block';
+  if (correct === total && total > 0) {
+    fb.className = 'feedback correct';
+    fb.innerHTML = '✓ Alle Werte korrekt!';
+  } else if (correct > 0) {
+    fb.className = 'feedback partial';
+    fb.innerHTML = '~ Teilweise richtig (' + correct + '/' + total + '). <b>Hinweis:</b> ' + sol.msg;
+  } else {
+    fb.className = 'feedback wrong';
+    fb.innerHTML = '✗ Nicht korrekt. <b>Hinweis:</b> ' + sol.msg;
+  }
+  updateScore();
+}
+
+// ── Äquivalenzziffernkalkulation (Aufgabe 5) ──────────────────────────────
+function checkAeq() {
+  const expected = { '5-re-a': 6000, '5-re-b': 6000, '5-re-c': 4800, '5-re-sum': 16800,
+                     '5-kre': 11.475, '5-sk-a': 11.48, '5-sk-b': 17.21, '5-sk-c': 6.89 };
+  const fb = document.getElementById('fb5');
+  const table = document.getElementById('t5');
+  let correct = 0, total = 0;
+  table.querySelectorAll('input[data-id]').forEach(inp => {
+    const key = inp.getAttribute('data-id');
+    if (!(key in expected)) return;
+    total++;
+    inp.classList.remove('correct','wrong');
+    if (inp.value.trim() === '') return;
+    if (roundClose(normalizeNum(inp.value), expected[key])) {
+      inp.classList.add('correct'); correct++;
+    } else {
+      inp.classList.add('wrong');
+    }
+  });
+  fb.style.display = 'block';
+  if (correct === total && total > 0) {
+    fb.className = 'feedback correct';
+    fb.innerHTML = '✓ Alle Werte korrekt!';
+  } else if (correct > 0) {
+    fb.className = 'feedback partial';
+    fb.innerHTML = '~ ' + correct + '/' + total + ' richtig. RE_A=6.000; RE_B=6.000; RE_C=4.800; ΣRE=16.800; €/RE=11,475; SK_A=11,48; SK_B=17,21; SK_C=6,89 €.';
+  } else {
+    fb.className = 'feedback wrong';
+    fb.innerHTML = '✗ RE = Ä × Menge. Kosten/RE = 192.780 ÷ 16.800 = 11,475 €/RE. SK/ME = €/RE × Ä.';
+  }
+  updateScore();
+}
+
+function resetCalcTable(tableId, fbId) {
+  document.getElementById(tableId).querySelectorAll('input[data-id]').forEach(i => { i.value = ''; i.className = ''; });
+  const fb = document.getElementById(fbId);
+  if (fb) fb.style.display = 'none';
+  updateScore();
+}
+
+function resetBuchung(tableId) {
+  document.getElementById(tableId).querySelectorAll('input').forEach(i => { i.value = ''; i.className = ''; });
+  const fbId = 'fb' + tableId.replace('t','');
+  const fb = document.getElementById(fbId);
+  if (fb) fb.style.display = 'none';
+  updateScore();
+}
+
+const textKeywords = {
+  q1:  ['bab','betriebsabrechnungsbogen','gemeinkosten','kostenstellen','hauptkostenstellen','hilfskostenstellen','zuschlagssatz','verteilung'],
+  q7:  ['rüst','kleinserien','großserien','materialwert','mek','hebelwirkung','fgk','ungenauigkeit','überproportional'],
+  q8:  ['massen','divisionskalkulation','sorten','äquivalenz','einzel','serie','zuschlag','kuppel']
+};
+
+function checkText(id) {
+  const val = document.getElementById(id + '-ans').value.toLowerCase();
+  const keys = textKeywords[id];
+  const hits = keys.filter(k => val.includes(k)).length;
+  const ratio = hits / keys.length;
+  const ta = document.getElementById(id + '-ans');
+  const fb = document.getElementById(id + '-fb');
+  fb.style.display = 'block';
+  ta.classList.remove('correct','wrong','partial');
+  if (ratio >= 0.5) {
+    fb.className = 'feedback correct';
+    fb.innerHTML = '✓ Gut! Die wesentlichen Begriffe sind enthalten. Vergleiche mit der Musterlösung.';
+    ta.classList.add('correct');
+  } else if (ratio >= 0.25) {
+    fb.className = 'feedback partial';
+    fb.innerHTML = '~ Ansatzweise richtig, aber noch unvollständig.';
+    ta.classList.add('partial');
+  } else {
+    fb.className = 'feedback wrong';
+    fb.innerHTML = '✗ Wichtige Inhalte fehlen. Klicke auf „Musterlösung".';
+    ta.classList.add('wrong');
+  }
+  updateScore();
+}
+
+function resetText(id) {
+  document.getElementById(id + '-ans').value = '';
+  document.getElementById(id + '-ans').className = 'answer';
+  document.getElementById(id + '-fb').style.display = 'none';
+  updateScore();
+}
+
+function toggleSolution(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'none' || el.style.display === '' ? 'block' : 'none';
+}
+
+function updateScore() {
+  const correctInputs = document.querySelectorAll('input.correct').length;
+  const correctTexts  = document.querySelectorAll('textarea.correct').length;
+  const partialInputs = document.querySelectorAll('input.partial').length;
+  const est = correctInputs + correctTexts * 2 + Math.round(partialInputs * 0.5);
+  document.getElementById('total-score').textContent = 'Punkte (ca.): ' + Math.min(est, 32) + ' / 32';
+}
+</script>
+</body>
+</html>
