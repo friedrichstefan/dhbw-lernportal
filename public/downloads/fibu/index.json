@@ -9,5 +9,9 @@
   {"name": "Ordner 6 – Bestandsveränderungen (ZIP)", "file": "Ordner_6_Bestandsveraenderungen.zip"},
   {"name": "Ordner 7 – USt (ZIP)", "file": "Ordner_7_USt.zip"},
   {"name": "Ordner 8 – Privat (ZIP)", "file": "Ordner_8_Privat.zip"},
-  {"name": "Ordner 9 – Übungen (ZIP)", "file": "Ordner_9_Uebungen.zip"}
+  {"name": "Ordner 9 – Übungen (ZIP)", "file": "Ordner_9_Uebungen.zip"},
+  {"name": "Probeklausur 1", "file": "Probeklausur_FiBu_1.html"},
+  {"name": "Probeklausur 2", "file": "Probeklausur_FiBu_2.html"},
+  {"name": "Probeklausur 3", "file": "Probeklausur_FiBu_3.html"},
+  {"name": "Probeklausur 4", "file": "Probeklausur_FiBu_4.html"}
 ]

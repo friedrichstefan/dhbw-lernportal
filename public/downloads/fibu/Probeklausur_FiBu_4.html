@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Probeklausur 4 – Technik der Finanzbuchführung</title>
+<style>
+  body{font-family:Arial,sans-serif;font-size:11pt;margin:40px;color:#000;background:#fafafa;}
+  h1{font-size:13pt;font-weight:bold;text-align:center;border-bottom:2px solid #000;padding-bottom:6px;}
+  .header-table{width:100%;border-collapse:collapse;margin:12px 0 20px 0;}
+  .header-table td{padding:4px 8px;}
+  .question{margin-top:22px;} .question-title{font-weight:bold;} .punkte{float:right;font-weight:bold;}
+  textarea.answer{width:100%;box-sizing:border-box;border:1px solid #bbb;border-radius:3px;padding:6px;font-family:Arial,sans-serif;font-size:10.5pt;resize:vertical;background:#fff;}
+  textarea.answer.correct{border-color:#388e3c;background:#f1f8f1;}
+  textarea.answer.wrong{border-color:#c62828;background:#fff5f5;}
+  textarea.answer.partial{border-color:#f9a825;background:#fffde7;}
+  table.buchung{width:100%;border-collapse:collapse;margin:10px 0;}
+  table.buchung th{background:#e8eaf6;font-weight:bold;font-size:10pt;border:1px solid #333;padding:5px 8px;}
+  table.buchung td{border:1px solid #aaa;padding:3px 4px;}
+  table.buchung td.lfd{width:38px;font-weight:bold;background:#f5f5f5;text-align:center;}
+  table.buchung input{width:100%;border:none;background:transparent;font-family:Arial,sans-serif;font-size:10.5pt;padding:3px 4px;box-sizing:border-box;}
+  table.buchung input:focus{outline:1px solid #1565c0;border-radius:2px;}
+  table.buchung input.correct{background:#e8f5e9;} table.buchung input.wrong{background:#ffebee;} table.buchung input.partial{background:#fff8e1;}
+  table.bilanz{border-collapse:collapse;width:100%;margin:10px 0;font-size:10.5pt;}
+  table.bilanz th{background:#e0e0e0;border:2px solid #333;padding:5px 10px;font-weight:bold;}
+  table.bilanz td{border:1px solid #777;padding:5px 10px;}
+  table.bilanz td.betrag{text-align:right;width:110px;}
+  table.bilanz tr.total td{border-top:2px solid #333;font-weight:bold;}
+  .ek-input{border:none;border-bottom:2px solid #1565c0;width:100px;font-size:11pt;text-align:right;padding:2px 4px;background:transparent;}
+  .ek-input.correct{border-bottom-color:#388e3c;background:#e8f5e9;}
+  .ek-input.wrong{border-bottom-color:#c62828;background:#ffebee;}
+  .ikr-table{width:48%;border-collapse:collapse;display:inline-table;vertical-align:top;}
+  .ikr-table td,.ikr-table th{border:1px solid #333;padding:4px 8px;font-size:10pt;}
+  .ikr-table th{background:#e8e8e8;font-weight:bold;}
+  .check-btn{margin-top:8px;padding:7px 18px;background:#1565c0;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:10.5pt;font-weight:bold;}
+  .check-btn:hover{background:#0d47a1;}
+  .reset-btn{margin-top:8px;margin-left:8px;padding:7px 14px;background:#757575;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:10.5pt;}
+  .show-btn{margin-top:8px;margin-left:8px;padding:7px 14px;background:#6a1b9a;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:10.5pt;}
+  .feedback{margin-top:6px;font-size:10pt;padding:6px 10px;border-radius:4px;display:none;}
+  .feedback.correct{background:#e8f5e9;border:1px solid #388e3c;color:#1b5e20;}
+  .feedback.wrong{background:#ffebee;border:1px solid #c62828;color:#b71c1c;}
+  .feedback.partial{background:#fff8e1;border:1px solid #f9a825;color:#5d4037;}
+  .solution{display:none;margin-top:8px;background:#e3f2fd;border:1px solid #1565c0;border-radius:4px;padding:10px 14px;font-size:10pt;}
+  .hinweis{font-style:italic;font-size:10pt;color:#555;margin:4px 0;}
+  .page-break{page-break-before:always;margin-top:40px;}
+  #score-bar{position:sticky;top:0;z-index:100;background:#1565c0;color:#fff;padding:8px 20px;font-size:11pt;font-weight:bold;display:flex;justify-content:space-between;}
+  @media print{#score-bar,.check-btn,.reset-btn,.show-btn,.solution,.feedback{display:none !important;}}
+</style>
+</head>
+<body>
+<div id="score-bar"><span>Probeklausur 4 – Technik der Finanzbuchführung</span><span id="total-score">Punkte: – / 32</span></div>
+<h1>Ausgewählte Fragen / Vorbereitung auf die KLAUSUR / „Technik der Finanzbuchführung"</h1>
+<table class="header-table">
+  <tr><td><b>xMatrikel-Nr.:</b> <input type="text" style="border:none;border-bottom:1px solid #000;width:180px"></td><td style="text-align:right"><b>Datum:</b> <input type="text" style="border:none;border-bottom:1px solid #000;width:120px"></td></tr>
+  <tr><td><b>Bearbeitungszeit:</b> 32 Minuten &nbsp; <b>Anlage:</b> IKR-Auszug</td><td style="text-align:right"><b>Punkte:</b> ....... / 32</td></tr>
+</table>
+
+<!-- A1 -->
+<div class="question">
+  <p class="question-title">1. Was ist der Unterschied zwischen Inventur, Inventar und Bilanz? <span class="punkte">(3 P)</span></p>
+  <textarea class="answer" id="q1-ans" rows="5" placeholder="Ihre Antwort hier…"></textarea><br>
+  <button class="check-btn" onclick="checkText('q1')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('q1-sol')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetText('q1')">Zurücksetzen</button>
+  <div class="feedback" id="q1-fb"></div>
+  <div class="solution" id="q1-sol"><b>Inventur:</b> Körperliche Bestandsaufnahme aller Vermögensgegenstände und Schulden (Zählen, Messen, Wiegen) zu einem Stichtag (§ 240 HGB).<br><b>Inventar:</b> Schriftliches Verzeichnis aller Inventurergebnisse, gegliedert nach Vermögen und Schulden, mit Ermittlung des Eigenkapitals.<br><b>Bilanz:</b> Gegenüberstellung von Aktiva (Mittelverwendung) und Passiva (Mittelherkunft) in Kontoform zum Bilanzstichtag – verdichtete Kurzform des Inventars ohne Mengenangaben.</div>
+</div>
+
+<!-- A2 -->
+<div class="question">
+  <p class="question-title">2. Erläutern Sie die vier Schritte des „Rezepts für Buchungssätze" (Leitfragen)! <span class="punkte">(2 P)</span></p>
+  <textarea class="answer" id="q2-ans" rows="4" placeholder="Ihre Antwort hier…"></textarea><br>
+  <button class="check-btn" onclick="checkText('q2')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('q2-sol')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetText('q2')">Zurücksetzen</button>
+  <div class="feedback" id="q2-fb"></div>
+  <div class="solution" id="q2-sol">1) <b>Welche Konten</b> sind berührt? → Konten identifizieren.<br>2) Handelt es sich um <b>Aktiv- oder Passivkonten</b>?<br>3) Tritt eine <b>Mehrung oder Minderung</b> ein?<br>4) Auf welche Seite (<b>Soll/Haben</b>) wird gebucht? → Aktivkonto: Mehrung im Soll, Minderung im Haben; Passivkonto: Mehrung im Haben, Minderung im Soll.</div>
+</div>
+
+<!-- A3 -->
+<div class="question">
+  <p class="question-title">3. Erläutern Sie den Unterschied zwischen Aufwands- und Ertragskonten, wie sie abgeschlossen werden und welche Auswirkung das Ergebnis auf das EK hat! <span class="punkte">(3 P)</span></p>
+  <textarea class="answer" id="q3-ans" rows="5" placeholder="Ihre Antwort hier…"></textarea><br>
+  <button class="check-btn" onclick="checkText('q3')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('q3-sol')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetText('q3')">Zurücksetzen</button>
+  <div class="feedback" id="q3-fb"></div>
+  <div class="solution" id="q3-sol"><b>Aufwandskonten:</b> Erfassen Werteverbrauch, mindern EK → Buchung im Soll. Abschluss: GuV an Aufwandskonto.<br><b>Ertragskonten:</b> Erfassen Wertzuwachs, erhöhen EK → Buchung im Haben. Abschluss: Ertragskonto an GuV.<br>Ergebnis der GuV: Überwiegen Erträge → Jahresgewinn → EK steigt (GuV an EK). Überwiegen Aufwendungen → Jahresverlust → EK sinkt (EK an GuV).</div>
+</div>
+
+<!-- A4 -->
+<div class="question">
+  <p class="question-title">4. Eröffnungsbilanz der Druckerei Müller e.K. zum 01.01.</p>
+  <table class="bilanz">
+    <tr><th colspan="2">Aktiva</th><th colspan="2">Passiva</th></tr>
+    <tr><td>TA + Maschinen</td><td class="betrag">180.000</td><td>Eigenkapital</td><td class="betrag"><input class="ek-input" id="ek-input" placeholder="?"></td></tr>
+    <tr><td>BGA</td><td class="betrag">45.000</td><td>Darlehensschulden</td><td class="betrag">80.000</td></tr>
+    <tr><td>Rohstoffe</td><td class="betrag">22.000</td><td>Verbindlichkeiten aus L+L</td><td class="betrag">18.000</td></tr>
+    <tr><td>Forderungen aus L+L</td><td class="betrag">31.000</td><td></td><td></td></tr>
+    <tr><td>Bankguthaben</td><td class="betrag">48.000</td><td></td><td></td></tr>
+    <tr><td>Kasse</td><td class="betrag">4.000</td><td></td><td></td></tr>
+    <tr class="total"><td>Summe Aktiva</td><td class="betrag">330.000</td><td>Summe Passiva</td><td class="betrag">330.000</td></tr>
+  </table>
+
+  <p class="question-title" style="margin-top:14px">4.1 Berechnen Sie das Eigenkapital! <span class="punkte">(1 P)</span></p>
+  <button class="check-btn" onclick="checkEK()">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol41')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetEK()">Zurücksetzen</button>
+  <div class="feedback" id="fb41"></div>
+  <div class="solution" id="sol41">EK = 330.000 − 80.000 − 18.000 = <b>232.000 EUR</b></div>
+
+  <p class="question-title" style="margin-top:18px">4.2 Buchungssätze + Art der Bilanzveränderung!</p>
+  <p class="hinweis">(Aktivtausch / Passivtausch / Aktiv-Passiv-Mehrung / Aktiv-Passiv-Minderung)</p>
+
+  <p class="question-title" style="margin-top:10px">GF 1: Kauf BGA (Rechner) per Bank: 5.000 EUR <span class="punkte">(2 P)</span></p>
+  <table class="buchung" id="tgf1"><tr><th style="width:50px">Nr.</th><th>Soll-Konto</th><th>Haben-Konto</th><th style="width:120px">Soll-Betrag</th><th style="width:160px">Art der Bilanzveränderung</th></tr>
+  <tr><td class="lfd">GF1</td><td><input placeholder="Konto…"></td><td><input placeholder="Konto…"></td><td><input placeholder="5.000"></td><td><input placeholder="Art…"></td></tr></table>
+  <button class="check-btn" onclick="checkBuchung('gf1')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('solgf1')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetBuchung('tgf1','fbgf1')">Zurücksetzen</button>
+  <div class="feedback" id="fbgf1"></div>
+  <div class="solution" id="solgf1"><table class="buchung"><tr><th>Nr.</th><th>Soll</th><th>Haben</th><th>Betrag</th><th>Art</th></tr>
+  <tr><td class="lfd">GF1</td><td>BGA 0800</td><td>Bankguthaben 2800</td><td>5.000</td><td>Aktivtausch</td></tr></table></div>
+
+  <p class="question-title" style="margin-top:10px">GF 2: Rohstoffeinkauf auf Ziel (ohne USt): 12.000 EUR <span class="punkte">(2 P)</span></p>
+  <table class="buchung" id="tgf2"><tr><th style="width:50px">Nr.</th><th>Soll-Konto</th><th>Haben-Konto</th><th style="width:120px">Soll-Betrag</th><th style="width:160px">Art der Bilanzveränderung</th></tr>
+  <tr><td class="lfd">GF2</td><td><input placeholder="Konto…"></td><td><input placeholder="Konto…"></td><td><input placeholder="12.000"></td><td><input placeholder="Art…"></td></tr></table>
+  <button class="check-btn" onclick="checkBuchung('gf2')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('solgf2')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetBuchung('tgf2','fbgf2')">Zurücksetzen</button>
+  <div class="feedback" id="fbgf2"></div>
+  <div class="solution" id="solgf2"><table class="buchung"><tr><th>Nr.</th><th>Soll</th><th>Haben</th><th>Betrag</th><th>Art</th></tr>
+  <tr><td class="lfd">GF2</td><td>Rohstoffe 2000</td><td>Verbindlichkeiten a. L+L 4400</td><td>12.000</td><td>Aktiv-Passiv-Mehrung</td></tr></table></div>
+
+  <p class="question-title" style="margin-top:10px">GF 3: Begleichung Lieferantenverbindlichkeit per Bank: 18.000 EUR <span class="punkte">(2 P)</span></p>
+  <table class="buchung" id="tgf3"><tr><th style="width:50px">Nr.</th><th>Soll-Konto</th><th>Haben-Konto</th><th style="width:120px">Soll-Betrag</th><th style="width:160px">Art der Bilanzveränderung</th></tr>
+  <tr><td class="lfd">GF3</td><td><input placeholder="Konto…"></td><td><input placeholder="Konto…"></td><td><input placeholder="18.000"></td><td><input placeholder="Art…"></td></tr></table>
+  <button class="check-btn" onclick="checkBuchung('gf3')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('solgf3')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetBuchung('tgf3','fbgf3')">Zurücksetzen</button>
+  <div class="feedback" id="fbgf3"></div>
+  <div class="solution" id="solgf3"><table class="buchung"><tr><th>Nr.</th><th>Soll</th><th>Haben</th><th>Betrag</th><th>Art</th></tr>
+  <tr><td class="lfd">GF3</td><td>Verbindlichkeiten a. L+L 4400</td><td>Bankguthaben 2800</td><td>18.000</td><td>Aktiv-Passiv-Minderung</td></tr></table></div>
+
+  <p class="question-title" style="margin-top:10px">GF 4: Aufnahme Bankdarlehen, Gutschrift auf Girokonto: 30.000 EUR <span class="punkte">(2 P)</span></p>
+  <table class="buchung" id="tgf4"><tr><th style="width:50px">Nr.</th><th>Soll-Konto</th><th>Haben-Konto</th><th style="width:120px">Soll-Betrag</th><th style="width:160px">Art der Bilanzveränderung</th></tr>
+  <tr><td class="lfd">GF4</td><td><input placeholder="Konto…"></td><td><input placeholder="Konto…"></td><td><input placeholder="30.000"></td><td><input placeholder="Art…"></td></tr></table>
+  <button class="check-btn" onclick="checkBuchung('gf4')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('solgf4')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetBuchung('tgf4','fbgf4')">Zurücksetzen</button>
+  <div class="feedback" id="fbgf4"></div>
+  <div class="solution" id="solgf4"><table class="buchung"><tr><th>Nr.</th><th>Soll</th><th>Haben</th><th>Betrag</th><th>Art</th></tr>
+  <tr><td class="lfd">GF4</td><td>Bankguthaben 2800</td><td>Darlehensschulden 4250</td><td>30.000</td><td>Passivtausch</td></tr></table></div>
+</div>
+
+<!-- A5 -->
+<div class="question page-break">
+  <p class="question-title">5. Jahresabschluss der Druckerei Müller e.K.</p>
+  <p>Positionen: Umsatzerlöse 95.000 | Rohstoffaufwand 28.000 | Gehälter 31.000 | AfA 9.000 | Zinsaufwand 3.200 | Sonstige Erträge 1.800</p>
+
+  <p class="question-title" style="margin-top:12px">5.1 Abschlussbuchungen aller Erfolgskonten über GuV <span class="punkte">(4 P)</span></p>
+  <table class="buchung" id="t51"><tr><th style="width:44px">Nr.</th><th>Soll-Konto</th><th>Haben-Konto</th><th style="width:130px">Soll-Betrag</th><th style="width:130px">Haben-Betrag</th></tr>
+  <tr><td class="lfd">5.1a</td><td><input placeholder="Konto…"></td><td><input placeholder="Konto…"></td><td><input placeholder="Betrag…"></td><td><input placeholder="Betrag…"></td></tr>
+  <tr><td class="lfd">5.1b</td><td><input placeholder="Konto…"></td><td><input placeholder="Konto…"></td><td><input placeholder="Betrag…"></td><td><input placeholder="Betrag…"></td></tr>
+  <tr><td class="lfd">5.1c</td><td><input placeholder="Konto…"></td><td><input placeholder="Konto…"></td><td><input placeholder="Betrag…"></td><td><input placeholder="Betrag…"></td></tr>
+  <tr><td class="lfd">5.1d</td><td><input placeholder="Konto…"></td><td><input placeholder="Konto…"></td><td><input placeholder="Betrag…"></td><td><input placeholder="Betrag…"></td></tr>
+  <tr><td class="lfd">5.1e</td><td><input placeholder="Konto…"></td><td><input placeholder="Konto…"></td><td><input placeholder="Betrag…"></td><td><input placeholder="Betrag…"></td></tr>
+  <tr><td class="lfd">5.1f</td><td><input placeholder="Konto…"></td><td><input placeholder="Konto…"></td><td><input placeholder="Betrag…"></td><td><input placeholder="Betrag…"></td></tr></table>
+  <button class="check-btn" onclick="checkBuchung('51')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol51')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetBuchung('t51','fb51')">Zurücksetzen</button>
+  <div class="feedback" id="fb51"></div>
+  <div class="solution" id="sol51"><table class="buchung"><tr><th>Nr.</th><th>Soll</th><th>Haben</th><th>Soll-Betrag</th><th>Haben-Betrag</th></tr>
+  <tr><td>5.1a</td><td>GuV 8020</td><td>Aufwand für Rohstoffe 6000</td><td>28.000</td><td>28.000</td></tr>
+  <tr><td>5.1b</td><td>GuV 8020</td><td>Gehälter 6300</td><td>31.000</td><td>31.000</td></tr>
+  <tr><td>5.1c</td><td>GuV 8020</td><td>Abschreibungen auf SAV 6520</td><td>9.000</td><td>9.000</td></tr>
+  <tr><td>5.1d</td><td>GuV 8020</td><td>Zinsaufwand 7510</td><td>3.200</td><td>3.200</td></tr>
+  <tr><td>5.1e</td><td>Umsatzerlöse 5000</td><td>GuV 8020</td><td>95.000</td><td>95.000</td></tr>
+  <tr><td>5.1f</td><td>Sonstige Erlöse 5410</td><td>GuV 8020</td><td>1.800</td><td>1.800</td></tr></table></div>
+
+  <p class="question-title" style="margin-top:14px">5.2 Jahresüberschuss/-fehlbetrag ermitteln und GuV über EK abschließen <span class="punkte">(3 P)</span></p>
+  <textarea class="answer" id="q52-ans" rows="3" placeholder="Berechnung hier…"></textarea><br>
+  <table class="buchung" id="t52"><tr><th style="width:44px">Nr.</th><th>Soll-Konto</th><th>Haben-Konto</th><th style="width:130px">Soll-Betrag</th><th style="width:130px">Haben-Betrag</th></tr>
+  <tr><td class="lfd">5.2</td><td><input placeholder="Konto…"></td><td><input placeholder="Konto…"></td><td><input placeholder="Betrag…"></td><td><input placeholder="Betrag…"></td></tr></table>
+  <button class="check-btn" onclick="checkBuchung('52')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol52')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetBuchung('t52','fb52')">Zurücksetzen</button>
+  <div class="feedback" id="fb52"></div>
+  <div class="solution" id="sol52">Erträge: 95.000 + 1.800 = 96.800 EUR<br>Aufwendungen: 28.000 + 31.000 + 9.000 + 3.200 = 71.200 EUR<br><b>Jahresüberschuss = 25.600 EUR</b>
+  <table class="buchung" style="margin-top:6px"><tr><th>Nr.</th><th>Soll</th><th>Haben</th><th>Soll-Betrag</th><th>Haben-Betrag</th></tr>
+  <tr><td>5.2</td><td>GuV 8020</td><td>EK 3000</td><td>25.600</td><td>25.600</td></tr></table></div>
+
+  <p class="question-title" style="margin-top:14px">5.3 Wie hoch ist das EK nach Jahresabschluss? (EK aus 4.1 verwenden) <span class="punkte">(1 P)</span></p>
+  <textarea class="answer" id="q53-ans" rows="2" placeholder="Berechnung hier…"></textarea><br>
+  <button class="check-btn" onclick="checkEK53()">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol53')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetText('q53')">Zurücksetzen</button>
+  <div class="feedback" id="fb53"></div>
+  <div class="solution" id="sol53">EK neu = 232.000 + 25.600 = <b>257.600 EUR</b></div>
+</div>
+
+<!-- IKR -->
+<div class="page-break">
+  <h2 style="font-size:13pt;border-bottom:1px solid #000;padding-bottom:4px;">IKR-Kontenplan (Auszug)</h2>
+  <table class="ikr-table"><tr><th>Bezeichnung</th><th>Nr.</th></tr>
+  <tr><td>TA + Maschinen</td><td>0700</td></tr><tr><td>BGA</td><td>0800</td></tr>
+  <tr><td>Rohstoffe</td><td>2000</td></tr><tr><td>Fertigerzeugnisse</td><td>2200</td></tr>
+  <tr><td>Forderungen aus L+L</td><td>2400</td></tr><tr><td>Vorsteuer</td><td>2600</td></tr>
+  <tr><td>Bankguthaben</td><td>2800</td></tr><tr><td>Kasse</td><td>2880</td></tr>
+  <tr><td>EK</td><td>3000</td></tr><tr><td>Privat</td><td>3001</td></tr>
+  <tr><td>Darlehensschulden</td><td>4250</td></tr><tr><td>Verbindlichkeiten aus L+L</td><td>4400</td></tr>
+  <tr><td>USt</td><td>4800</td></tr><tr><td>Umsatzerlöse</td><td>5000</td></tr>
+  <tr><td>Sonstige Erlöse</td><td>5410</td></tr><tr><td>Aufwand für Rohstoffe</td><td>6000</td></tr>
+  <tr><td>Gehälter</td><td>6300</td></tr><tr><td>Abschreibungen auf SAV</td><td>6520</td></tr>
+  <tr><td>Zinsaufwand</td><td>7510</td></tr><tr><td>SBK</td><td>8010</td></tr><tr><td>GuV</td><td>8020</td></tr></table>
+</div>
+
+<script>
+const solutions={
+  'gf1':{soll:[['bga','0800']],haben:[['bank','2800']],betraege:['5000'],art:['aktivtausch'],msg:'BGA 0800 an Bankguthaben 2800 – Aktivtausch (zwei Aktivposten tauschen).'},
+  'gf2':{soll:[['rohstoffe','2000']],haben:[['verbindlichkeiten','4400']],betraege:['12000'],art:['mehrung'],msg:'Rohstoffe 2000 an Verbindlichkeiten 4400 – Aktiv-Passiv-Mehrung.'},
+  'gf3':{soll:[['verbindlichkeiten','4400']],haben:[['bank','2800']],betraege:['18000'],art:['minderung'],msg:'Verbindlichkeiten 4400 an Bankguthaben 2800 – Aktiv-Passiv-Minderung.'},
+  'gf4':{soll:[['bank','2800']],haben:[['darlehen','4250']],betraege:['30000'],art:['passivtausch'],msg:'Bankguthaben 2800 an Darlehensschulden 4250 – Passivtausch.'},
+  '51':{soll:[['guv','8020'],['umsatz','5000'],['sonstige','5410']],haben:[['rohstoff','6000'],['gehalt','6300'],['abschreibung','6520'],['zins','7510'],['guv','8020']],betraege:['28000','31000','9000','3200','95000','1800'],msg:'Aufwandskonten: GuV an Aufwandskonto. Ertragskonten: Ertragskonto an GuV.'},
+  '52':{soll:[['guv','8020']],haben:[['ek','3000']],betraege:['25600'],msg:'Jahresüberschuss 25.600 EUR → GuV 8020 an EK 3000 für 25.600 EUR.'}
+};
+
+function normalize(s){return(s||'').toLowerCase().replace(/[^a-z0-9äöü]/g,'');}
+function containsAny(val,keys){const n=normalize(val);return keys.some(k=>n.includes(normalize(k)));}
+function extractNumbers(val){return val.replace(/[.,\s]/g,'').match(/\d+/g)||[];}
+
+function checkBuchung(id){
+  const sol=solutions[id];
+  const fb=document.getElementById('fb'+id);
+  const tableId=id.startsWith('gf')?'t'+id:'t'+id;
+  const table=document.querySelector('#'+tableId);
+  if(!table)return;
+  const inputs=table.querySelectorAll('input');
+  let allText='';let allNums=[];
+  inputs.forEach(i=>{allText+=' '+i.value;allNums=allNums.concat(extractNumbers(i.value));});
+  const sollOk=sol.soll.every(g=>containsAny(allText,g));
+  const habenOk=sol.haben.every(g=>containsAny(allText,g));
+  const betOk=sol.betraege.some(b=>allNums.some(n=>n===b));
+  const artOk=!sol.art||sol.art.some(a=>normalize(allText).includes(normalize(a)));
+  const score=(sollOk?1:0)+(habenOk?1:0)+(betOk?1:0)+(artOk?0:0);
+  inputs.forEach(i=>{i.classList.remove('correct','wrong','partial');if(!i.value.trim())return;i.classList.add(sollOk&&habenOk&&betOk?'correct':sollOk||habenOk?'partial':'wrong');});
+  fb.style.display='block';
+  if(sollOk&&habenOk&&betOk){fb.className='feedback correct';fb.innerHTML='✓ Richtig!'+(artOk?'':' Tipp: Bilanzveränderungsart prüfen.');}
+  else if(sollOk||habenOk){fb.className='feedback partial';fb.innerHTML='~ Teilweise richtig.'+(!sollOk?'<br>• Soll-Konto(s) prüfen.':'')+(!habenOk?'<br>• Haben-Konto(s) prüfen.':'')+(!betOk?'<br>• Betrag prüfen.':'')+'<br><b>Hinweis:</b> '+sol.msg;}
+  else{fb.className='feedback wrong';fb.innerHTML='✗ Nicht korrekt. <b>Hinweis:</b> '+sol.msg;}
+}
+
+function checkEK(){
+  const val=document.getElementById('ek-input').value.replace(/[.,\s]/g,'');
+  const fb=document.getElementById('fb41');
+  const inp=document.getElementById('ek-input');
+  fb.style.display='block';inp.classList.remove('correct','wrong');
+  if(val==='232000'||val==='232'){fb.className='feedback correct';fb.innerHTML='✓ Richtig! EK = 232.000 EUR';inp.classList.add('correct');}
+  else{fb.className='feedback wrong';fb.innerHTML='✗ Falsch. EK = 330.000 − 80.000 − 18.000 = 232.000 EUR';inp.classList.add('wrong');}
+}
+function resetEK(){document.getElementById('ek-input').value='';document.getElementById('ek-input').className='ek-input';document.getElementById('fb41').style.display='none';}
+
+function checkEK53(){
+  const val=document.getElementById('q53-ans').value.replace(/[.,\s]/g,'');
+  const fb=document.getElementById('fb53');
+  fb.style.display='block';
+  if(val.includes('257600')||val.includes('257.600')){fb.className='feedback correct';fb.innerHTML='✓ Richtig! EK neu = 257.600 EUR';}
+  else{fb.className='feedback wrong';fb.innerHTML='✗ EK neu = 232.000 + 25.600 = 257.600 EUR';}
+}
+
+const textKW={
+  q1:['inventur','inventar','bilanz','körperlich','verzeichnis','stichtag','zählen','aktiva','passiva','kontoform','hgb'],
+  q2:['konten','aktiv','passiv','mehrung','minderung','soll','haben','leitfrage','schritt'],
+  q3:['aufwand','ertrag','guv','gewinn','verlust','eigenkapital','soll','haben','abschluss']
+};
+function checkText(id){
+  const val=document.getElementById(id+'-ans').value.toLowerCase();
+  const keys=textKW[id]||[];const hits=keys.filter(k=>val.includes(k)).length;const ratio=hits/keys.length;
+  const ta=document.getElementById(id+'-ans');const fb=document.getElementById(id+'-fb');
+  fb.style.display='block';ta.classList.remove('correct','wrong','partial');
+  if(ratio>=0.45){fb.className='feedback correct';fb.innerHTML='✓ Gut!';ta.classList.add('correct');}
+  else if(ratio>=0.2){fb.className='feedback partial';fb.innerHTML='~ Ansatzweise richtig.';ta.classList.add('partial');}
+  else{fb.className='feedback wrong';fb.innerHTML='✗ Wichtige Inhalte fehlen.';ta.classList.add('wrong');}
+}
+function resetText(id){
+  const ans=document.getElementById(id+'-ans');if(ans){ans.value='';ans.className='answer';}
+  const fb=document.getElementById(id+'-fb');if(fb)fb.style.display='none';
+  const fb2=document.getElementById('fb'+id.replace('q',''));if(fb2)fb2.style.display='none';
+}
+function resetBuchung(tid,fbid){document.querySelectorAll('#'+tid+' input').forEach(i=>{i.value='';i.className='';});document.getElementById(fbid).style.display='none';}
+function toggleSolution(id){const el=document.getElementById(id);el.style.display=el.style.display==='block'?'none':'block';}
+</script>
+</body>
+</html>

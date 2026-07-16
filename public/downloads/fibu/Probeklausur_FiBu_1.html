@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Probeklausur 1 – Technik der Finanzbuchführung</title>
+<style>
+  body { font-family: Arial, sans-serif; font-size: 11pt; margin: 40px; color: #000; background: #fafafa; }
+  h1 { font-size: 13pt; font-weight: bold; text-align: center; border-bottom: 2px solid #000; padding-bottom: 6px; }
+  .header-table { width: 100%; border-collapse: collapse; margin: 12px 0 20px 0; }
+  .header-table td { padding: 4px 8px; }
+  .question { margin-top: 22px; }
+  .question-title { font-weight: bold; }
+  .punkte { float: right; font-weight: bold; }
+
+  /* Textfelder für Theoriefragen */
+  textarea.answer {
+    width: 100%; box-sizing: border-box; border: 1px solid #bbb;
+    border-radius: 3px; padding: 6px; font-family: Arial, sans-serif;
+    font-size: 10.5pt; resize: vertical; background: #fff;
+    transition: border-color .2s;
+  }
+  textarea.answer:focus { border-color: #1565c0; outline: none; }
+  textarea.answer.correct { border-color: #388e3c; background: #f1f8f1; }
+  textarea.answer.wrong   { border-color: #c62828; background: #fff5f5; }
+
+  /* Buchungstabellen */
+  table.buchung { width: 100%; border-collapse: collapse; margin: 10px 0; }
+  table.buchung th { background: #e8eaf6; font-weight: bold; font-size: 10pt; border: 1px solid #333; padding: 5px 8px; }
+  table.buchung td { border: 1px solid #aaa; padding: 3px 4px; }
+  table.buchung td.lfd { width: 38px; font-weight: bold; background: #f5f5f5; text-align: center; font-size: 10pt; }
+  table.buchung input {
+    width: 100%; border: none; background: transparent; font-family: Arial, sans-serif;
+    font-size: 10.5pt; padding: 3px 4px; box-sizing: border-box;
+  }
+  table.buchung input:focus { outline: 1px solid #1565c0; border-radius: 2px; }
+  table.buchung input.correct { background: #e8f5e9; color: #1b5e20; }
+  table.buchung input.wrong   { background: #ffebee; color: #b71c1c; }
+  table.buchung input.partial { background: #fff8e1; color: #5d4037; }
+
+  /* IKR-Auszug */
+  .ikr-table { width: 48%; border-collapse: collapse; display: inline-table; vertical-align: top; }
+  .ikr-table td, .ikr-table th { border: 1px solid #333; padding: 4px 8px; font-size: 10pt; }
+  .ikr-table th { background: #e8e8e8; font-weight: bold; }
+
+  /* Buttons */
+  .check-btn {
+    margin-top: 8px; padding: 7px 18px; background: #1565c0; color: #fff;
+    border: none; border-radius: 4px; cursor: pointer; font-size: 10.5pt; font-weight: bold;
+  }
+  .check-btn:hover { background: #0d47a1; }
+  .reset-btn {
+    margin-top: 8px; margin-left: 8px; padding: 7px 14px; background: #757575; color: #fff;
+    border: none; border-radius: 4px; cursor: pointer; font-size: 10.5pt;
+  }
+  .reset-btn:hover { background: #424242; }
+  .show-btn {
+    margin-top: 8px; margin-left: 8px; padding: 7px 14px; background: #6a1b9a; color: #fff;
+    border: none; border-radius: 4px; cursor: pointer; font-size: 10.5pt;
+  }
+  .show-btn:hover { background: #4a148c; }
+
+  /* Feedback-Boxen */
+  .feedback { margin-top: 6px; font-size: 10pt; padding: 6px 10px; border-radius: 4px; display: none; }
+  .feedback.correct { background: #e8f5e9; border: 1px solid #388e3c; color: #1b5e20; }
+  .feedback.wrong   { background: #ffebee; border: 1px solid #c62828; color: #b71c1c; }
+  .feedback.partial { background: #fff8e1; border: 1px solid #f9a825; color: #5d4037; }
+
+  /* Musterlösung */
+  .solution { display: none; margin-top: 8px; background: #e3f2fd; border: 1px solid #1565c0;
+    border-radius: 4px; padding: 10px 14px; font-size: 10pt; }
+  .solution table.buchung th { background: #bbdefb; }
+  .solution table.buchung td { background: #e3f2fd; }
+
+  .page-break { page-break-before: always; margin-top: 40px; }
+  .hinweis { font-style: italic; font-size: 10pt; color: #555; margin: 4px 0; }
+
+  /* Punkte-Anzeige */
+  #score-bar { position: sticky; top: 0; z-index: 100; background: #1565c0; color: #fff;
+    padding: 8px 20px; font-size: 11pt; font-weight: bold; display: flex; justify-content: space-between; }
+
+  @media print {
+    #score-bar, .check-btn, .reset-btn, .show-btn, .solution, .feedback { display: none !important; }
+    textarea.answer, table.buchung input { border: 1px solid #999 !important; background: #fff !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="score-bar">
+  <span>Probeklausur 1 – Technik der Finanzbuchführung</span>
+  <span id="total-score">Punkte: – / 32</span>
+</div>
+
+<h1>Ausgewählte Fragen / Vorbereitung auf die KLAUSUR / „Technik der Finanzbuchführung"</h1>
+
+<table class="header-table">
+  <tr>
+    <td><b>xMatrikel-Nr.:</b> <input type="text" style="border:none;border-bottom:1px solid #000;width:180px"></td>
+    <td style="text-align:right"><b>Datum:</b> <input type="text" style="border:none;border-bottom:1px solid #000;width:120px"></td>
+  </tr>
+  <tr>
+    <td><b>Bearbeitungszeit:</b> 32 Minuten &nbsp;&nbsp; <b>Anlage:</b> IKR-Auszug</td>
+    <td style="text-align:right"><b>Punkte:</b> ....... / 32</td>
+  </tr>
+  <tr>
+    <td><b>Hilfsmittel:</b> nicht programmierbarer Taschenrechner</td>
+    <td style="text-align:right"><b>Note:</b> ...........................</td>
+  </tr>
+</table>
+
+<!-- ══════════════ AUFGABE 1 ══════════════ -->
+<div class="question" id="q1">
+  <p class="question-title">1. Beschreiben Sie kurz drei wesentliche Aufgaben der Finanzbuchhaltung! <span class="punkte">(3 P)</span></p>
+  <textarea class="answer" id="q1-ans" rows="5" placeholder="Ihre Antwort hier…"></textarea>
+  <br>
+  <button class="check-btn" onclick="checkText('q1')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('q1-sol')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetText('q1')">Zurücksetzen</button>
+  <div class="feedback" id="q1-fb"></div>
+  <div class="solution" id="q1-sol">
+    <b>Drei wesentliche Aufgaben:</b>
+    <ol>
+      <li><b>Dokumentationsaufgabe:</b> Lückenlose, chronologische Aufzeichnung aller Geschäftsvorfälle durch Belege und Buchungen (GoB: „Keine Buchung ohne Beleg").</li>
+      <li><b>Rechenschaftslegungs- / Informationsaufgabe:</b> Bereitstellung von Informationen für interne und externe Adressaten (Finanzamt, Banken, Gesellschafter) – v. a. durch den Jahresabschluss (Bilanz + GuV).</li>
+      <li><b>Kontrollaufgabe:</b> Überwachung von Vermögen, Schulden und Ertragslage; Grundlage für betriebliche Entscheidungen.</li>
+    </ol>
+    <i>Weitere akzeptable Aufgabe: Dispositionsaufgabe.</i>
+  </div>
+</div>
+
+<!-- ══════════════ AUFGABE 2 ══════════════ -->
+<div class="question" id="q2">
+  <p class="question-title">2. Was versteht man unter der „Umsatzsteuerzahllast" und wie wird sie buchhalterisch ermittelt? <span class="punkte">(2 P)</span></p>
+  <textarea class="answer" id="q2-ans" rows="4" placeholder="Ihre Antwort hier…"></textarea>
+  <br>
+  <button class="check-btn" onclick="checkText('q2')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('q2-sol')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetText('q2')">Zurücksetzen</button>
+  <div class="feedback" id="q2-fb"></div>
+  <div class="solution" id="q2-sol">
+    <b>Umsatzsteuerzahllast</b> = der Betrag, den das Unternehmen nach Verrechnung von Umsatzsteuer (Ausgangsrechnungen, Kto. 4800) und Vorsteuer (Eingangsrechnungen, Kto. 2600) an das Finanzamt abführen muss.<br><br>
+    <b>Formel:</b> Zahllast = Umsatzsteuer (4800) − Vorsteuer (2600)<br><br>
+    <b>Buchhalterisch:</b> Das Vorsteuerkonto (Aktivkonto) wird mit dem USt-Konto (Passivkonto) saldiert:<br>
+    USt 4800 an Vorsteuer 2600 [in Höhe der Vorsteuer]<br>
+    Der verbleibende Saldo auf Kto. 4800 = Zahllast → Zahlung: Sonst. Verbindlichkeiten FA 4830 an Bankguthaben.
+  </div>
+</div>
+
+<!-- ══════════════ AUFGABE 3 ══════════════ -->
+<div class="question" id="q3">
+  <p class="question-title">3. Begründen Sie, inwiefern die vorbereitenden Abschlussbuchungen zu den<br>
+  &nbsp;&nbsp;a) Abschreibungen auf das Sach-Anlagevermögen<br>
+  &nbsp;&nbsp;b) (positiven) Bestandsveränderungen an Fertigerzeugnissen<br>
+  der Anforderung der „periodengerechten Erfolgsermittlung" entsprechen! <span class="punkte">(4 P)</span></p>
+  <textarea class="answer" id="q3-ans" rows="7" placeholder="Ihre Antwort hier…"></textarea>
+  <br>
+  <button class="check-btn" onclick="checkText('q3')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('q3-sol')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetText('q3')">Zurücksetzen</button>
+  <div class="feedback" id="q3-fb"></div>
+  <div class="solution" id="q3-sol">
+    <b>a) Abschreibungen:</b> Ein Anlagegut wird über mehrere Jahre genutzt. Würde man die vollen AK im Kaufjahr als Aufwand buchen, wäre der Erfolg im Kaufjahr zu niedrig, in Folgejahren zu hoch. Durch die jährliche Abschreibung wird der Werteverzehr der Periode zugeordnet, in der das Anlagegut tatsächlich genutzt wird → periodengerechter Aufwand.<br><br>
+    <b>b) Positive Bestandsveränderungen:</b> Werden mehr Erzeugnisse hergestellt als verkauft, sind Herstellungsaufwendungen angefallen, denen noch keine Erlöse gegenüberstehen. Durch Buchung des Mehrbestands (FE an Bestandsveränderungen 5200) wird ein Ertrag erfasst, der den Herstellungsaufwand dieser Periode ausgleicht → Aufwand und Ertrag werden derselben Periode zugeordnet.
+  </div>
+</div>
+
+<!-- ══════════════ AUFGABE 4 ══════════════ -->
+<div class="question">
+  <p class="question-title">4. Bilden Sie die Buchungssätze für die nachfolgenden Geschäftsfälle!</p>
+
+  <!-- 4.1 -->
+  <p class="question-title" style="margin-top:14px">4.1 Zieleinkauf Betriebsstoffe ER 30: netto 4.500,00 EUR + USt 855,00 EUR <span class="punkte">(3 P)</span></p>
+  <table class="buchung" id="t41">
+    <tr><th style="width:38px">Nr.</th><th>Soll-Konto (Bez./Nr)</th><th>Haben-Konto (Bez./Nr)</th><th style="width:130px">Soll-Betrag</th><th style="width:130px">Haben-Betrag</th></tr>
+    <tr><td class="lfd">4.1</td><td><input data-id="4.1-s1" placeholder="Konto…"></td><td><input data-id="4.1-h1" placeholder="Konto…"></td><td><input data-id="4.1-sb1" placeholder="Betrag…"></td><td><input data-id="4.1-hb1" placeholder="Betrag…"></td></tr>
+    <tr><td class="lfd"></td><td><input data-id="4.1-s2" placeholder="Konto…"></td><td><input data-id="4.1-h2" placeholder="Konto…"></td><td><input data-id="4.1-sb2" placeholder="Betrag…"></td><td><input data-id="4.1-hb2" placeholder="Betrag…"></td></tr>
+  </table>
+  <button class="check-btn" onclick="checkBuchung('41')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol41')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetBuchung('t41')">Zurücksetzen</button>
+  <div class="feedback" id="fb41"></div>
+  <div class="solution" id="sol41">
+    <table class="buchung"><tr><th>Nr.</th><th>Soll-Konto</th><th>Haben-Konto</th><th>Soll-Betrag</th><th>Haben-Betrag</th></tr>
+    <tr><td class="lfd">4.1</td><td>Betriebsstoffe 2030</td><td>Verbindlichkeiten a. L+L 4400</td><td>4.500,00</td><td>4.500,00</td></tr>
+    <tr><td class="lfd"></td><td>Vorsteuer 2600</td><td>Verbindlichkeiten a. L+L 4400</td><td>855,00</td><td>855,00</td></tr></table>
+  </div>
+
+  <!-- 4.2 -->
+  <p class="question-title" style="margin-top:14px">4.2 Verbrauch Betriebsstoffe laut ME 2: 2.500,00 EUR <span class="punkte">(2 P)</span></p>
+  <table class="buchung" id="t42">
+    <tr><th style="width:38px">Nr.</th><th>Soll-Konto (Bez./Nr)</th><th>Haben-Konto (Bez./Nr)</th><th style="width:130px">Soll-Betrag</th><th style="width:130px">Haben-Betrag</th></tr>
+    <tr><td class="lfd">4.2</td><td><input data-id="4.2-s1" placeholder="Konto…"></td><td><input data-id="4.2-h1" placeholder="Konto…"></td><td><input data-id="4.2-sb1" placeholder="Betrag…"></td><td><input data-id="4.2-hb1" placeholder="Betrag…"></td></tr>
+  </table>
+  <button class="check-btn" onclick="checkBuchung('42')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol42')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetBuchung('t42')">Zurücksetzen</button>
+  <div class="feedback" id="fb42"></div>
+  <div class="solution" id="sol42">
+    <table class="buchung"><tr><th>Nr.</th><th>Soll-Konto</th><th>Haben-Konto</th><th>Soll-Betrag</th><th>Haben-Betrag</th></tr>
+    <tr><td class="lfd">4.2</td><td>Aufwand für Betriebsstoffe 6030</td><td>Betriebsstoffe 2030</td><td>2.500,00</td><td>2.500,00</td></tr></table>
+  </div>
+
+  <!-- 4.3 -->
+  <p class="question-title" style="margin-top:14px">4.3 Zielverkäufe eigener Erzeugnisse AR 41: brutto 49.980,00 EUR <span class="punkte">(3 P)</span></p>
+  <p class="hinweis">Hinweis: Bruttobetrag enthält 19 % USt.</p>
+  <table class="buchung" id="t43">
+    <tr><th style="width:38px">Nr.</th><th>Soll-Konto (Bez./Nr)</th><th>Haben-Konto (Bez./Nr)</th><th style="width:130px">Soll-Betrag</th><th style="width:130px">Haben-Betrag</th></tr>
+    <tr><td class="lfd">4.3</td><td><input data-id="4.3-s1" placeholder="Konto…"></td><td><input data-id="4.3-h1" placeholder="Konto…"></td><td><input data-id="4.3-sb1" placeholder="Betrag…"></td><td><input data-id="4.3-hb1" placeholder="Betrag…"></td></tr>
+    <tr><td class="lfd"></td><td><input data-id="4.3-s2" placeholder="Konto…"></td><td><input data-id="4.3-h2" placeholder="Konto…"></td><td><input data-id="4.3-sb2" placeholder="Betrag…"></td><td><input data-id="4.3-hb2" placeholder="Betrag…"></td></tr>
+  </table>
+  <button class="check-btn" onclick="checkBuchung('43')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol43')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetBuchung('t43')">Zurücksetzen</button>
+  <div class="feedback" id="fb43"></div>
+  <div class="solution" id="sol43">
+    <p><i>Vorrechnung: 49.980 ÷ 1,19 = 42.000 EUR netto; USt = 7.980 EUR</i></p>
+    <table class="buchung"><tr><th>Nr.</th><th>Soll-Konto</th><th>Haben-Konto</th><th>Soll-Betrag</th><th>Haben-Betrag</th></tr>
+    <tr><td class="lfd">4.3</td><td>Forderungen a. L+L 2400</td><td>Umsatzerlöse 5000</td><td>42.000,00</td><td>42.000,00</td></tr>
+    <tr><td class="lfd"></td><td>Forderungen a. L+L 2400</td><td>USt 4800</td><td>7.980,00</td><td>7.980,00</td></tr></table>
+    <i>Oder als ein zusammengefasster Satz: Forderungen 49.980 an Umsatzerlöse 42.000, USt 7.980</i>
+  </div>
+
+  <!-- 4.4 -->
+  <p class="question-title" style="margin-top:14px">4.4 Lieferantenrechnung ER30 wird per Banküberweisung beglichen <span class="punkte">(2 P)</span></p>
+  <table class="buchung" id="t44">
+    <tr><th style="width:38px">Nr.</th><th>Soll-Konto (Bez./Nr)</th><th>Haben-Konto (Bez./Nr)</th><th style="width:130px">Soll-Betrag</th><th style="width:130px">Haben-Betrag</th></tr>
+    <tr><td class="lfd">4.4</td><td><input data-id="4.4-s1" placeholder="Konto…"></td><td><input data-id="4.4-h1" placeholder="Konto…"></td><td><input data-id="4.4-sb1" placeholder="Betrag…"></td><td><input data-id="4.4-hb1" placeholder="Betrag…"></td></tr>
+  </table>
+  <button class="check-btn" onclick="checkBuchung('44')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol44')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetBuchung('t44')">Zurücksetzen</button>
+  <div class="feedback" id="fb44"></div>
+  <div class="solution" id="sol44">
+    <p><i>Bruttobetrag ER30: 4.500 + 855 = 5.355 EUR</i></p>
+    <table class="buchung"><tr><th>Nr.</th><th>Soll-Konto</th><th>Haben-Konto</th><th>Soll-Betrag</th><th>Haben-Betrag</th></tr>
+    <tr><td class="lfd">4.4</td><td>Verbindlichkeiten a. L+L 4400</td><td>Bankguthaben 2800</td><td>5.355,00</td><td>5.355,00</td></tr></table>
+  </div>
+
+  <!-- 4.5 -->
+  <p class="question-title" style="margin-top:14px">4.5 Allein-Geschäftsinhaber entnimmt 2.000,00 EUR bar <span class="punkte">(2 P)</span></p>
+  <table class="buchung" id="t45">
+    <tr><th style="width:38px">Nr.</th><th>Soll-Konto (Bez./Nr)</th><th>Haben-Konto (Bez./Nr)</th><th style="width:130px">Soll-Betrag</th><th style="width:130px">Haben-Betrag</th></tr>
+    <tr><td class="lfd">4.5</td><td><input data-id="4.5-s1" placeholder="Konto…"></td><td><input data-id="4.5-h1" placeholder="Konto…"></td><td><input data-id="4.5-sb1" placeholder="Betrag…"></td><td><input data-id="4.5-hb1" placeholder="Betrag…"></td></tr>
+  </table>
+  <button class="check-btn" onclick="checkBuchung('45')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol45')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetBuchung('t45')">Zurücksetzen</button>
+  <div class="feedback" id="fb45"></div>
+  <div class="solution" id="sol45">
+    <table class="buchung"><tr><th>Nr.</th><th>Soll-Konto</th><th>Haben-Konto</th><th>Soll-Betrag</th><th>Haben-Betrag</th></tr>
+    <tr><td class="lfd">4.5</td><td>Privat 3001</td><td>Kasse 2880</td><td>2.000,00</td><td>2.000,00</td></tr></table>
+  </div>
+
+  <!-- 4.6 -->
+  <p class="question-title" style="margin-top:14px">4.6 Bank stellt Investitionsdarlehen 100.000,00 EUR auf Girokonto zur Verfügung <span class="punkte">(2 P)</span></p>
+  <table class="buchung" id="t46">
+    <tr><th style="width:38px">Nr.</th><th>Soll-Konto (Bez./Nr)</th><th>Haben-Konto (Bez./Nr)</th><th style="width:130px">Soll-Betrag</th><th style="width:130px">Haben-Betrag</th></tr>
+    <tr><td class="lfd">4.6</td><td><input data-id="4.6-s1" placeholder="Konto…"></td><td><input data-id="4.6-h1" placeholder="Konto…"></td><td><input data-id="4.6-sb1" placeholder="Betrag…"></td><td><input data-id="4.6-hb1" placeholder="Betrag…"></td></tr>
+  </table>
+  <button class="check-btn" onclick="checkBuchung('46')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol46')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetBuchung('t46')">Zurücksetzen</button>
+  <div class="feedback" id="fb46"></div>
+  <div class="solution" id="sol46">
+    <table class="buchung"><tr><th>Nr.</th><th>Soll-Konto</th><th>Haben-Konto</th><th>Soll-Betrag</th><th>Haben-Betrag</th></tr>
+    <tr><td class="lfd">4.6</td><td>Bankguthaben 2800</td><td>Darlehensschulden 4250</td><td>100.000,00</td><td>100.000,00</td></tr></table>
+  </div>
+</div>
+
+<!-- ══════════════ AUFGABE 5 ══════════════ -->
+<div class="question page-break">
+  <p class="question-title">5. Schoko-Tender AG – Mischmaschine TM66-5</p>
+  <p><b>Brutto-Rechnungsbetrag (inkl. Montage):</b> 127.092,00 EUR, zahlbar in 30 Tagen<br>
+  <b>Inbetriebnahme:</b> 23.10.2016 &nbsp;|&nbsp; <b>Nutzungsdauer:</b> 12 Jahre &nbsp;|&nbsp; <b>Abschreibung:</b> linear</p>
+
+  <!-- 5.1 -->
+  <p class="question-title" style="margin-top:14px">5.1 Buchungssatz für die Anschaffung zum 23.10.2016 <span class="punkte">(3 P)</span></p>
+  <table class="buchung" id="t51">
+    <tr><th style="width:38px">Nr.</th><th>Soll-Konto (Bez./Nr)</th><th>Haben-Konto (Bez./Nr)</th><th style="width:130px">Soll-Betrag</th><th style="width:130px">Haben-Betrag</th></tr>
+    <tr><td class="lfd">5.1</td><td><input data-id="5.1-s1" placeholder="Konto…"></td><td><input data-id="5.1-h1" placeholder="Konto…"></td><td><input data-id="5.1-sb1" placeholder="Betrag…"></td><td><input data-id="5.1-hb1" placeholder="Betrag…"></td></tr>
+    <tr><td class="lfd"></td><td><input data-id="5.1-s2" placeholder="Konto…"></td><td><input data-id="5.1-h2" placeholder="Konto…"></td><td><input data-id="5.1-sb2" placeholder="Betrag…"></td><td><input data-id="5.1-hb2" placeholder="Betrag…"></td></tr>
+  </table>
+  <button class="check-btn" onclick="checkBuchung('51')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol51')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetBuchung('t51')">Zurücksetzen</button>
+  <div class="feedback" id="fb51"></div>
+  <div class="solution" id="sol51">
+    <p><i>Netto: 127.092 ÷ 1,19 = 106.800 EUR &nbsp;|&nbsp; VSt: 20.292 EUR</i></p>
+    <table class="buchung"><tr><th>Nr.</th><th>Soll-Konto</th><th>Haben-Konto</th><th>Soll-Betrag</th><th>Haben-Betrag</th></tr>
+    <tr><td class="lfd">5.1</td><td>TA + Maschinen 0700</td><td>Verbindlichkeiten a. L+L 4400</td><td>106.800,00</td><td>106.800,00</td></tr>
+    <tr><td class="lfd"></td><td>Vorsteuer 2600</td><td>Verbindlichkeiten a. L+L 4400</td><td>20.292,00</td><td>20.292,00</td></tr></table>
+  </div>
+
+  <!-- 5.2 -->
+  <p class="question-title" style="margin-top:14px">5.2 Abschreibung im ersten Geschäftsjahr (zeitanteilig) <span class="punkte">(2 P)</span></p>
+  <p class="hinweis">Inbetriebnahme 23.10.2016 → Abschreibungsmonate 2016: Oktober, November, Dezember = 3 Monate</p>
+  <table class="buchung" id="t52">
+    <tr><th style="width:38px">Nr.</th><th>Soll-Konto (Bez./Nr)</th><th>Haben-Konto (Bez./Nr)</th><th style="width:130px">Soll-Betrag</th><th style="width:130px">Haben-Betrag</th></tr>
+    <tr><td class="lfd">5.2</td><td><input data-id="5.2-s1" placeholder="Konto…"></td><td><input data-id="5.2-h1" placeholder="Konto…"></td><td><input data-id="5.2-sb1" placeholder="Betrag…"></td><td><input data-id="5.2-hb1" placeholder="Betrag…"></td></tr>
+  </table>
+  <button class="check-btn" onclick="checkBuchung('52')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol52')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetBuchung('t52')">Zurücksetzen</button>
+  <div class="feedback" id="fb52"></div>
+  <div class="solution" id="sol52">
+    <p><i>Jahres-AfA: 106.800 ÷ 12 = 8.900 EUR &nbsp;|&nbsp; Zeitanteilig: 8.900 × 3/12 = 2.225 EUR</i></p>
+    <table class="buchung"><tr><th>Nr.</th><th>Soll-Konto</th><th>Haben-Konto</th><th>Soll-Betrag</th><th>Haben-Betrag</th></tr>
+    <tr><td class="lfd">5.2</td><td>Abschreibungen auf SAV 6520</td><td>TA + Maschinen 0700</td><td>2.225,00</td><td>2.225,00</td></tr></table>
+  </div>
+
+  <!-- 5.3 -->
+  <p class="question-title" style="margin-top:14px">5.3 Verkauf der Maschine im Januar 2021 (nach 4 vollen Jahres-AfA) für netto 70.000,00 EUR bar <span class="punkte">(4 P)</span></p>
+  <table class="buchung" id="t53">
+    <tr><th style="width:38px">Nr.</th><th>Soll-Konto (Bez./Nr)</th><th>Haben-Konto (Bez./Nr)</th><th style="width:130px">Soll-Betrag</th><th style="width:130px">Haben-Betrag</th></tr>
+    <tr><td class="lfd">5.3</td><td><input data-id="5.3-s1" placeholder="Konto…"></td><td><input data-id="5.3-h1" placeholder="Konto…"></td><td><input data-id="5.3-sb1" placeholder="Betrag…"></td><td><input data-id="5.3-hb1" placeholder="Betrag…"></td></tr>
+    <tr><td class="lfd"></td><td><input data-id="5.3-s2" placeholder="Konto…"></td><td><input data-id="5.3-h2" placeholder="Konto…"></td><td><input data-id="5.3-sb2" placeholder="Betrag…"></td><td><input data-id="5.3-hb2" placeholder="Betrag…"></td></tr>
+    <tr><td class="lfd"></td><td><input data-id="5.3-s3" placeholder="Konto…"></td><td><input data-id="5.3-h3" placeholder="Konto…"></td><td><input data-id="5.3-sb3" placeholder="Betrag…"></td><td><input data-id="5.3-hb3" placeholder="Betrag…"></td></tr>
+  </table>
+  <button class="check-btn" onclick="checkBuchung('53')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol53')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetBuchung('t53')">Zurücksetzen</button>
+  <div class="feedback" id="fb53"></div>
+  <div class="solution" id="sol53">
+    <p><i>Kumulierte AfA = 2.225 (2016) + 4 × 8.900 (2017–2020) = 37.825 EUR<br>
+    Buchwert = 106.800 − 37.825 = <b>68.975 EUR</b><br>
+    Brutto-Kasseneingang = 70.000 × 1,19 = <b>83.300 EUR</b> &nbsp;|&nbsp; USt = 13.300 EUR<br>
+    Veräußerungsgewinn = 70.000 − 68.975 = 1.025 EUR (verbleibt auf Kto. 5410)</i></p>
+    <table class="buchung"><tr><th>Nr.</th><th>Soll-Konto</th><th>Haben-Konto</th><th>Soll-Betrag</th><th>Haben-Betrag</th></tr>
+    <tr><td class="lfd">5.3</td><td>Kasse 2880</td><td>Sonstige Erlöse 5410</td><td>83.300,00</td><td>70.000,00</td></tr>
+    <tr><td class="lfd"></td><td></td><td>USt 4800</td><td></td><td>13.300,00</td></tr>
+    <tr><td class="lfd"></td><td>Sonstige Erlöse 5410</td><td>TA + Maschinen 0700</td><td>68.975,00</td><td>68.975,00</td></tr></table>
+  </div>
+</div>
+
+<!-- IKR -->
+<div class="page-break">
+  <h2 style="font-size:13pt; border-bottom:1px solid #000; padding-bottom:4px;">IKR-Kontenplan (Auszug)</h2>
+  <table class="ikr-table">
+    <tr><th>Bezeichnung</th><th>Nr.</th></tr>
+    <tr><td>TA + Maschinen</td><td>0700</td></tr>
+    <tr><td>Rohstoffe</td><td>2000</td></tr>
+    <tr><td>Betriebsstoffe</td><td>2030</td></tr>
+    <tr><td>Fertigerzeugnisse (FE)</td><td>2200</td></tr>
+    <tr><td>Forderungen aus L+L</td><td>2400</td></tr>
+    <tr><td>Vorsteuer</td><td>2600</td></tr>
+    <tr><td>Bankguthaben</td><td>2800</td></tr>
+    <tr><td>Kasse</td><td>2880</td></tr>
+    <tr><td>EK</td><td>3000</td></tr>
+    <tr><td>Privat</td><td>3001</td></tr>
+    <tr><td>Darlehensschulden</td><td>4250</td></tr>
+    <tr><td>Verbindlichkeiten aus L+L</td><td>4400</td></tr>
+    <tr><td>USt</td><td>4800</td></tr>
+    <tr><td>Sonst. Verbindlichkeiten (FA)</td><td>4830</td></tr>
+    <tr><td>Sonst. Verbindlichkeiten (SV)</td><td>4890</td></tr>
+    <tr><td>Umsatzerlöse</td><td>5000</td></tr>
+    <tr><td>Bestandsveränderungen (UFE+FE)</td><td>5200</td></tr>
+    <tr><td>Sonstige Erlöse (Anlageabgänge)</td><td>5410</td></tr>
+    <tr><td>Aufwand für Rohstoffe</td><td>6000</td></tr>
+    <tr><td>Aufwand für Betriebsstoffe</td><td>6030</td></tr>
+    <tr><td>Gehälter</td><td>6300</td></tr>
+    <tr><td>AG-Anteil Sozialversicherungen</td><td>6400</td></tr>
+    <tr><td>Abschreibungen auf SAV</td><td>6520</td></tr>
+    <tr><td>Zinsaufwand</td><td>7510</td></tr>
+    <tr><td>SBK</td><td>8010</td></tr>
+    <tr><td>GuV</td><td>8020</td></tr>
+  </table>
+</div>
+
+<script>
+// ── Musterlösungen für Buchungssätze ──────────────────────────────────────
+const solutions = {
+  '41': {
+    keywords: {
+      soll: [['betriebsstoffe','2030'], ['vorsteuer','2600']],
+      haben: [['verbindlichkeiten','4400'], ['verbindlichkeiten','4400']],
+      betraege: ['4500','855','5355']
+    },
+    msg: 'Betriebsstoffe 2030 an Verbindlichkeiten 4400 für 4.500 EUR; Vorsteuer 2600 an Verbindlichkeiten 4400 für 855 EUR.'
+  },
+  '42': {
+    keywords: {
+      soll: [['aufwand','betriebsstoffe','6030']],
+      haben: [['betriebsstoffe','2030']],
+      betraege: ['2500']
+    },
+    msg: 'Aufwand für Betriebsstoffe 6030 an Betriebsstoffe 2030 für 2.500 EUR.'
+  },
+  '43': {
+    keywords: {
+      soll: [['forderungen','2400']],
+      haben: [['umsatzerlöse','umsatzerlose','5000'], ['ust','umsatzsteuer','4800']],
+      betraege: ['42000','7980','49980']
+    },
+    msg: 'Forderungen 2400 an Umsatzerlöse 5000 (42.000) und USt 4800 (7.980). Netto = 49.980 ÷ 1,19 = 42.000 EUR.'
+  },
+  '44': {
+    keywords: {
+      soll: [['verbindlichkeiten','4400']],
+      haben: [['bank','bankguthaben','2800']],
+      betraege: ['5355']
+    },
+    msg: 'Verbindlichkeiten 4400 an Bankguthaben 2800 für 5.355 EUR (= 4.500 + 855).'
+  },
+  '45': {
+    keywords: {
+      soll: [['privat','3001']],
+      haben: [['kasse','2880']],
+      betraege: ['2000']
+    },
+    msg: 'Privat 3001 an Kasse 2880 für 2.000 EUR.'
+  },
+  '46': {
+    keywords: {
+      soll: [['bank','bankguthaben','2800']],
+      haben: [['darlehen','4250']],
+      betraege: ['100000']
+    },
+    msg: 'Bankguthaben 2800 an Darlehensschulden 4250 für 100.000 EUR.'
+  },
+  '51': {
+    keywords: {
+      soll: [['maschinen','0700','ta'], ['vorsteuer','2600']],
+      haben: [['verbindlichkeiten','4400'], ['verbindlichkeiten','4400']],
+      betraege: ['106800','20292','127092']
+    },
+    msg: 'TA + Maschinen 0700 (106.800) und Vorsteuer 2600 (20.292) an Verbindlichkeiten 4400.'
+  },
+  '52': {
+    keywords: {
+      soll: [['abschreibung','6520']],
+      haben: [['maschinen','0700','ta']],
+      betraege: ['2225']
+    },
+    msg: 'Abschreibungen auf SAV 6520 an TA + Maschinen 0700 für 2.225 EUR. (8.900 × 3/12)'
+  },
+  '53': {
+    keywords: {
+      soll: [['kasse','2880'], ['sonstige','erlöse','5410']],
+      haben: [['sonstige','erlöse','5410','ust','4800'], ['maschinen','0700']],
+      betraege: ['83300','70000','13300','68975']
+    },
+    msg: 'Kasse 2880 (83.300) an Sonstige Erlöse 5410 (70.000) + USt 4800 (13.300). Dann: Sonstige Erlöse 5410 (68.975) an TA+Maschinen 0700 (68.975).'
+  }
+};
+
+// ── Keyword-basierte Prüfung ───────────────────────────────────────────────
+function normalize(s) {
+  return (s || '').toLowerCase().replace(/[^a-z0-9äöü+]/g, '');
+}
+function containsAny(val, keys) {
+  const n = normalize(val);
+  return keys.some(k => n.includes(normalize(k)));
+}
+function extractNumbers(val) {
+  return val.replace(/[.,]/g, '').replace(/\s/g, '').match(/\d+/g) || [];
+}
+
+function checkBuchung(id) {
+  const sol = solutions[id];
+  const fb = document.getElementById('fb' + id);
+  const table = document.querySelector('#t' + id);
+  const inputs = table.querySelectorAll('input');
+
+  // Collect all entered text + numbers
+  let allText = '';
+  let allNums = [];
+  inputs.forEach(inp => {
+    allText += ' ' + inp.value;
+    allNums = allNums.concat(extractNumbers(inp.value));
+  });
+
+  // Check keywords present
+  const sollOk = sol.keywords.soll.every(group =>
+    containsAny(allText, group)
+  );
+  const habenOk = sol.keywords.haben.every(group =>
+    containsAny(allText, group)
+  );
+  const betraegeOk = sol.keywords.betraege.some(b =>
+    allNums.some(n => n === b)
+  );
+
+  const score = (sollOk ? 1 : 0) + (habenOk ? 1 : 0) + (betraegeOk ? 1 : 0);
+  const max = 3;
+
+  // Color inputs green/red based on overall result
+  inputs.forEach(inp => {
+    inp.classList.remove('correct','wrong','partial');
+    if (inp.value.trim() === '') return;
+    if (score === max) inp.classList.add('correct');
+    else if (score >= 1) inp.classList.add('partial');
+    else inp.classList.add('wrong');
+  });
+
+  fb.style.display = 'block';
+  if (score === max) {
+    fb.className = 'feedback correct';
+    fb.innerHTML = '✓ Richtig! Alle wesentlichen Elemente sind vorhanden.';
+  } else if (score >= 1) {
+    fb.className = 'feedback partial';
+    fb.innerHTML = '~ Teilweise richtig. ' +
+      (!sollOk ? '<br>• Soll-Konto(s) fehlen oder falsch.' : '') +
+      (!habenOk ? '<br>• Haben-Konto(s) fehlen oder falsch.' : '') +
+      (!betraegeOk ? '<br>• Betrag fehlt oder falsch.' : '') +
+      '<br><b>Hinweis:</b> ' + sol.msg;
+  } else {
+    fb.className = 'feedback wrong';
+    fb.innerHTML = '✗ Nicht korrekt. <b>Hinweis:</b> ' + sol.msg;
+  }
+  updateScore();
+}
+
+// ── Theorie-Prüfung (keyword-basiert) ─────────────────────────────────────
+const textKeywords = {
+  q1: ['dokumentation','beleg','information','jahresabschluss','kontrolle','aufgabe','rechenschaft','disposition'],
+  q2: ['zahllast','vorsteuer','umsatzsteuer','finanzamt','verrechnung','saldier','4800','2600'],
+  q3: ['periode','aufwand','abschreibung','wertever','anschaffung','nutzungsdauer','bestandsveränderung','mehrbestand','herstellungsaufwand','erlös']
+};
+const textPoints = { q1: 3, q2: 2, q3: 4 };
+
+function checkText(id) {
+  const val = document.getElementById(id + '-ans').value.toLowerCase();
+  const keys = textKeywords[id];
+  const hits = keys.filter(k => val.includes(k)).length;
+  const ratio = hits / keys.length;
+  const ta = document.getElementById(id + '-ans');
+  const fb = document.getElementById(id + '-fb');
+  fb.style.display = 'block';
+  ta.classList.remove('correct','wrong','partial');
+  if (ratio >= 0.5) {
+    fb.className = 'feedback correct';
+    fb.innerHTML = '✓ Gut! Die wesentlichen Begriffe sind enthalten. Vergleiche mit der Musterlösung für vollständige Formulierungen.';
+    ta.classList.add('correct');
+  } else if (ratio >= 0.25) {
+    fb.className = 'feedback partial';
+    fb.innerHTML = '~ Ansatzweise richtig, aber noch unvollständig. Klicke auf „Musterlösung" für die vollständige Antwort.';
+    ta.classList.add('partial');
+  } else {
+    fb.className = 'feedback wrong';
+    fb.innerHTML = '✗ Wichtige Inhalte fehlen. Klicke auf „Musterlösung" für die vollständige Antwort.';
+    ta.classList.add('wrong');
+  }
+  updateScore();
+}
+
+function resetText(id) {
+  document.getElementById(id + '-ans').value = '';
+  document.getElementById(id + '-ans').className = 'answer';
+  document.getElementById(id + '-fb').style.display = 'none';
+  updateScore();
+}
+
+function resetBuchung(tableId) {
+  const table = document.getElementById(tableId);
+  table.querySelectorAll('input').forEach(i => { i.value = ''; i.className = ''; });
+  const fbId = 'fb' + tableId.replace('t','');
+  const fb = document.getElementById(fbId);
+  if (fb) fb.style.display = 'none';
+  updateScore();
+}
+
+function toggleSolution(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'none' || el.style.display === '' ? 'block' : 'none';
+}
+
+function updateScore() {
+  // Count green fields
+  const correctInputs = document.querySelectorAll('input.correct').length;
+  const correctTexts  = document.querySelectorAll('textarea.correct').length;
+  const partialInputs = document.querySelectorAll('input.partial').length;
+  const est = correctInputs + correctTexts * 2 + Math.round(partialInputs * 0.5);
+  document.getElementById('total-score').textContent = 'Punkte (ca.): ' + Math.min(est, 32) + ' / 32';
+}
+</script>
+</body>
+</html>

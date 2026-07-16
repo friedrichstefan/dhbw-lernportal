@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Probeklausur 3 – Technik der Finanzbuchführung</title>
+<style>
+  body{font-family:Arial,sans-serif;font-size:11pt;margin:40px;color:#000;background:#fafafa;}
+  h1{font-size:13pt;font-weight:bold;text-align:center;border-bottom:2px solid #000;padding-bottom:6px;}
+  .header-table{width:100%;border-collapse:collapse;margin:12px 0 20px 0;}
+  .header-table td{padding:4px 8px;}
+  .question{margin-top:22px;} .question-title{font-weight:bold;} .punkte{float:right;font-weight:bold;}
+  textarea.answer{width:100%;box-sizing:border-box;border:1px solid #bbb;border-radius:3px;padding:6px;font-family:Arial,sans-serif;font-size:10.5pt;resize:vertical;background:#fff;}
+  textarea.answer.correct{border-color:#388e3c;background:#f1f8f1;}
+  textarea.answer.wrong{border-color:#c62828;background:#fff5f5;}
+  textarea.answer.partial{border-color:#f9a825;background:#fffde7;}
+  table.buchung{width:100%;border-collapse:collapse;margin:10px 0;}
+  table.buchung th{background:#e8eaf6;font-weight:bold;font-size:10pt;border:1px solid #333;padding:5px 8px;}
+  table.buchung td{border:1px solid #aaa;padding:3px 4px;}
+  table.buchung td.lfd{width:38px;font-weight:bold;background:#f5f5f5;text-align:center;}
+  table.buchung input{width:100%;border:none;background:transparent;font-family:Arial,sans-serif;font-size:10.5pt;padding:3px 4px;box-sizing:border-box;}
+  table.buchung input:focus{outline:1px solid #1565c0;border-radius:2px;}
+  table.buchung input.correct{background:#e8f5e9;} table.buchung input.wrong{background:#ffebee;} table.buchung input.partial{background:#fff8e1;}
+  table.data{width:100%;border-collapse:collapse;margin:10px 0;font-size:10.5pt;}
+  table.data th{background:#e8eaf6;font-weight:bold;border:1px solid #333;padding:5px 8px;text-align:center;}
+  table.data td{border:1px solid #aaa;padding:5px 8px;text-align:right;}
+  table.data td.left{text-align:left;}
+  table.data input{width:90%;border:1px solid #ccc;border-radius:2px;padding:3px 5px;font-size:10pt;text-align:right;}
+  table.data input.correct{background:#e8f5e9;border-color:#388e3c;}
+  table.data input.wrong{background:#ffebee;border-color:#c62828;}
+  .ikr-table{width:48%;border-collapse:collapse;display:inline-table;vertical-align:top;}
+  .ikr-table td,.ikr-table th{border:1px solid #333;padding:4px 8px;font-size:10pt;}
+  .ikr-table th{background:#e8e8e8;font-weight:bold;}
+  .check-btn{margin-top:8px;padding:7px 18px;background:#1565c0;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:10.5pt;font-weight:bold;}
+  .check-btn:hover{background:#0d47a1;}
+  .reset-btn{margin-top:8px;margin-left:8px;padding:7px 14px;background:#757575;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:10.5pt;}
+  .show-btn{margin-top:8px;margin-left:8px;padding:7px 14px;background:#6a1b9a;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:10.5pt;}
+  .feedback{margin-top:6px;font-size:10pt;padding:6px 10px;border-radius:4px;display:none;}
+  .feedback.correct{background:#e8f5e9;border:1px solid #388e3c;color:#1b5e20;}
+  .feedback.wrong{background:#ffebee;border:1px solid #c62828;color:#b71c1c;}
+  .feedback.partial{background:#fff8e1;border:1px solid #f9a825;color:#5d4037;}
+  .solution{display:none;margin-top:8px;background:#e3f2fd;border:1px solid #1565c0;border-radius:4px;padding:10px 14px;font-size:10pt;}
+  .hinweis{font-style:italic;font-size:10pt;color:#555;margin:4px 0;}
+  .page-break{page-break-before:always;margin-top:40px;}
+  #score-bar{position:sticky;top:0;z-index:100;background:#1565c0;color:#fff;padding:8px 20px;font-size:11pt;font-weight:bold;display:flex;justify-content:space-between;}
+  @media print{#score-bar,.check-btn,.reset-btn,.show-btn,.solution,.feedback{display:none !important;}}
+</style>
+</head>
+<body>
+<div id="score-bar"><span>Probeklausur 3 – Technik der Finanzbuchführung</span><span id="total-score">Punkte: – / 32</span></div>
+<h1>Ausgewählte Fragen / Vorbereitung auf die KLAUSUR / „Technik der Finanzbuchführung"</h1>
+<table class="header-table">
+  <tr><td><b>xMatrikel-Nr.:</b> <input type="text" style="border:none;border-bottom:1px solid #000;width:180px"></td><td style="text-align:right"><b>Datum:</b> <input type="text" style="border:none;border-bottom:1px solid #000;width:120px"></td></tr>
+  <tr><td><b>Bearbeitungszeit:</b> 32 Minuten &nbsp; <b>Anlage:</b> IKR-Auszug</td><td style="text-align:right"><b>Punkte:</b> ....... / 32</td></tr>
+</table>
+
+<!-- A1 -->
+<div class="question">
+  <p class="question-title">1. Was versteht man unter dem „Vorsteuerabzug"? Warum ist die USt für Unternehmen ein „durchlaufender Posten"? <span class="punkte">(3 P)</span></p>
+  <textarea class="answer" id="q1-ans" rows="5" placeholder="Ihre Antwort hier…"></textarea><br>
+  <button class="check-btn" onclick="checkText('q1')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('q1-sol')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetText('q1')">Zurücksetzen</button>
+  <div class="feedback" id="q1-fb"></div>
+  <div class="solution" id="q1-sol">Beim <b>Vorsteuerabzug</b> darf ein Unternehmen die auf Eingangsrechnungen gezahlte USt (= Vorsteuer, Kto. 2600) mit der eigenen USt-Schuld aus Ausgangsrechnungen (Kto. 4800) verrechnen. Das Unternehmen ist nicht endgültig belastet – es leitet die Steuer nur weiter (<b>durchlaufender Posten</b>). Die wirtschaftliche Belastung trägt allein der Endverbraucher.<br>Vorsteuer = Aktivkonto (Forderung gegen FA); USt = Passivkonto (Verbindlichkeit an FA).</div>
+</div>
+
+<!-- A2 -->
+<div class="question">
+  <p class="question-title">2. Was sind „Bestandsveränderungen an FE"? Warum sind sie wichtig? Nennen Sie die Buchungssätze für Mehr- und Minderbestand! <span class="punkte">(3 P)</span></p>
+  <textarea class="answer" id="q2-ans" rows="5" placeholder="Ihre Antwort hier…"></textarea><br>
+  <button class="check-btn" onclick="checkText('q2')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('q2-sol')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetText('q2')">Zurücksetzen</button>
+  <div class="feedback" id="q2-fb"></div>
+  <div class="solution" id="q2-sol">Bestandsveränderungen gleichen den Unterschied zwischen produzierter und verkaufter Menge aus, damit Herstellungsaufwand und Erlöse derselben Periode zugeordnet werden (periodengerecht).<br>
+  <b>Mehrbestand</b> (mehr produziert als verkauft): <b>Fertigerzeugnisse 2200 an Bestandsveränderungen 5200</b><br>
+  <b>Minderbestand</b> (mehr verkauft als produziert): <b>Bestandsveränderungen 5200 an Fertigerzeugnisse 2200</b></div>
+</div>
+
+<!-- A3 -->
+<div class="question">
+  <p class="question-title">3. Erläutern Sie das Konto „Privat": Wann wird es eingesetzt, wie wirkt es auf das EK und wie wird es abgeschlossen? <span class="punkte">(2 P)</span></p>
+  <textarea class="answer" id="q3-ans" rows="4" placeholder="Ihre Antwort hier…"></textarea><br>
+  <button class="check-btn" onclick="checkText('q3')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('q3-sol')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetText('q3')">Zurücksetzen</button>
+  <div class="feedback" id="q3-fb"></div>
+  <div class="solution" id="q3-sol">Das <b>Privatkonto (3001)</b> ist ein Unterkonto des EK, nur bei Einzelunternehmen/Personengesellschaften. Privatentnahmen → Buchung im Soll auf Privat → mindert EK. Privateinlagen → Buchung im Haben auf Privat → erhöht EK. Jahresabschluss: Saldo des Privatkontos wird auf EK übertragen (bei netto Entnahme: <b>EK an Privat</b>).</div>
+</div>
+
+<!-- A4 -->
+<div class="question">
+  <p class="question-title">4. Buchungssätze!</p>
+
+  <p class="question-title" style="margin-top:14px">4.1 Zieleinkauf Betriebsstoffe ER 18: netto 6.000,00 EUR + 19 % USt <span class="punkte">(3 P)</span></p>
+  <table class="buchung" id="t41"><tr><th style="width:38px">Nr.</th><th>Soll-Konto</th><th>Haben-Konto</th><th style="width:130px">Soll-Betrag</th><th style="width:130px">Haben-Betrag</th></tr>
+  <tr><td class="lfd">4.1</td><td><input placeholder="Konto…"></td><td><input placeholder="Konto…"></td><td><input placeholder="Betrag…"></td><td><input placeholder="Betrag…"></td></tr>
+  <tr><td class="lfd"></td><td><input placeholder="Konto…"></td><td><input placeholder="Konto…"></td><td><input placeholder="Betrag…"></td><td><input placeholder="Betrag…"></td></tr></table>
+  <button class="check-btn" onclick="checkBuchung('41')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol41')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetBuchung('t41','fb41')">Zurücksetzen</button>
+  <div class="feedback" id="fb41"></div>
+  <div class="solution" id="sol41"><table class="buchung"><tr><th>Nr.</th><th>Soll</th><th>Haben</th><th>Soll-Betrag</th><th>Haben-Betrag</th></tr>
+  <tr><td class="lfd">4.1</td><td>Betriebsstoffe 2030</td><td>Verbindlichkeiten a. L+L 4400</td><td>6.000,00</td><td>6.000,00</td></tr>
+  <tr><td class="lfd"></td><td>Vorsteuer 2600</td><td>Verbindlichkeiten a. L+L 4400</td><td>1.140,00</td><td>1.140,00</td></tr></table></div>
+
+  <p class="question-title" style="margin-top:14px">4.2 Verbrauch Betriebsstoffe ME 4: 4.100,00 EUR <span class="punkte">(2 P)</span></p>
+  <table class="buchung" id="t42"><tr><th style="width:38px">Nr.</th><th>Soll-Konto</th><th>Haben-Konto</th><th style="width:130px">Soll-Betrag</th><th style="width:130px">Haben-Betrag</th></tr>
+  <tr><td class="lfd">4.2</td><td><input placeholder="Konto…"></td><td><input placeholder="Konto…"></td><td><input placeholder="Betrag…"></td><td><input placeholder="Betrag…"></td></tr></table>
+  <button class="check-btn" onclick="checkBuchung('42')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol42')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetBuchung('t42','fb42')">Zurücksetzen</button>
+  <div class="feedback" id="fb42"></div>
+  <div class="solution" id="sol42"><table class="buchung"><tr><th>Nr.</th><th>Soll</th><th>Haben</th><th>Soll-Betrag</th><th>Haben-Betrag</th></tr>
+  <tr><td class="lfd">4.2</td><td>Aufwand für Betriebsstoffe 6030</td><td>Betriebsstoffe 2030</td><td>4.100,00</td><td>4.100,00</td></tr></table></div>
+
+  <p class="question-title" style="margin-top:14px">4.3 Zielverkauf eigener Erzeugnisse AR 22: brutto 35.700,00 EUR <span class="punkte">(3 P)</span></p>
+  <table class="buchung" id="t43"><tr><th style="width:38px">Nr.</th><th>Soll-Konto</th><th>Haben-Konto</th><th style="width:130px">Soll-Betrag</th><th style="width:130px">Haben-Betrag</th></tr>
+  <tr><td class="lfd">4.3</td><td><input placeholder="Konto…"></td><td><input placeholder="Konto…"></td><td><input placeholder="Betrag…"></td><td><input placeholder="Betrag…"></td></tr>
+  <tr><td class="lfd"></td><td><input placeholder="Konto…"></td><td><input placeholder="Konto…"></td><td><input placeholder="Betrag…"></td><td><input placeholder="Betrag…"></td></tr></table>
+  <button class="check-btn" onclick="checkBuchung('43')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol43')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetBuchung('t43','fb43')">Zurücksetzen</button>
+  <div class="feedback" id="fb43"></div>
+  <div class="solution" id="sol43"><p><i>35.700 ÷ 1,19 = 30.000 netto; USt = 5.700</i></p>
+  <table class="buchung"><tr><th>Nr.</th><th>Soll</th><th>Haben</th><th>Soll-Betrag</th><th>Haben-Betrag</th></tr>
+  <tr><td class="lfd">4.3</td><td>Forderungen a. L+L 2400</td><td>Umsatzerlöse 5000</td><td>30.000,00</td><td>30.000,00</td></tr>
+  <tr><td class="lfd"></td><td>Forderungen a. L+L 2400</td><td>USt 4800</td><td>5.700,00</td><td>5.700,00</td></tr></table></div>
+
+  <p class="question-title" style="margin-top:14px">4.4 Inhaber entnimmt Waren für Privatbedarf: netto 500,00 EUR + 19 % USt 95,00 EUR <span class="punkte">(2 P)</span></p>
+  <table class="buchung" id="t44"><tr><th style="width:38px">Nr.</th><th>Soll-Konto</th><th>Haben-Konto</th><th style="width:130px">Soll-Betrag</th><th style="width:130px">Haben-Betrag</th></tr>
+  <tr><td class="lfd">4.4</td><td><input placeholder="Konto…"></td><td><input placeholder="Konto…"></td><td><input placeholder="Betrag…"></td><td><input placeholder="Betrag…"></td></tr>
+  <tr><td class="lfd"></td><td><input placeholder="Konto…"></td><td><input placeholder="Konto…"></td><td><input placeholder="Betrag…"></td><td><input placeholder="Betrag…"></td></tr></table>
+  <button class="check-btn" onclick="checkBuchung('44')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol44')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetBuchung('t44','fb44')">Zurücksetzen</button>
+  <div class="feedback" id="fb44"></div>
+  <div class="solution" id="sol44"><table class="buchung"><tr><th>Nr.</th><th>Soll</th><th>Haben</th><th>Soll-Betrag</th><th>Haben-Betrag</th></tr>
+  <tr><td class="lfd">4.4</td><td>Privat 3001</td><td>Entnahme v. Gegenständen 6010</td><td>595,00</td><td>500,00</td></tr>
+  <tr><td class="lfd"></td><td></td><td>USt 4800</td><td></td><td>95,00</td></tr></table>
+  <i>Privat wird mit dem Bruttobetrag belastet (595 = 500 + 95), da auch die USt dem Privaten zugerechnet wird.</i></div>
+
+  <p class="question-title" style="margin-top:14px">4.5 USt-Zahllast abführen: USt 4.200 EUR, Vorsteuer 2.680 EUR (zwei Buchungssätze) <span class="punkte">(2 P)</span></p>
+  <table class="buchung" id="t45"><tr><th style="width:38px">Nr.</th><th>Soll-Konto</th><th>Haben-Konto</th><th style="width:130px">Soll-Betrag</th><th style="width:130px">Haben-Betrag</th></tr>
+  <tr><td class="lfd">4.5a</td><td><input placeholder="Konto…"></td><td><input placeholder="Konto…"></td><td><input placeholder="Betrag…"></td><td><input placeholder="Betrag…"></td></tr>
+  <tr><td class="lfd">4.5b</td><td><input placeholder="Konto…"></td><td><input placeholder="Konto…"></td><td><input placeholder="Betrag…"></td><td><input placeholder="Betrag…"></td></tr></table>
+  <button class="check-btn" onclick="checkBuchung('45')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol45')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetBuchung('t45','fb45')">Zurücksetzen</button>
+  <div class="feedback" id="fb45"></div>
+  <div class="solution" id="sol45"><p><i>Zahllast = 4.200 − 2.680 = 1.520 EUR</i></p>
+  <table class="buchung"><tr><th>Nr.</th><th>Soll</th><th>Haben</th><th>Soll-Betrag</th><th>Haben-Betrag</th></tr>
+  <tr><td class="lfd">4.5a</td><td>USt 4800</td><td>Vorsteuer 2600</td><td>2.680,00</td><td>2.680,00</td></tr>
+  <tr><td class="lfd">4.5b</td><td>Sonst. Verbindlichkeiten FA 4830</td><td>Bankguthaben 2800</td><td>1.520,00</td><td>1.520,00</td></tr></table></div>
+</div>
+
+<!-- A5 -->
+<div class="question page-break">
+  <p class="question-title">5. Holzwerk Süd GmbH – Bestandsveränderungen</p>
+  <p class="hinweis">Herstellungskosten/Stück: 80 EUR &nbsp;|&nbsp; Verkaufspreis/Stück: 120 EUR</p>
+
+  <p class="question-title" style="margin-top:10px">5.1 Füllen Sie die Tabelle vollständig aus! <span class="punkte">(4 P)</span></p>
+  <table class="data">
+    <tr><th class="left" style="text-align:left">Angaben</th><th>Periode 1</th><th>Periode 2</th><th>Periode 3</th></tr>
+    <tr><td class="left">Lageranfangsbestand (Stück)</td><td>0</td><td>= EB P1</td><td>= EB P2</td></tr>
+    <tr><td class="left">Herstellungsmenge (Stück)</td><td>800</td><td>1.500</td><td>1.200</td></tr>
+    <tr><td class="left">Verkaufsmenge (Stück)</td><td>800</td><td>1.200</td><td>1.400</td></tr>
+    <tr><td class="left">Lagerendbestand (Stück)</td><td><input id="t51-p1-1" placeholder="…"></td><td><input id="t51-p2-1" placeholder="…"></td><td><input id="t51-p3-1" placeholder="…"></td></tr>
+    <tr><td class="left">Mehr-/Minderbestand (Stück)</td><td><input id="t51-p1-2" placeholder="…"></td><td><input id="t51-p2-2" placeholder="…"></td><td><input id="t51-p3-2" placeholder="…"></td></tr>
+    <tr><td class="left">Umsatzerlöse (EUR)</td><td><input id="t51-p1-3" placeholder="…"></td><td><input id="t51-p2-3" placeholder="…"></td><td><input id="t51-p3-3" placeholder="…"></td></tr>
+    <tr><td class="left">Herstellungsaufwendungen (EUR)</td><td><input id="t51-p1-4" placeholder="…"></td><td><input id="t51-p2-4" placeholder="…"></td><td><input id="t51-p3-4" placeholder="…"></td></tr>
+    <tr><td class="left">Vorläufiger Gewinn ohne BV (EUR)</td><td><input id="t51-p1-5" placeholder="…"></td><td><input id="t51-p2-5" placeholder="…"></td><td><input id="t51-p3-5" placeholder="…"></td></tr>
+    <tr><td class="left">Bestandsveränderung bewertet (EUR)</td><td><input id="t51-p1-6" placeholder="…"></td><td><input id="t51-p2-6" placeholder="…"></td><td><input id="t51-p3-6" placeholder="…"></td></tr>
+    <tr><td class="left"><b>Tatsächlicher Gewinn (EUR)</b></td><td><input id="t51-p1-7" placeholder="…"></td><td><input id="t51-p2-7" placeholder="…"></td><td><input id="t51-p3-7" placeholder="…"></td></tr>
+  </table>
+  <button class="check-btn" onclick="checkTabelle()">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol51')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetTabelle()">Zurücksetzen</button>
+  <div class="feedback" id="fb51"></div>
+  <div class="solution" id="sol51">
+    <table class="data">
+      <tr><th class="left" style="text-align:left">Angaben</th><th>Periode 1</th><th>Periode 2</th><th>Periode 3</th></tr>
+      <tr><td class="left">Lagerendbestand (Stück)</td><td>0</td><td>300</td><td>100</td></tr>
+      <tr><td class="left">Mehr-/Minderbestand (Stück)</td><td>0</td><td>+300</td><td>−200</td></tr>
+      <tr><td class="left">Umsatzerlöse (EUR)</td><td>96.000</td><td>144.000</td><td>168.000</td></tr>
+      <tr><td class="left">Herstellungsaufwendungen (EUR)</td><td>64.000</td><td>120.000</td><td>96.000</td></tr>
+      <tr><td class="left">Vorläufiger Gewinn (EUR)</td><td>32.000</td><td>24.000</td><td>72.000</td></tr>
+      <tr><td class="left">BV bewertet (EUR)</td><td>0</td><td>+24.000</td><td>−16.000</td></tr>
+      <tr><td class="left"><b>Tatsächlicher Gewinn (EUR)</b></td><td>32.000</td><td>48.000</td><td>56.000</td></tr>
+    </table>
+  </div>
+
+  <p class="question-title" style="margin-top:16px">5.2 Buchungssatz Bestandsveränderung Periode 2 <span class="punkte">(2 P)</span></p>
+  <table class="buchung" id="t52"><tr><th style="width:38px">Nr.</th><th>Soll-Konto</th><th>Haben-Konto</th><th style="width:130px">Soll-Betrag</th><th style="width:130px">Haben-Betrag</th></tr>
+  <tr><td class="lfd">5.2</td><td><input placeholder="Konto…"></td><td><input placeholder="Konto…"></td><td><input placeholder="Betrag…"></td><td><input placeholder="Betrag…"></td></tr></table>
+  <button class="check-btn" onclick="checkBuchung('52')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol52')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetBuchung('t52','fb52')">Zurücksetzen</button>
+  <div class="feedback" id="fb52"></div>
+  <div class="solution" id="sol52"><table class="buchung"><tr><th>Nr.</th><th>Soll</th><th>Haben</th><th>Soll-Betrag</th><th>Haben-Betrag</th></tr>
+  <tr><td class="lfd">5.2</td><td>Fertigerzeugnisse 2200</td><td>Bestandsveränderungen 5200</td><td>24.000,00</td><td>24.000,00</td></tr></table></div>
+
+  <p class="question-title" style="margin-top:16px">5.3 Buchungssatz Bestandsveränderung Periode 3 <span class="punkte">(2 P)</span></p>
+  <table class="buchung" id="t53"><tr><th style="width:38px">Nr.</th><th>Soll-Konto</th><th>Haben-Konto</th><th style="width:130px">Soll-Betrag</th><th style="width:130px">Haben-Betrag</th></tr>
+  <tr><td class="lfd">5.3</td><td><input placeholder="Konto…"></td><td><input placeholder="Konto…"></td><td><input placeholder="Betrag…"></td><td><input placeholder="Betrag…"></td></tr></table>
+  <button class="check-btn" onclick="checkBuchung('53')">Prüfen</button>
+  <button class="show-btn" onclick="toggleSolution('sol53')">Musterlösung</button>
+  <button class="reset-btn" onclick="resetBuchung('t53','fb53')">Zurücksetzen</button>
+  <div class="feedback" id="fb53"></div>
+  <div class="solution" id="sol53"><table class="buchung"><tr><th>Nr.</th><th>Soll</th><th>Haben</th><th>Soll-Betrag</th><th>Haben-Betrag</th></tr>
+  <tr><td class="lfd">5.3</td><td>Bestandsveränderungen 5200</td><td>Fertigerzeugnisse 2200</td><td>16.000,00</td><td>16.000,00</td></tr></table></div>
+</div>
+
+<!-- IKR -->
+<div class="page-break">
+  <h2 style="font-size:13pt;border-bottom:1px solid #000;padding-bottom:4px;">IKR-Kontenplan (Auszug)</h2>
+  <table class="ikr-table"><tr><th>Bezeichnung</th><th>Nr.</th></tr>
+  <tr><td>TA + Maschinen</td><td>0700</td></tr><tr><td>Rohstoffe</td><td>2000</td></tr>
+  <tr><td>Betriebsstoffe</td><td>2030</td></tr><tr><td>Fertigerzeugnisse</td><td>2200</td></tr>
+  <tr><td>Forderungen aus L+L</td><td>2400</td></tr><tr><td>Vorsteuer</td><td>2600</td></tr>
+  <tr><td>Bankguthaben</td><td>2800</td></tr><tr><td>Kasse</td><td>2880</td></tr>
+  <tr><td>EK</td><td>3000</td></tr><tr><td>Privat</td><td>3001</td></tr>
+  <tr><td>Darlehensschulden</td><td>4250</td></tr><tr><td>Verbindlichkeiten aus L+L</td><td>4400</td></tr>
+  <tr><td>USt</td><td>4800</td></tr><tr><td>Sonst. Verbindlichkeiten (FA)</td><td>4830</td></tr>
+  <tr><td>Umsatzerlöse</td><td>5000</td></tr><tr><td>Bestandsveränderungen</td><td>5200</td></tr>
+  <tr><td>Entnahme v. Gegenständen</td><td>6010</td></tr><tr><td>Aufwand für Betriebsstoffe</td><td>6030</td></tr>
+  <tr><td>Gehälter</td><td>6300</td></tr><tr><td>Abschreibungen auf SAV</td><td>6520</td></tr>
+  <tr><td>Zinsaufwand</td><td>7510</td></tr><tr><td>SBK</td><td>8010</td></tr><tr><td>GuV</td><td>8020</td></tr></table>
+</div>
+
+<script>
+const solutions={
+  '41':{soll:[['betriebsstoffe','2030'],['vorsteuer','2600']],haben:[['verbindlichkeiten','4400'],['verbindlichkeiten','4400']],betraege:['6000','1140','7140'],msg:'Betriebsstoffe 2030 + Vorsteuer 2600 an Verbindlichkeiten 4400. USt = 6.000×19% = 1.140.'},
+  '42':{soll:[['aufwand','betriebsstoffe','6030']],haben:[['betriebsstoffe','2030']],betraege:['4100'],msg:'Aufwand für Betriebsstoffe 6030 an Betriebsstoffe 2030 für 4.100 EUR.'},
+  '43':{soll:[['forderungen','2400']],haben:[['umsatz','5000'],['ust','4800']],betraege:['30000','5700','35700'],msg:'Forderungen 2400 an Umsatzerlöse 5000 (30.000) + USt 4800 (5.700). 35.700÷1,19=30.000.'},
+  '44':{soll:[['privat','3001']],haben:[['entnahme','6010'],['ust','4800']],betraege:['595','500','95'],msg:'Privat 3001 (595) an Entnahme v. Gegenständen 6010 (500) + USt 4800 (95).'},
+  '45':{soll:[['ust','4800'],['sonst','4830','verbindlichkeit']],haben:[['vorsteuer','2600'],['bank','2800']],betraege:['2680','1520'],msg:'USt 4800 an Vorsteuer 2600 (2.680); dann Sonst. Verbindlichkeiten FA 4830 an Bank 2800 (1.520).'},
+  '52':{soll:[['fertig','2200']],haben:[['bestandsv','5200']],betraege:['24000'],msg:'Fertigerzeugnisse 2200 an Bestandsveränderungen 5200 für 24.000 EUR. (300 Stück × 80 EUR)'},
+  '53':{soll:[['bestandsv','5200']],haben:[['fertig','2200']],betraege:['16000'],msg:'Bestandsveränderungen 5200 an Fertigerzeugnisse 2200 für 16.000 EUR. (200 Stück × 80 EUR)'}
+};
+
+// Tabelle-Musterlösung
+const tabelleLosung={
+  'p1-1':'0','p1-2':'0','p1-3':'96000','p1-4':'64000','p1-5':'32000','p1-6':'0','p1-7':'32000',
+  'p2-1':'300','p2-2':'300','p2-3':'144000','p2-4':'120000','p2-5':'24000','p2-6':'24000','p2-7':'48000',
+  'p3-1':'100','p3-2':'-200','p3-3':'168000','p3-4':'96000','p3-5':'72000','p3-6':'-16000','p3-7':'56000'
+};
+
+function normalize(s){return(s||'').toLowerCase().replace(/[^a-z0-9äöü]/g,'');}
+function containsAny(val,keys){const n=normalize(val);return keys.some(k=>n.includes(normalize(k)));}
+function extractNumbers(val){return val.replace(/[.,\s]/g,'').match(/-?\d+/g)||[];}
+
+function checkBuchung(id){
+  const sol=solutions[id]; const fb=document.getElementById('fb'+id);
+  const table=document.querySelector('#t'+id); const inputs=table.querySelectorAll('input');
+  let allText=''; let allNums=[];
+  inputs.forEach(i=>{allText+=' '+i.value; allNums=allNums.concat(extractNumbers(i.value));});
+  const sollOk=sol.soll.every(g=>containsAny(allText,g));
+  const habenOk=sol.haben.every(g=>containsAny(allText,g));
+  const betOk=sol.betraege.some(b=>allNums.some(n=>n===b||n===b.replace('-','')));
+  const score=(sollOk?1:0)+(habenOk?1:0)+(betOk?1:0);
+  inputs.forEach(i=>{i.classList.remove('correct','wrong','partial');if(!i.value.trim())return;i.classList.add(score===3?'correct':score>=1?'partial':'wrong');});
+  fb.style.display='block';
+  if(score===3){fb.className='feedback correct';fb.innerHTML='✓ Richtig!';}
+  else if(score>=1){fb.className='feedback partial';fb.innerHTML='~ Teilweise richtig.'+(!sollOk?'<br>• Soll-Konto fehlt/falsch.':'')+(!habenOk?'<br>• Haben-Konto fehlt/falsch.':'')+(!betOk?'<br>• Betrag fehlt/falsch.':'')+'<br><b>Hinweis:</b> '+sol.msg;}
+  else{fb.className='feedback wrong';fb.innerHTML='✗ Nicht korrekt. <b>Hinweis:</b> '+sol.msg;}
+}
+
+function checkTabelle(){
+  let correct=0; let total=0;
+  for(const key in tabelleLosung){
+    const el=document.getElementById('t51-'+key);
+    if(!el)continue; total++;
+    const val=el.value.replace(/[.,\s]/g,'').replace(/[+]/g,'');
+    const expected=tabelleLosung[key].replace(/[.,\s]/g,'').replace(/[+]/g,'');
+    el.classList.remove('correct','wrong');
+    if(val===expected||val===expected.replace('-','')+'−'||(val===''&&expected==='0')){
+      el.classList.add('correct'); correct++;
+    } else if(val!==''){
+      el.classList.add('wrong');
+    }
+  }
+  const fb=document.getElementById('fb51');
+  fb.style.display='block';
+  if(correct===total){fb.className='feedback correct';fb.innerHTML='✓ Alle Felder richtig!';}
+  else if(correct>0){fb.className='feedback partial';fb.innerHTML='~ '+correct+' von '+total+' Feldern korrekt. Vergleiche mit der Musterlösung.';}
+  else{fb.className='feedback wrong';fb.innerHTML='✗ Bitte Berechnungen prüfen. Musterlösung anzeigen.';}
+}
+function resetTabelle(){
+  for(const key in tabelleLosung){const el=document.getElementById('t51-'+key);if(el){el.value='';el.className='';}}
+  document.getElementById('fb51').style.display='none';
+}
+
+const textKW={
+  q1:['vorsteuer','abzug','finanzamt','umsatzsteuer','durchlaufend','verrechnung','2600','4800','endverbraucher'],
+  q2:['mehrbestand','minderbestand','periode','herstellungsaufwand','erlös','fertigerzeugnisse','bestandsveränderung','soll','haben'],
+  q3:['privat','3001','entnahme','einlage','eigenkapital','unterkonto','abschluss']
+};
+function checkText(id){
+  const val=document.getElementById(id+'-ans').value.toLowerCase();
+  const keys=textKW[id];const hits=keys.filter(k=>val.includes(k)).length;const ratio=hits/keys.length;
+  const ta=document.getElementById(id+'-ans');const fb=document.getElementById(id+'-fb');
+  fb.style.display='block';ta.classList.remove('correct','wrong','partial');
+  if(ratio>=0.45){fb.className='feedback correct';fb.innerHTML='✓ Gut!';ta.classList.add('correct');}
+  else if(ratio>=0.2){fb.className='feedback partial';fb.innerHTML='~ Ansatzweise richtig, aber unvollständig.';ta.classList.add('partial');}
+  else{fb.className='feedback wrong';fb.innerHTML='✗ Wichtige Inhalte fehlen.';ta.classList.add('wrong');}
+}
+function resetText(id){document.getElementById(id+'-ans').value='';document.getElementById(id+'-ans').className='answer';document.getElementById(id+'-fb').style.display='none';}
+function resetBuchung(tid,fbid){document.querySelectorAll('#'+tid+' input').forEach(i=>{i.value='';i.className='';});document.getElementById(fbid).style.display='none';}
+function toggleSolution(id){const el=document.getElementById(id);el.style.display=el.style.display==='block'?'none':'block';}
+</script>
+</body>
+</html>
